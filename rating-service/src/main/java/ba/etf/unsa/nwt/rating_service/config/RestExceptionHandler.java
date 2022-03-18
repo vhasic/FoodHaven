@@ -1,7 +1,7 @@
-package ba.unsa.etf.nwt.rating_service.config;
+package ba.etf.unsa.nwt.rating_service.config;
 
-import ba.unsa.etf.nwt.rating_service.model.ErrorResponse;
-import ba.unsa.etf.nwt.rating_service.model.FieldError;
+import ba.etf.unsa.nwt.rating_service.model.ErrorResponse;
+import ba.etf.unsa.nwt.rating_service.model.FieldError;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;

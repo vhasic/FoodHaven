@@ -1,4 +1,4 @@
-package ba.unsa.etf.nwt.rating_service.model;
+package ba.etf.unsa.nwt.rating_service.model;
 
 import lombok.Getter;
 import lombok.Setter;

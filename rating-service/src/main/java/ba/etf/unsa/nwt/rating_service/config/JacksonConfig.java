@@ -1,4 +1,4 @@
-package ba.unsa.etf.nwt.rating_service.config;
+package ba.etf.unsa.nwt.rating_service.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;

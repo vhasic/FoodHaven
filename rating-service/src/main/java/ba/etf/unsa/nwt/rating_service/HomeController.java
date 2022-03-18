@@ -1,4 +1,4 @@
-package ba.unsa.etf.nwt.rating_service;
+package ba.etf.unsa.nwt.rating_service;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

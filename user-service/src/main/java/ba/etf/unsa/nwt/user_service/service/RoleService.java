@@ -4,6 +4,7 @@ import ba.etf.unsa.nwt.user_service.domain.Role;
 import ba.etf.unsa.nwt.user_service.model.RoleDTO;
 import ba.etf.unsa.nwt.user_service.repos.RoleRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,26 +27,26 @@ public class RoleService {
                 .collect(Collectors.toList());
     }
 
-    public RoleDTO get(final Integer id) {
+    public RoleDTO get(final UUID id) {
         return roleRepository.findById(id)
                 .map(role -> mapToDTO(role, new RoleDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final RoleDTO roleDTO) {
+    public UUID create(final RoleDTO roleDTO) {
         final Role role = new Role();
         mapToEntity(roleDTO, role);
         return roleRepository.save(role).getId();
     }
 
-    public void update(final Integer id, final RoleDTO roleDTO) {
+    public void update(final UUID id, final RoleDTO roleDTO) {
         final Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(roleDTO, role);
         roleRepository.save(role);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         roleRepository.deleteById(id);
     }
 

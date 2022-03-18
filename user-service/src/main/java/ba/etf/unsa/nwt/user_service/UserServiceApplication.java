@@ -1,38 +1,33 @@
 package ba.etf.unsa.nwt.user_service;
 
-import ba.etf.unsa.nwt.user_service.domain.Role;
-import ba.etf.unsa.nwt.user_service.domain.User;
-import ba.etf.unsa.nwt.user_service.repos.RoleRepository;
-import ba.etf.unsa.nwt.user_service.repos.UserRepository;
+import ba.etf.unsa.nwt.user_service.model.RoleDTO;
+import ba.etf.unsa.nwt.user_service.model.UserDTO;
+import ba.etf.unsa.nwt.user_service.service.RoleService;
+import ba.etf.unsa.nwt.user_service.service.TokenService;
+import ba.etf.unsa.nwt.user_service.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+
+import java.util.UUID;
 
 
 @SpringBootApplication
 public class UserServiceApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceApplication.class);
-
     public static void main(String[] args) {
         SpringApplication.run(UserServiceApplication.class, args);
     }
 
-
     @Bean
-    public CommandLineRunner demo(RoleRepository roleRepository, UserRepository userRepository) {
+    public CommandLineRunner demo(RoleService roleService, TokenService tokenService, UserService userService) {
         return (args) -> {
-            roleRepository.save(new Role("Administrator"));
-            roleRepository.save(new Role("User"));
+            UUID adminId=roleService.create(new RoleDTO("Administrator"));
+            UUID userId=roleService.create(new RoleDTO("User"));
             // save a few users
-            Role roleAdmin=roleRepository.findById(1).get();
-            Role roleUser=roleRepository.findById(2).get();
-            userRepository.save(new User("Administrator","Administrator","admin","admin@nesto.com","password",roleAdmin));
-            userRepository.save(new User("User","User","user","user@nesto.com","password",roleUser));
-
+            userService.create(new UserDTO("Administrator","Administrator","admin","admin@nesto.com","password",adminId));
+            userService.create(new UserDTO("User","User","user","user@nesto.com","password",userId));
         };
     }
 }

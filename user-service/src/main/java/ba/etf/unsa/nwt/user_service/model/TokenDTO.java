@@ -9,18 +9,24 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoleDTO {
+public class TokenDTO {
 
     private UUID id;
 
     @NotNull
     @Size(max = 255)
-    private String name;
+    private String token;
 
-    public RoleDTO() {
-    }
+    @NotNull
+    @Size(max = 255)
+    private String type;
 
-    public RoleDTO(String name) {
-        this.name = name;
-    }
+    @NotNull
+    private Integer duration;
+
+    @NotNull
+    private Boolean valid;
+
+    private UUID user;
+
 }

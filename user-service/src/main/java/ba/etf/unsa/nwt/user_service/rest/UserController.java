@@ -3,6 +3,7 @@ package ba.etf.unsa.nwt.user_service.rest;
 import ba.etf.unsa.nwt.user_service.model.UserDTO;
 import ba.etf.unsa.nwt.user_service.service.UserService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,24 +34,24 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable final Integer id) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable final UUID id) {
         return ResponseEntity.ok(userService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createUser(@RequestBody @Valid final UserDTO userDTO) {
+    public ResponseEntity<UUID> createUser(@RequestBody @Valid final UserDTO userDTO) {
         return new ResponseEntity<>(userService.create(userDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable final Integer id,
+    public ResponseEntity<Void> updateUser(@PathVariable final UUID id,
             @RequestBody @Valid final UserDTO userDTO) {
         userService.update(id, userDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable final UUID id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -3,6 +3,7 @@ package ba.etf.unsa.nwt.user_service.rest;
 import ba.etf.unsa.nwt.user_service.model.RoleDTO;
 import ba.etf.unsa.nwt.user_service.service.RoleService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,24 +34,24 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleDTO> getRole(@PathVariable final Integer id) {
+    public ResponseEntity<RoleDTO> getRole(@PathVariable final UUID id) {
         return ResponseEntity.ok(roleService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createRole(@RequestBody @Valid final RoleDTO roleDTO) {
+    public ResponseEntity<UUID> createRole(@RequestBody @Valid final RoleDTO roleDTO) {
         return new ResponseEntity<>(roleService.create(roleDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateRole(@PathVariable final Integer id,
+    public ResponseEntity<Void> updateRole(@PathVariable final UUID id,
             @RequestBody @Valid final RoleDTO roleDTO) {
         roleService.update(id, roleDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deleteRole(@PathVariable final UUID id) {
         roleService.delete(id);
         return ResponseEntity.noContent().build();
     }

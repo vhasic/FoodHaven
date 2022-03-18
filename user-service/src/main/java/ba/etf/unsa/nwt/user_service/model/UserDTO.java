@@ -1,5 +1,6 @@
 package ba.etf.unsa.nwt.user_service.model;
 
+import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class UserDTO {
 
-    private Integer id;
+    private UUID id;
 
     @NotNull
     @Size(max = 255)
@@ -32,6 +33,17 @@ public class UserDTO {
     private String password;
 
     @NotNull
-    private Integer role;
+    private UUID role;
 
+    public UserDTO() {
+    }
+
+    public UserDTO(String firstName, String lastName, String username, String email, String password, UUID role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }

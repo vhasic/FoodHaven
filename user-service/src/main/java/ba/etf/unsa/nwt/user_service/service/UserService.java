@@ -6,6 +6,7 @@ import ba.etf.unsa.nwt.user_service.model.UserDTO;
 import ba.etf.unsa.nwt.user_service.repos.RoleRepository;
 import ba.etf.unsa.nwt.user_service.repos.UserRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,26 +31,26 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDTO get(final Integer id) {
+    public UserDTO get(final UUID id) {
         return userRepository.findById(id)
                 .map(user -> mapToDTO(user, new UserDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final UserDTO userDTO) {
+    public UUID create(final UserDTO userDTO) {
         final User user = new User();
         mapToEntity(userDTO, user);
         return userRepository.save(user).getId();
     }
 
-    public void update(final Integer id, final UserDTO userDTO) {
+    public void update(final UUID id, final UserDTO userDTO) {
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(userDTO, user);
         userRepository.save(user);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         userRepository.deleteById(id);
     }
 

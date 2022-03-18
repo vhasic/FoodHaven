@@ -1,49 +1,32 @@
 package ba.unsa.etf.nwt.ingredient_service.model;
 
+import java.util.UUID;
 import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Getter
+@Setter
 public class IngredientRecipeDTO {
 
-    private Integer id;
+    private UUID id;
 
     private Integer quantity;
 
-    private Integer recipeID;
+    private UUID recipeID;
 
     @NotNull
-    private Integer ingredientRecipe;
+    private UUID ingredientRecipeID;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(final Integer quantity) {
+    public IngredientRecipeDTO(Integer quantity, UUID recipeID, UUID ingredientRecipeID) {
         this.quantity = quantity;
-    }
-
-    public Integer getRecipeID() {
-        return recipeID;
-    }
-
-    public void setRecipeID(final Integer recipeID) {
         this.recipeID = recipeID;
+        this.ingredientRecipeID = ingredientRecipeID;
     }
 
-    public Integer getIngredientRecipe() {
-        return ingredientRecipe;
-    }
+    public IngredientRecipeDTO() {
 
-    public void setIngredientRecipe(final Integer ingredientRecipe) {
-        this.ingredientRecipe = ingredientRecipe;
     }
 
 }

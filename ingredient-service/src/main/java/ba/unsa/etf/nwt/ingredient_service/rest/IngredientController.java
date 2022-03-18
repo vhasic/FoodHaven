@@ -3,6 +3,7 @@ package ba.unsa.etf.nwt.ingredient_service.rest;
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientDTO;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,25 +34,25 @@ public class IngredientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<IngredientDTO> getIngredient(@PathVariable final Integer id) {
+    public ResponseEntity<IngredientDTO> getIngredient(@PathVariable final UUID id) {
         return ResponseEntity.ok(ingredientService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createIngredient(
+    public ResponseEntity<UUID> createIngredient(
             @RequestBody @Valid final IngredientDTO ingredientDTO) {
         return new ResponseEntity<>(ingredientService.create(ingredientDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateIngredient(@PathVariable final Integer id,
+    public ResponseEntity<Void> updateIngredient(@PathVariable final UUID id,
             @RequestBody @Valid final IngredientDTO ingredientDTO) {
         ingredientService.update(id, ingredientDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteIngredient(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deleteIngredient(@PathVariable final UUID id) {
         ingredientService.delete(id);
         return ResponseEntity.noContent().build();
     }

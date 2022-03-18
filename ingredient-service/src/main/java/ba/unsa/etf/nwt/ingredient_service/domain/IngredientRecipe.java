@@ -1,72 +1,40 @@
 package ba.unsa.etf.nwt.ingredient_service.domain;
 
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 
 @Entity
+@Getter
+@Setter
 public class IngredientRecipe {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(nullable = false, updatable = false, columnDefinition = "char(36)")
+    @Type(type = "uuid-char")
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "uuid")
+    private UUID id;
 
     @Column
     private Integer quantity;
 
-    @Column
-    private Integer recipeID;
+    @Column(columnDefinition = "char(36)")
+    @Type(type = "uuid-char")
+    private UUID recipeID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_recipe_id", nullable = false)
-    private Ingredient ingredientRecipe;
+    @JoinColumn(name = "ingredient_recipeid_id", nullable = false)
+    private Ingredient ingredientRecipeID;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(final Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Integer getRecipeID() {
-        return recipeID;
-    }
-
-    public void setRecipeID(final Integer recipeID) {
-        this.recipeID = recipeID;
-    }
-
-    public Ingredient getIngredientRecipe() {
-        return ingredientRecipe;
-    }
-
-    public void setIngredientRecipe(final Ingredient ingredientRecipe) {
-        this.ingredientRecipe = ingredientRecipe;
-    }
-
-    public IngredientRecipe(Integer quantity, Integer recipeID, Ingredient ingredientRecipe) {
-        this.quantity = quantity;
-        this.recipeID = recipeID;
-        this.ingredientRecipe = ingredientRecipe;
-    }
-
-    public IngredientRecipe() {
-
-    }
 }

@@ -6,6 +6,7 @@ import ba.unsa.etf.nwt.ingredient_service.model.IngredientDTO;
 import ba.unsa.etf.nwt.ingredient_service.repos.IngredientRepository;
 import ba.unsa.etf.nwt.ingredient_service.repos.PictureRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,26 +32,26 @@ public class IngredientService {
                 .collect(Collectors.toList());
     }
 
-    public IngredientDTO get(final Integer id) {
+    public IngredientDTO get(final UUID id) {
         return ingredientRepository.findById(id)
                 .map(ingredient -> mapToDTO(ingredient, new IngredientDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final IngredientDTO ingredientDTO) {
+    public UUID create(final IngredientDTO ingredientDTO) {
         final Ingredient ingredient = new Ingredient();
         mapToEntity(ingredientDTO, ingredient);
         return ingredientRepository.save(ingredient).getId();
     }
 
-    public void update(final Integer id, final IngredientDTO ingredientDTO) {
+    public void update(final UUID id, final IngredientDTO ingredientDTO) {
         final Ingredient ingredient = ingredientRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(ingredientDTO, ingredient);
         ingredientRepository.save(ingredient);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         ingredientRepository.deleteById(id);
     }
 

@@ -6,6 +6,7 @@ import ba.unsa.etf.nwt.ingredient_service.model.IngredientRecipeDTO;
 import ba.unsa.etf.nwt.ingredient_service.repos.IngredientRecipeRepository;
 import ba.unsa.etf.nwt.ingredient_service.repos.IngredientRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,26 +32,26 @@ public class IngredientRecipeService {
                 .collect(Collectors.toList());
     }
 
-    public IngredientRecipeDTO get(final Integer id) {
+    public IngredientRecipeDTO get(final UUID id) {
         return ingredientRecipeRepository.findById(id)
                 .map(ingredientRecipe -> mapToDTO(ingredientRecipe, new IngredientRecipeDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final IngredientRecipeDTO ingredientRecipeDTO) {
+    public UUID create(final IngredientRecipeDTO ingredientRecipeDTO) {
         final IngredientRecipe ingredientRecipe = new IngredientRecipe();
         mapToEntity(ingredientRecipeDTO, ingredientRecipe);
         return ingredientRecipeRepository.save(ingredientRecipe).getId();
     }
 
-    public void update(final Integer id, final IngredientRecipeDTO ingredientRecipeDTO) {
+    public void update(final UUID id, final IngredientRecipeDTO ingredientRecipeDTO) {
         final IngredientRecipe ingredientRecipe = ingredientRecipeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(ingredientRecipeDTO, ingredientRecipe);
         ingredientRecipeRepository.save(ingredientRecipe);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         ingredientRecipeRepository.deleteById(id);
     }
 
@@ -59,7 +60,7 @@ public class IngredientRecipeService {
         ingredientRecipeDTO.setId(ingredientRecipe.getId());
         ingredientRecipeDTO.setQuantity(ingredientRecipe.getQuantity());
         ingredientRecipeDTO.setRecipeID(ingredientRecipe.getRecipeID());
-        ingredientRecipeDTO.setIngredientRecipe(ingredientRecipe.getIngredientRecipe() == null ? null : ingredientRecipe.getIngredientRecipe().getId());
+        ingredientRecipeDTO.setIngredientRecipeID(ingredientRecipe.getIngredientRecipeID() == null ? null : ingredientRecipe.getIngredientRecipeID().getId());
         return ingredientRecipeDTO;
     }
 
@@ -67,10 +68,10 @@ public class IngredientRecipeService {
             final IngredientRecipe ingredientRecipe) {
         ingredientRecipe.setQuantity(ingredientRecipeDTO.getQuantity());
         ingredientRecipe.setRecipeID(ingredientRecipeDTO.getRecipeID());
-        if (ingredientRecipeDTO.getIngredientRecipe() != null && (ingredientRecipe.getIngredientRecipe() == null || !ingredientRecipe.getIngredientRecipe().getId().equals(ingredientRecipeDTO.getIngredientRecipe()))) {
-            final Ingredient ingredientRecipeP = ingredientRepository.findById(ingredientRecipeDTO.getIngredientRecipe())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ingredientRecipe not found"));
-            ingredientRecipe.setIngredientRecipe(ingredientRecipeP);
+        if (ingredientRecipeDTO.getIngredientRecipeID() != null && (ingredientRecipe.getIngredientRecipeID() == null || !ingredientRecipe.getIngredientRecipeID().getId().equals(ingredientRecipeDTO.getIngredientRecipeID()))) {
+            final Ingredient ingredientRecipeID = ingredientRepository.findById(ingredientRecipeDTO.getIngredientRecipeID())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ingredientRecipeID not found"));
+            ingredientRecipe.setIngredientRecipeID(ingredientRecipeID);
         }
         return ingredientRecipe;
     }

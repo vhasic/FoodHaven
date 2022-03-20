@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,6 +36,7 @@ public class Role {
     private UUID id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Name can't be blank")
     private String name;
 
     @OneToMany(mappedBy = "role")

@@ -1,8 +1,11 @@
 package ba.etf.unsa.nwt.user_service.rest;
 
+import ba.etf.unsa.nwt.user_service.config.InternalError;
+import ba.etf.unsa.nwt.user_service.model.ErrorResponse;
 import ba.etf.unsa.nwt.user_service.model.RoleDTO;
 import ba.etf.unsa.nwt.user_service.service.RoleService;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -44,16 +47,22 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateRole(@PathVariable final UUID id,
-            @RequestBody @Valid final RoleDTO roleDTO) {
+    public ResponseEntity<Void> updateRole(@PathVariable final UUID id, @RequestBody @Valid final RoleDTO roleDTO) {
         roleService.update(id, roleDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRole(@PathVariable final UUID id) {
-        roleService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteRole(@PathVariable final UUID id) throws InternalError {
+        RoleDTO roleDTO=roleService.get(id);
+        // Ne mogu se obrisati osnovne role: administrator i user
+        if(Objects.equals(roleDTO.getName(), "Administrator") || Objects.equals(roleDTO.getName(), "User")){
+            throw new InternalError("Administrator and User role can't be deleted");
+        }
+        else {
+            roleService.delete(id);
+        }
+        return ResponseEntity.ok().build();
     }
 
 }

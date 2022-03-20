@@ -1,8 +1,8 @@
 package ba.etf.unsa.nwt.user_service.model;
 
 import java.util.UUID;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,27 +12,22 @@ import lombok.Setter;
 public class UserDTO {
 
     private UUID id;
-
-    @NotNull
-    @Size(max = 255)
+    @Size(max = 20, message = "First name can't be longer than twenty characters")
+    @NotBlank(message = "First name can't be blank")
     private String firstName;
-
-    @NotNull
-    @Size(max = 255)
+    @Size(max = 20, message = "Last name can't be longer than twenty characters")
+    @NotBlank(message = "Last name can't be blank")
     private String lastName;
-
-    @NotNull
-    @Size(max = 255)
+    @NotBlank(message = "Username can't be blank")
     private String username;
-
-    @NotNull
-    @Size(max = 255)
+    @NotBlank(message = "Email can't be blank")
+    @Email(message = "Invalid email format")
     private String email;
-
-    @Size(max = 255)
+    @NotBlank(message = "Password can't be blank")
+    @Size(min = 8, message = "Password must contain at least eight characters")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=()!?.\"]).{8,}",
+            message = "Password must contain at least one lowercase, one uppercase, one digit and one special character")
     private String password;
-
-    @NotNull
     private UUID role;
 
     public UserDTO() {

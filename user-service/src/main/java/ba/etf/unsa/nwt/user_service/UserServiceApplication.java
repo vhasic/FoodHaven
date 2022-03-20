@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.user_service;
 
 import ba.etf.unsa.nwt.user_service.model.RoleDTO;
+import ba.etf.unsa.nwt.user_service.model.TokenDTO;
 import ba.etf.unsa.nwt.user_service.model.UserDTO;
 import ba.etf.unsa.nwt.user_service.service.RoleService;
 import ba.etf.unsa.nwt.user_service.service.TokenService;
@@ -26,8 +27,11 @@ public class UserServiceApplication {
             UUID adminId=roleService.create(new RoleDTO("Administrator"));
             UUID userId=roleService.create(new RoleDTO("User"));
             // save a few users
-            userService.create(new UserDTO("Administrator","Administrator","admin","admin@nesto.com","password",adminId));
-            userService.create(new UserDTO("User","User","user","user@nesto.com","password",userId));
+            userService.create(new UserDTO("Administrator","Administrator","admin","admin@nesto.com","Password1!",adminId));
+            userService.create(new UserDTO("User","User","user","user@nesto.com","Password1!",userId));
         };
     }
+
+//    Documentation on: http://localhost:8080/swagger-ui.html
+//    OpenAPI description will be available at the following url for json format: http://localhost:8080/v3/api-docs
 }

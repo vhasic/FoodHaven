@@ -44,9 +44,17 @@ public class UserService {
     }
 
     public void update(final UUID id, final UserDTO userDTO) {
-        final User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        mapToEntity(userDTO, user);
+        final User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        if(userDTO.getRole()!=null){
+            final Role role= roleRepository.findById(userDTO.getRole())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "role not found"));
+            user.setRole(role);
+        }
         userRepository.save(user);
     }
 
@@ -71,11 +79,15 @@ public class UserService {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        if (userDTO.getRole() != null && (user.getRole() == null || !user.getRole().getId().equals(userDTO.getRole()))) {
-            final Role role = roleRepository.findById(userDTO.getRole())
+        final Role role;
+        if (userDTO.getRole()==null){ // ako nije zadata rola automatski mu se dodjeljuje rola korisnika
+            role = roleRepository.findByName("User");
+        } // inače mu se dodjeljuje ona rola koja je zadata
+        else {
+            role = roleRepository.findById(userDTO.getRole())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "role not found"));
-            user.setRole(role);
         }
+        user.setRole(role);
         return user;
     }
 

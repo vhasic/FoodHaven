@@ -34,8 +34,8 @@ public class RestExceptionHandler {
                 .stream()
                 .map(error -> {
                     final FieldError fieldError = new FieldError();
-                    fieldError.setErrorCode(error.getCode());
-                    fieldError.setField(error.getField());
+                    fieldError.setErrorCode(error.getField());
+                    fieldError.setField(error.getDefaultMessage());
                     return fieldError;
                 })
                 .collect(Collectors.toList());
@@ -52,6 +52,11 @@ public class RestExceptionHandler {
         final ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         errorResponse.setException(exception.getClass().getSimpleName());
+        if (exception.getCause()!=null){
+            Throwable e=exception.getCause();
+            String m=e.getMessage();
+            errorResponse.setMessage(exception.getCause().getMessage());
+        }
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

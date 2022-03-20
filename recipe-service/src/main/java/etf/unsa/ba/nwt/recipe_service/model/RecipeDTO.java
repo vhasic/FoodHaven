@@ -1,6 +1,8 @@
 package etf.unsa.ba.nwt.recipe_service.model;
 
 import java.util.UUID;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -13,18 +15,19 @@ public class RecipeDTO {
 
     private UUID id;
 
-    @NotNull
-    @Size(max = 50)
+    @NotEmpty(message = "Recipe name is required!")
+    @Size(max = 50, message = "Recipe name can't be longer than 50 characters!")
     private String name;
 
-    @Size(max = 255)
+    @Size(max = 255, message = "Recipe description can't be longer than 255 characters!")
     private String description;
 
     @NotNull
+    @Digits(message="Preparation time (in minutes) must be an integer.", fraction = 0, integer = 4)
     private Integer preparationTime;
 
     @NotNull
-    private Integer userID;
+    private UUID userID;
 
     @NotNull
     private UUID recipePicture;
@@ -35,7 +38,7 @@ public class RecipeDTO {
     public RecipeDTO() {
     }
 
-    public RecipeDTO(String name, String description, Integer preparationTime, Integer userID, UUID recipePicture, UUID recipeCategory) {
+    public RecipeDTO(String name, String description, Integer preparationTime, UUID userID, UUID recipePicture, UUID recipeCategory) {
         this.name = name;
         this.description = description;
         this.preparationTime = preparationTime;

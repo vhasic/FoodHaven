@@ -37,9 +37,9 @@ public class RecipeServiceApplication {
             UUID categoryId2 =categoryService.create(new CategoryDTO("Italian", pictureId2));
             UUID categoryId3 =categoryService.create(new CategoryDTO("Mexican", pictureId3));
 
-            UUID recipeId1 = recipeService.create(new RecipeDTO("Creme brulee", "This Creme Brulee recipe is delicious, creamy, and the most perfect French dessert...", 30, 1,pictureId1 ,categoryId1));
-            UUID recipeId2 = recipeService.create(new RecipeDTO("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, 1,pictureId2, categoryId2));
-            UUID recipeId3 = recipeService.create(new RecipeDTO("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, 1, pictureId3,categoryId3));
+            UUID recipeId1 = recipeService.create(new RecipeDTO("Creme brulee", "This Creme Brulee recipe is delicious, creamy, and the most perfect French dessert...", 30, UUID.randomUUID(),pictureId1 ,categoryId1));
+            UUID recipeId2 = recipeService.create(new RecipeDTO("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, UUID.randomUUID(),pictureId2, categoryId2));
+            UUID recipeId3 = recipeService.create(new RecipeDTO("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, UUID.randomUUID(), pictureId3,categoryId3));
 
             stepService.create(new StepDTO("In saucepan, combine milk and whipping cream",pictureId1, recipeId1));
             stepService.create(new StepDTO("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",pictureId2,recipeId2));

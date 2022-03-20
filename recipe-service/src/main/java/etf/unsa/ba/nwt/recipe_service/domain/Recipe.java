@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,16 +41,22 @@ public class Recipe {
     private UUID id;
 
     @Column(nullable = false, length = 50)
+    @NotEmpty(message = "Recipe name is required!")
+    @Size(max = 50, message = "Recipe name can't be longer than 50 characters!")
     private String name;
 
     @Column(name = "\"description\"")
+    @NotNull
+    @Digits(message="Preparation time (in minutes) must be an integer.", fraction = 0, integer = 4)
+    @Size(max = 255, message = "Recipe description can't be longer than 255 characters!")
     private String description;
 
     @Column(nullable = false)
+
     private Integer preparationTime;
 
     @Column(nullable = false)
-    private Integer userID;
+    private UUID userID;
 
     @OneToOne
     @JoinColumn(name = "recipe_picture_id", nullable = false)

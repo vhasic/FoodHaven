@@ -3,6 +3,7 @@ package etf.unsa.ba.nwt.recipe_service.rest;
 import etf.unsa.ba.nwt.recipe_service.model.StepDTO;
 import etf.unsa.ba.nwt.recipe_service.service.StepService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,24 +34,24 @@ public class StepController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StepDTO> getStep(@PathVariable final Integer id) {
+    public ResponseEntity<StepDTO> getStep(@PathVariable final UUID id) {
         return ResponseEntity.ok(stepService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createStep(@RequestBody @Valid final StepDTO stepDTO) {
+    public ResponseEntity<UUID> createStep(@RequestBody @Valid final StepDTO stepDTO) {
         return new ResponseEntity<>(stepService.create(stepDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateStep(@PathVariable final Integer id,
+    public ResponseEntity<Void> updateStep(@PathVariable final UUID id,
             @RequestBody @Valid final StepDTO stepDTO) {
         stepService.update(id, stepDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStep(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deleteStep(@PathVariable final UUID id) {
         stepService.delete(id);
         return ResponseEntity.noContent().build();
     }

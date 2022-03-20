@@ -1,5 +1,6 @@
 package etf.unsa.ba.nwt.recipe_service.model;
 
+import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -10,13 +11,20 @@ import lombok.Setter;
 @Setter
 public class CategoryDTO {
 
-    private Integer id;
+    private UUID id;
 
     @NotNull
     @Size(max = 50)
     private String name;
 
-    @NotNull
-    private Integer categoryPicture;
+    public CategoryDTO() {
+    }
 
+    @NotNull
+    private UUID categoryPicture;
+
+    public CategoryDTO(String name, UUID categoryPicture) {
+        this.name = name;
+        this.categoryPicture = categoryPicture;
+    }
 }

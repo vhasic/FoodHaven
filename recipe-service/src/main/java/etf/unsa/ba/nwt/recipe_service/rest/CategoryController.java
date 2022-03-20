@@ -3,6 +3,7 @@ package etf.unsa.ba.nwt.recipe_service.rest;
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,25 +34,24 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategory(@PathVariable final Integer id) {
+    public ResponseEntity<CategoryDTO> getCategory(@PathVariable final UUID id) {
         return ResponseEntity.ok(categoryService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createCategory(
-            @RequestBody @Valid final CategoryDTO categoryDTO) {
+    public ResponseEntity<UUID> createCategory(@RequestBody @Valid final CategoryDTO categoryDTO) {
         return new ResponseEntity<>(categoryService.create(categoryDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCategory(@PathVariable final Integer id,
+    public ResponseEntity<Void> updateCategory(@PathVariable final UUID id,
             @RequestBody @Valid final CategoryDTO categoryDTO) {
         categoryService.update(id, categoryDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable final UUID id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }

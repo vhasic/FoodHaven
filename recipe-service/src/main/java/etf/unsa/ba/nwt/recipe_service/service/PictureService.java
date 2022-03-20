@@ -4,6 +4,7 @@ import etf.unsa.ba.nwt.recipe_service.domain.Picture;
 import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,26 +27,26 @@ public class PictureService {
                 .collect(Collectors.toList());
     }
 
-    public PictureDTO get(final Integer id) {
+    public PictureDTO get(final UUID id) {
         return pictureRepository.findById(id)
                 .map(picture -> mapToDTO(picture, new PictureDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final PictureDTO pictureDTO) {
+    public UUID create(final PictureDTO pictureDTO) {
         final Picture picture = new Picture();
         mapToEntity(pictureDTO, picture);
         return pictureRepository.save(picture).getId();
     }
 
-    public void update(final Integer id, final PictureDTO pictureDTO) {
+    public void update(final UUID id, final PictureDTO pictureDTO) {
         final Picture picture = pictureRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(pictureDTO, picture);
         pictureRepository.save(picture);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         pictureRepository.deleteById(id);
     }
 

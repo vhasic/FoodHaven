@@ -1,5 +1,6 @@
 package etf.unsa.ba.nwt.recipe_service.model;
 
+import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class RecipeDTO {
 
-    private Integer id;
+    private UUID id;
 
     @NotNull
     @Size(max = 50)
@@ -26,9 +27,20 @@ public class RecipeDTO {
     private Integer userID;
 
     @NotNull
-    private Integer recipeCategory;
+    private UUID recipePicture;
 
     @NotNull
-    private Integer recipePicture;
+    private UUID recipeCategory;
 
+    public RecipeDTO() {
+    }
+
+    public RecipeDTO(String name, String description, Integer preparationTime, Integer userID, UUID recipePicture, UUID recipeCategory) {
+        this.name = name;
+        this.description = description;
+        this.preparationTime = preparationTime;
+        this.userID = userID;
+        this.recipePicture = recipePicture;
+        this.recipeCategory = recipeCategory;
+    }
 }

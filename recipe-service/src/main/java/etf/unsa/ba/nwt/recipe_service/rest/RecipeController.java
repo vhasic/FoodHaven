@@ -3,6 +3,7 @@ package etf.unsa.ba.nwt.recipe_service.rest;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,24 +34,24 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeDTO> getRecipe(@PathVariable final Integer id) {
+    public ResponseEntity<RecipeDTO> getRecipe(@PathVariable final UUID id) {
         return ResponseEntity.ok(recipeService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createRecipe(@RequestBody @Valid final RecipeDTO recipeDTO) {
+    public ResponseEntity<UUID> createRecipe(@RequestBody @Valid final RecipeDTO recipeDTO) {
         return new ResponseEntity<>(recipeService.create(recipeDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateRecipe(@PathVariable final Integer id,
+    public ResponseEntity<Void> updateRecipe(@PathVariable final UUID id,
             @RequestBody @Valid final RecipeDTO recipeDTO) {
         recipeService.update(id, recipeDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deleteRecipe(@PathVariable final UUID id) {
         recipeService.delete(id);
         return ResponseEntity.noContent().build();
     }

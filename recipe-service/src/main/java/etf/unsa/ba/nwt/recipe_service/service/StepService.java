@@ -8,6 +8,7 @@ import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.RecipeRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.StepRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,26 +36,26 @@ public class StepService {
                 .collect(Collectors.toList());
     }
 
-    public StepDTO get(final Integer id) {
+    public StepDTO get(final UUID id) {
         return stepRepository.findById(id)
                 .map(step -> mapToDTO(step, new StepDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final StepDTO stepDTO) {
+    public UUID create(final StepDTO stepDTO) {
         final Step step = new Step();
         mapToEntity(stepDTO, step);
         return stepRepository.save(step).getId();
     }
 
-    public void update(final Integer id, final StepDTO stepDTO) {
+    public void update(final UUID id, final StepDTO stepDTO) {
         final Step step = stepRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(stepDTO, step);
         stepRepository.save(step);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         stepRepository.deleteById(id);
     }
 

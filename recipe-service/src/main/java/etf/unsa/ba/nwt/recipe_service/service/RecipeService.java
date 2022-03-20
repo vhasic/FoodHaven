@@ -8,6 +8,7 @@ import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.RecipeRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -36,26 +37,26 @@ public class RecipeService {
                 .collect(Collectors.toList());
     }
 
-    public RecipeDTO get(final Integer id) {
+    public RecipeDTO get(final UUID id) {
         return recipeRepository.findById(id)
                 .map(recipe -> mapToDTO(recipe, new RecipeDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final RecipeDTO recipeDTO) {
+    public UUID create(final RecipeDTO recipeDTO) {
         final Recipe recipe = new Recipe();
         mapToEntity(recipeDTO, recipe);
         return recipeRepository.save(recipe).getId();
     }
 
-    public void update(final Integer id, final RecipeDTO recipeDTO) {
+    public void update(final UUID id, final RecipeDTO recipeDTO) {
         final Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(recipeDTO, recipe);
         recipeRepository.save(recipe);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         recipeRepository.deleteById(id);
     }
 

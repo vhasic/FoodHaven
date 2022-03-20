@@ -3,6 +3,7 @@ package etf.unsa.ba.nwt.recipe_service.rest;
 import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.service.PictureService;
 import java.util.List;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,24 +34,24 @@ public class PictureController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PictureDTO> getPicture(@PathVariable final Integer id) {
+    public ResponseEntity<PictureDTO> getPicture(@PathVariable final UUID id) {
         return ResponseEntity.ok(pictureService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createPicture(@RequestBody @Valid final PictureDTO pictureDTO) {
+    public ResponseEntity<UUID> createPicture(@RequestBody @Valid final PictureDTO pictureDTO) {
         return new ResponseEntity<>(pictureService.create(pictureDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePicture(@PathVariable final Integer id,
+    public ResponseEntity<Void> updatePicture(@PathVariable final UUID id,
             @RequestBody @Valid final PictureDTO pictureDTO) {
         pictureService.update(id, pictureDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePicture(@PathVariable final Integer id) {
+    public ResponseEntity<Void> deletePicture(@PathVariable final UUID id) {
         pictureService.delete(id);
         return ResponseEntity.noContent().build();
     }

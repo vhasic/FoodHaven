@@ -2,31 +2,38 @@ package etf.unsa.ba.nwt.recipe_service.domain;
 
 import java.time.OffsetDateTime;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 public class Recipe {
 
     @Id
-    @Column(nullable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(nullable = false, updatable = false, columnDefinition = "char(36)")
+    @Type(type = "uuid-char")
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(generator = "uuid")
+    private UUID id;
 
     @Column(nullable = false, length = 50)
     private String name;
@@ -51,34 +58,12 @@ public class Recipe {
     @OneToMany(mappedBy = "stepRecipe")
     private Set<Step> stepRecipeSteps;
 
+    @CreatedDate
     @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;
 
+    @LastModifiedDate
     @Column(nullable = false)
     private OffsetDateTime lastUpdated;
-
-    public Recipe(String name, String description, Integer preparationTime, Integer userID, Picture recipePicture, Category recipeCategory) {
-        this.name = name;
-        this.description = description;
-        this.preparationTime = preparationTime;
-        this.userID = userID;
-        this.recipePicture = recipePicture;
-        this.recipeCategory = recipeCategory;
-    }
-
-    public Recipe() {
-
-    }
-
-    @PrePersist
-    public void prePersist() {
-        dateCreated = OffsetDateTime.now();
-        lastUpdated = dateCreated;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        lastUpdated = OffsetDateTime.now();
-    }
 
 }

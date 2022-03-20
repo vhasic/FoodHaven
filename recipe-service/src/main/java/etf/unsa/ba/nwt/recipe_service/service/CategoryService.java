@@ -6,6 +6,7 @@ import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,26 +32,26 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryDTO get(final Integer id) {
+    public CategoryDTO get(final UUID id) {
         return categoryRepository.findById(id)
                 .map(category -> mapToDTO(category, new CategoryDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Integer create(final CategoryDTO categoryDTO) {
+    public UUID create(final CategoryDTO categoryDTO) {
         final Category category = new Category();
         mapToEntity(categoryDTO, category);
         return categoryRepository.save(category).getId();
     }
 
-    public void update(final Integer id, final CategoryDTO categoryDTO) {
+    public void update(final UUID id, final CategoryDTO categoryDTO) {
         final Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(categoryDTO, category);
         categoryRepository.save(category);
     }
 
-    public void delete(final Integer id) {
+    public void delete(final UUID id) {
         categoryRepository.deleteById(id);
     }
 

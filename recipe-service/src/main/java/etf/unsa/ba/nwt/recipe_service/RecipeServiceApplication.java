@@ -1,55 +1,50 @@
 package etf.unsa.ba.nwt.recipe_service;
 
-import etf.unsa.ba.nwt.recipe_service.domain.Category;
-import etf.unsa.ba.nwt.recipe_service.domain.Picture;
-import etf.unsa.ba.nwt.recipe_service.domain.Recipe;
-import etf.unsa.ba.nwt.recipe_service.domain.Step;
-import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
-import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
-import etf.unsa.ba.nwt.recipe_service.repos.RecipeRepository;
-import etf.unsa.ba.nwt.recipe_service.repos.StepRepository;
+
+import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
+import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
+import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
+import etf.unsa.ba.nwt.recipe_service.model.StepDTO;
+import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
+import etf.unsa.ba.nwt.recipe_service.service.PictureService;
+import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
+import etf.unsa.ba.nwt.recipe_service.service.StepService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.UUID;
 
 @SpringBootApplication
 public class RecipeServiceApplication {
 
     private static final Logger log = LoggerFactory.getLogger(RecipeServiceApplication.class);
+
     public static void main(String[] args) {
         SpringApplication.run(RecipeServiceApplication.class, args);
     }
-
     @Bean
-    public CommandLineRunner demo(RecipeRepository recipeRepository, PictureRepository pictureRepository, CategoryRepository categoryRepository, StepRepository stepRepository) {
+    public CommandLineRunner demo(RecipeService recipeService, PictureService pictureService, CategoryService categoryService, StepService stepService) {
         return (args) -> {
-            pictureRepository.save(new Picture("image1"));
-            pictureRepository.save(new Picture("image2"));
-            pictureRepository.save(new Picture("image3"));
-            Picture p1 = pictureRepository.findById(1).get();
-            Picture p2 = pictureRepository.findById(2).get();
-            Picture p3 = pictureRepository.findById(3).get();
-            categoryRepository.save(new Category("French",  p1));
-            categoryRepository.save(new Category("Italian",  p2));
-            categoryRepository.save(new Category("Mexican",  p3));
-            Category c1 = categoryRepository.findById(1).get();
-            Category c2 = categoryRepository.findById(2).get();
-            Category c3 = categoryRepository.findById(3).get();
-            recipeRepository.save(new Recipe("Creme brulee", "This Creme Brulee recipe is delicious, creamy, and the most perfect French dessert...", 30, 1,p1 ,c1));
-            recipeRepository.save(new Recipe("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, 1,p2 ,c2));
-            recipeRepository.save(new Recipe("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, 1,p3 ,c3));
-            Recipe r1 = recipeRepository.findById(1).get();
-            Recipe r2 = recipeRepository.findById(2).get();
-            Recipe r3 = recipeRepository.findById(3).get();
-            stepRepository.save(new Step("In saucepan, combine milk and whipping cream",p1,r1));
-            stepRepository.save(new Step("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",p2,r2));
-            stepRepository.save(new Step("Using a rolling pin, roll out the pieces of dough into thin, flat rectangles. Leave to rest for a few minutes.",p3,r3));
+            UUID pictureId1=pictureService.create(new PictureDTO("image1"));
+            UUID pictureId2=pictureService.create(new PictureDTO("image2"));
+            UUID pictureId3=pictureService.create(new PictureDTO("image3"));
+
+            UUID categoryId1 =categoryService.create(new CategoryDTO("French", pictureId1));
+            UUID categoryId2 =categoryService.create(new CategoryDTO("Italian", pictureId2));
+            UUID categoryId3 =categoryService.create(new CategoryDTO("Mexican", pictureId3));
+
+            UUID recipeId1 = recipeService.create(new RecipeDTO("Creme brulee", "This Creme Brulee recipe is delicious, creamy, and the most perfect French dessert...", 30, 1,pictureId1 ,categoryId1));
+            UUID recipeId2 = recipeService.create(new RecipeDTO("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, 1,pictureId2, categoryId2));
+            UUID recipeId3 = recipeService.create(new RecipeDTO("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, 1, pictureId3,categoryId3));
+
+            stepService.create(new StepDTO("In saucepan, combine milk and whipping cream",pictureId1, recipeId1));
+            stepService.create(new StepDTO("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",pictureId2,recipeId2));
+            stepService.create(new StepDTO("Using a rolling pin, roll out the pieces of dough into thin, flat rectangles. Leave to rest for a few minutes.",pictureId3,recipeId3));
         };
     }
 }
+

@@ -2,15 +2,20 @@ package ba.etf.unsa.nwt.user_service.user_service.rest;
 
 import ba.etf.unsa.nwt.user_service.user_service.repos.RoleRepository;
 import ba.etf.unsa.nwt.user_service.user_service.repos.UserRepository;
+import ba.etf.unsa.nwt.user_service.user_service.service.RoleService;
+import ba.etf.unsa.nwt.user_service.user_service.service.TokenService;
 import ba.etf.unsa.nwt.user_service.user_service.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,22 +24,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private UserController userController;
-    @Autowired
-    private RoleController roleController;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private UserService userService;
+/*    @Autowired
+    private UserController userController;*/
 
-
+    @Test
+    public void contextLoads() {
+    }
 /*
     @BeforeEach
     public void setUp() {
@@ -42,10 +42,6 @@ class UserControllerTest {
     }
 */
 
-    @Test
-    public void contextLoads() throws Exception {
-        assertThat(mockMvc).isNotNull();
-    }
   /*  @Test
     void getAllUsers() throws Exception {
         mockMvc.perform(get("/api/users"))

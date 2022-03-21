@@ -3,10 +3,11 @@ package ba.etf.unsa.nwt.user_service.user_service.model;
 import java.util.UUID;
 import javax.validation.constraints.*;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-
+@Data
 @Getter
 @Setter
 public class UserDTO {

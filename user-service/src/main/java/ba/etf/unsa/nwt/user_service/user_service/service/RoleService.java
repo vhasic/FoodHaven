@@ -6,19 +6,16 @@ import ba.etf.unsa.nwt.user_service.user_service.repos.RoleRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RoleService {
-
-    private final RoleRepository roleRepository;
-
-    public RoleService(final RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
+    @Autowired
+    private RoleRepository roleRepository;
 
     public List<RoleDTO> findAll() {
         return roleRepository.findAll()

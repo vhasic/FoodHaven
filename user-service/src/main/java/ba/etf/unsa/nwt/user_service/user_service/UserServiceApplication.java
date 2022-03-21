@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.UUID;
 
 
+//@SpringBootApplication(scanBasePackages={"ba.etf.unsa.nwt.user_service.user_service"})
 @SpringBootApplication
 public class UserServiceApplication {
 

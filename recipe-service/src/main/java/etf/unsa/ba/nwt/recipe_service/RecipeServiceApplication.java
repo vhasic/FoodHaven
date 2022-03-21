@@ -1,6 +1,5 @@
 package etf.unsa.ba.nwt.recipe_service;
 
-
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
 import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
@@ -20,7 +19,6 @@ import java.util.UUID;
 
 @SpringBootApplication
 public class RecipeServiceApplication {
-
     private static final Logger log = LoggerFactory.getLogger(RecipeServiceApplication.class);
 
     public static void main(String[] args) {
@@ -29,7 +27,7 @@ public class RecipeServiceApplication {
     @Bean
     public CommandLineRunner demo(RecipeService recipeService, PictureService pictureService, CategoryService categoryService, StepService stepService) {
         return (args) -> {
-            UUID pictureId1=pictureService.create(new PictureDTO("image1"));
+          /*  UUID pictureId1=pictureService.create(new PictureDTO("image1"));
             UUID pictureId2=pictureService.create(new PictureDTO("image2"));
             UUID pictureId3=pictureService.create(new PictureDTO("image3"));
 
@@ -41,10 +39,9 @@ public class RecipeServiceApplication {
             UUID recipeId2 = recipeService.create(new RecipeDTO("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, UUID.randomUUID(),pictureId2, categoryId2));
             UUID recipeId3 = recipeService.create(new RecipeDTO("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, UUID.randomUUID(), pictureId3,categoryId3));
 
-            stepService.create(new StepDTO("In saucepan, combine milk and whipping cream",pictureId1, recipeId1));
-            stepService.create(new StepDTO("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",pictureId2,recipeId2));
-            stepService.create(new StepDTO("Using a rolling pin, roll out the pieces of dough into thin, flat rectangles. Leave to rest for a few minutes.",pictureId3,recipeId3));
-        };
+            stepService.create(new StepDTO("In saucepan, combine milk and whipping cream",1, pictureId1, recipeId1));
+            stepService.create(new StepDTO("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",1, pictureId2,recipeId2));
+            stepService.create(new StepDTO("Using a rolling pin, roll out the pieces of dough into thin, flat rectangles. Leave to rest for a few minutes.",1, pictureId3,recipeId3));
+       */ };
     }
 }
-

@@ -62,6 +62,7 @@ public class StepService {
     private StepDTO mapToDTO(final Step step, final StepDTO stepDTO) {
         stepDTO.setId(step.getId());
         stepDTO.setDescription(step.getDescription());
+        stepDTO.setONumber(step.getONumber());
         stepDTO.setStepPicture(step.getStepPicture() == null ? null : step.getStepPicture().getId());
         stepDTO.setStepRecipe(step.getStepRecipe() == null ? null : step.getStepRecipe().getId());
         return stepDTO;
@@ -69,6 +70,7 @@ public class StepService {
 
     private Step mapToEntity(final StepDTO stepDTO, final Step step) {
         step.setDescription(stepDTO.getDescription());
+        step.setONumber(stepDTO.getONumber());
         if (stepDTO.getStepPicture() != null && (step.getStepPicture() == null || !step.getStepPicture().getId().equals(stepDTO.getStepPicture()))) {
             final Picture stepPicture = pictureRepository.findById(stepDTO.getStepPicture())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "stepPicture not found"));

@@ -44,16 +44,16 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateRecipe(@PathVariable final UUID id,
-            @RequestBody @Valid final RecipeDTO recipeDTO) {
+    public ResponseEntity<String> updateRecipe(@PathVariable final UUID id,
+                                               @RequestBody @Valid final RecipeDTO recipeDTO) {
         recipeService.update(id, recipeDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Successfully updated!");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable final UUID id) {
+    public ResponseEntity<String> deleteRecipe(@PathVariable final UUID id) {
         recipeService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Successfully delated!");
     }
 
 }

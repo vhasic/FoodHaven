@@ -1,10 +1,8 @@
 package etf.unsa.ba.nwt.recipe_service.model;
 
 import java.util.UUID;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,8 +20,7 @@ public class RecipeDTO {
     @Size(max = 255, message = "Recipe description can't be longer than 255 characters!")
     private String description;
 
-    @NotNull
-    @Digits(message="Preparation time (in minutes) must be an integer.", fraction = 0, integer = 4)
+    @NotNull(message="Can't be null!")
     private Integer preparationTime;
 
     @NotNull

@@ -18,11 +18,11 @@ public class CategoryDTO {
     @Size(max = 50, message = "Category name can't be longer than 50 characters!")
     private String name;
 
-    public CategoryDTO() {
-    }
-
     @NotNull
     private UUID categoryPicture;
+
+    public CategoryDTO() {
+    }
 
     public CategoryDTO(String name, UUID categoryPicture) {
         this.name = name;

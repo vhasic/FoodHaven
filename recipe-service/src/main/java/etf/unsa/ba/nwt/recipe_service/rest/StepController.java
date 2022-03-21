@@ -44,16 +44,16 @@ public class StepController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateStep(@PathVariable final UUID id,
-            @RequestBody @Valid final StepDTO stepDTO) {
+    public ResponseEntity<String> updateStep(@PathVariable final UUID id,
+                                             @RequestBody @Valid final StepDTO stepDTO) {
         stepService.update(id, stepDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Successfully updated!");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStep(@PathVariable final UUID id) {
+    public ResponseEntity<String> deleteStep(@PathVariable final UUID id) {
         stepService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Successfully deleted!");
     }
 
 }

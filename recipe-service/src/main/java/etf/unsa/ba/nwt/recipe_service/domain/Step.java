@@ -11,9 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,9 +34,10 @@ public class Step {
     private UUID id;
 
     @Column(nullable = false, name = "\"description\"")
-    @NotBlank(message = "Step description may not be blank!")
-    @Size(max = 255, message = "Step description can't be longer than 255 characters!")
     private String description;
+
+    @Column(nullable = false)
+    private Integer oNumber;
 
     @OneToOne
     @JoinColumn(name = "step_picture_id", nullable = false)

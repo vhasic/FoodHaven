@@ -1,6 +1,7 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
+import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import java.util.List;
 import java.util.UUID;
@@ -8,14 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -23,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    CategoryRepository categoryRepository;
 
     public CategoryController(final CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -44,16 +39,16 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCategory(@PathVariable final UUID id,
-            @RequestBody @Valid final CategoryDTO categoryDTO) {
+    public ResponseEntity<String> updateCategory(@PathVariable final UUID id,
+                                                 @RequestBody @Valid final CategoryDTO categoryDTO) {
         categoryService.update(id, categoryDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Successfully updated!");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable final UUID id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable final UUID id) {
         categoryService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Successfuly deleted!");
     }
 
 }

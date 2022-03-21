@@ -11,9 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,8 +34,6 @@ public class Category {
     private UUID id;
 
     @Column(nullable = false, length = 50)
-    @NotEmpty(message = "Category name is required!")
-    @Size(max = 50, message = "Category name can't be longer than 50 characters!")
     private String name;
 
     @OneToMany(mappedBy = "recipeCategory")

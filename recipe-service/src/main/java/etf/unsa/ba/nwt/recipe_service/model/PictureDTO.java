@@ -13,15 +13,14 @@ public class PictureDTO {
 
     private UUID id;
 
-    public PictureDTO() {
-    }
+    @NotNull
+    @Size(max = 255)
+    private String picData;
 
     public PictureDTO(String picData) {
         this.picData = picData;
     }
 
-    @NotNull
-    @Size(max = 255)
-    private String picData;
-
+    public PictureDTO() {
+    }
 }

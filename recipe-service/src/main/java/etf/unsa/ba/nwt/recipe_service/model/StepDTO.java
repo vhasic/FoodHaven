@@ -2,7 +2,6 @@ package etf.unsa.ba.nwt.recipe_service.model;
 
 import java.util.UUID;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -25,13 +24,16 @@ public class StepDTO {
     @NotNull
     private UUID stepRecipe;
 
-    public StepDTO() {
-    }
+    @NotNull
+    private Integer oNumber;
 
-    public StepDTO(String description, UUID stepPicture, UUID stepRecipe) {
-        this.id = id;
+    public StepDTO(String description, Integer oNumber, UUID stepPicture, UUID stepRecipe) {
         this.description = description;
+        this.oNumber = oNumber;
         this.stepPicture = stepPicture;
         this.stepRecipe = stepRecipe;
+    }
+
+    public StepDTO() {
     }
 }

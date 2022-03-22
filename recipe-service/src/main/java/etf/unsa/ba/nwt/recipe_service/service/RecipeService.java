@@ -59,6 +59,9 @@ public class RecipeService {
     public void delete(final UUID id) {
         recipeRepository.deleteById(id);
     }
+    public void deleteAll() {
+        recipeRepository.deleteAll();
+    }
 
     private RecipeDTO mapToDTO(final Recipe recipe, final RecipeDTO recipeDTO) {
         recipeDTO.setId(recipe.getId());

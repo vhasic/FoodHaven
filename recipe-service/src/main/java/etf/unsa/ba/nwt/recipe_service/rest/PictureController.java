@@ -5,6 +5,8 @@ import etf.unsa.ba.nwt.recipe_service.service.PictureService;
 import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/pictures", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PictureController {
 
+    @Autowired
     private final PictureService pictureService;
 
     public PictureController(final PictureService pictureService) {
@@ -55,5 +58,9 @@ public class PictureController {
         pictureService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
+    @DeleteMapping
+    public ResponseEntity<String> deleteAll() {
+        pictureService.deleteAll();
+        return ResponseEntity.ok("Successfully deleted!");
+    }
 }

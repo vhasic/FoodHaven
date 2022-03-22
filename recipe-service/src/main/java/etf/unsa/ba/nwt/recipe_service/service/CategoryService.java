@@ -8,6 +8,8 @@ import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,7 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class CategoryService {
 
+    @Autowired
     private final CategoryRepository categoryRepository;
+    @Autowired
     private final PictureRepository pictureRepository;
 
     public CategoryService(final CategoryRepository categoryRepository,
@@ -53,6 +57,9 @@ public class CategoryService {
 
     public void delete(final UUID id) {
         categoryRepository.deleteById(id);
+    }
+    public void deleteAll() {
+        categoryRepository.deleteAll();
     }
 
     private CategoryDTO mapToDTO(final Category category, final CategoryDTO categoryDTO) {

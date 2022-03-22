@@ -6,6 +6,8 @@ import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/categorys", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryController {
-
+    @Autowired
     private final CategoryService categoryService;
     CategoryRepository categoryRepository;
 
@@ -49,6 +51,11 @@ public class CategoryController {
     public ResponseEntity<String> deleteCategory(@PathVariable final UUID id) {
         categoryService.delete(id);
         return ResponseEntity.ok("Successfuly deleted!");
+    }
+    @DeleteMapping
+    public ResponseEntity<String> deleteAll() {
+        categoryService.deleteAll();
+        return ResponseEntity.ok("Successfully deleted!");
     }
 
 }

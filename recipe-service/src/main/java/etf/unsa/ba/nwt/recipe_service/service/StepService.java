@@ -58,6 +58,9 @@ public class StepService {
     public void delete(final UUID id) {
         stepRepository.deleteById(id);
     }
+    public void deleteAll() {
+        stepRepository.deleteAll();
+    }
 
     private StepDTO mapToDTO(final Step step, final StepDTO stepDTO) {
         stepDTO.setId(step.getId());

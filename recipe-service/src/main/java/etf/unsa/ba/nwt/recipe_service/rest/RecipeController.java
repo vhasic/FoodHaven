@@ -55,5 +55,10 @@ public class RecipeController {
         recipeService.delete(id);
         return ResponseEntity.ok("Successfully delated!");
     }
+    @DeleteMapping
+    public ResponseEntity<String> deleteAll() {
+        recipeService.deleteAll();
+        return ResponseEntity.ok("Successfully deleted!");
+    }
 
 }

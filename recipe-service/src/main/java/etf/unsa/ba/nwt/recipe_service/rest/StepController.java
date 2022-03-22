@@ -55,5 +55,10 @@ public class StepController {
         stepService.delete(id);
         return ResponseEntity.ok("Successfully deleted!");
     }
+    @DeleteMapping
+    public ResponseEntity<String> deleteAll() {
+        stepService.deleteAll();
+        return ResponseEntity.ok("Successfully deleted!");
+    }
 
 }

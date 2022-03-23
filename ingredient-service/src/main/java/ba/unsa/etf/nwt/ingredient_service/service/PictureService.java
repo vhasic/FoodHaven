@@ -6,6 +6,8 @@ import ba.unsa.etf.nwt.ingredient_service.repos.PictureRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class PictureService {
 
+    @Autowired
     private final PictureRepository pictureRepository;
 
     public PictureService(final PictureRepository pictureRepository) {
@@ -48,6 +51,10 @@ public class PictureService {
 
     public void delete(final UUID id) {
         pictureRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        pictureRepository.deleteAll();
     }
 
     private PictureDTO mapToDTO(final Picture picture, final PictureDTO pictureDTO) {

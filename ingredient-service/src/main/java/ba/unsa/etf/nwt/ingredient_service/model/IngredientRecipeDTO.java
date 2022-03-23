@@ -1,6 +1,7 @@
 package ba.unsa.etf.nwt.ingredient_service.model;
 
 import java.util.UUID;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +13,10 @@ public class IngredientRecipeDTO {
 
     private UUID id;
 
+    @NotNull(message = "Quantity of ingredient is required")
     private Integer quantity;
 
+    @NotNull
     private UUID recipeID;
 
     @NotNull

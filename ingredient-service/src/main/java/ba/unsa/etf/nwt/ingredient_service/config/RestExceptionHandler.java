@@ -36,12 +36,19 @@ public class RestExceptionHandler {
                     final FieldError fieldError = new FieldError();
                     fieldError.setErrorCode(error.getCode());
                     fieldError.setField(error.getField());
+                    fieldError.setErrorCode(error.getField());
+                    fieldError.setField(error.getDefaultMessage());
                     return fieldError;
                 })
                 .collect(Collectors.toList());
         final ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setHttpStatus(HttpStatus.BAD_REQUEST.value());
         errorResponse.setException(exception.getClass().getSimpleName());
+        if (exception.getCause()!=null){
+            Throwable e=exception.getCause();
+            String m=e.getMessage();
+            errorResponse.setMessage(exception.getCause().getMessage());
+        }
         errorResponse.setFieldErrors(fieldErrors);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

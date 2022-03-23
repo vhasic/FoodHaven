@@ -8,6 +8,8 @@ import ba.unsa.etf.nwt.ingredient_service.repos.IngredientRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,7 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class IngredientRecipeService {
 
+    @Autowired
     private final IngredientRecipeRepository ingredientRecipeRepository;
+    @Autowired
     private final IngredientRepository ingredientRepository;
 
     public IngredientRecipeService(final IngredientRecipeRepository ingredientRecipeRepository,
@@ -53,6 +57,10 @@ public class IngredientRecipeService {
 
     public void delete(final UUID id) {
         ingredientRecipeRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        ingredientRecipeRepository.deleteAll();
     }
 
     private IngredientRecipeDTO mapToDTO(final IngredientRecipe ingredientRecipe,

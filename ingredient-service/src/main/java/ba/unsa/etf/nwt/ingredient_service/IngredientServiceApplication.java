@@ -32,6 +32,8 @@ public class IngredientServiceApplication {
     public CommandLineRunner demo(PictureService pictureService, IngredientService ingredientService,
                                   IngredientRecipeService ingredientRecipeService) {
         return (args) -> {
+            /*
+
             UUID uuid= UUID.randomUUID();
             UUID p1 = pictureService.create(new PictureDTO("image1"));
             UUID p2 = pictureService.create(new PictureDTO("image2"));
@@ -45,6 +47,8 @@ public class IngredientServiceApplication {
             ingredientRecipeService.create(new IngredientRecipeDTO(1, uuid, r1));
             ingredientRecipeService.create(new IngredientRecipeDTO(2, uuid, r2));
             ingredientRecipeService.create(new IngredientRecipeDTO(3, uuid, r3));
+
+             */
 
         };
     }

@@ -39,16 +39,16 @@ public class RatingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateRating(@PathVariable final UUID id,
-            @RequestBody @Valid final RatingDTO ratingDTO) {
+    public ResponseEntity<String> updateRating(@PathVariable final UUID id,
+                                               @RequestBody @Valid final RatingDTO ratingDTO) {
         ratingService.update(id, ratingDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Successfully updated!");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRating(@PathVariable final UUID id) {
+    public ResponseEntity<String> deleteRating(@PathVariable final UUID id) {
         ratingService.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Successfully deleted!");
     }
 
     @GetMapping("/recipe")

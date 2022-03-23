@@ -8,8 +8,6 @@ import java.util.Objects;
 import java.util.UUID;
 import javax.validation.Valid;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/roles", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleController {
-    @Autowired
-    private RoleService roleService;
+//    @Autowired
+//    private RoleService roleService;
+    private final RoleService roleService;
+
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @GetMapping
     public ResponseEntity<List<RoleDTO>> getAllRoles() {

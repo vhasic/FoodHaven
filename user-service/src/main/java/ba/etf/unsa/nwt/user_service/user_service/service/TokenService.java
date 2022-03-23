@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,10 +16,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class TokenService {
-    @Autowired
-    private TokenRepository tokenRepository;
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private TokenRepository tokenRepository;
+//    @Autowired
+//    private UserRepository userRepository;
+    private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
+
+    public TokenService(TokenRepository tokenRepository, UserRepository userRepository) {
+        this.tokenRepository = tokenRepository;
+        this.userRepository = userRepository;
+    }
 
 
     public List<TokenDTO> findAll() {

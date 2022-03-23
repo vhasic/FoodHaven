@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/tokens", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TokenController {
-    @Autowired
-    private TokenService tokenService;
+//    @Autowired
+//    private TokenService tokenService;
+    private final TokenService tokenService;
+
+    public TokenController(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @GetMapping
     public ResponseEntity<List<TokenDTO>> getAllTokens() {

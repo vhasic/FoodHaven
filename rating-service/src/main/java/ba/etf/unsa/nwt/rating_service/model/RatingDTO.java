@@ -15,19 +15,19 @@ public class RatingDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Rating can't be null")
     @Min(value = 1, message = "Rating should be between 1-5")
     @Max(value = 5, message = "Rating should be between 1-5")
     private Integer rating;
 
-    @NotNull
-    @Size(max = 255)
+    @NotNull(message = "Comment can't be null")
+    @Size(max = 255, message = "Comment can't be longer than 255 characters")
     private String comment;
 
-    @NotNull
+    @NotNull(message = "RecipeId can't be null")
     private UUID recipeId;
 
-    @NotNull
+    @NotNull(message = "UserId can't be null")
     private UUID userId;
 
     public RatingDTO() {

@@ -6,6 +6,8 @@ import ba.etf.unsa.nwt.rating_service.repos.RatingRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,12 +15,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RatingService {
+    @Autowired
+    private RatingRepository ratingRepository;
 
-    private final RatingRepository ratingRepository;
-
-    public RatingService(final RatingRepository ratingRepository) {
-        this.ratingRepository = ratingRepository;
-    }
+//    public RatingService(final RatingRepository ratingRepository) {
+//        this.ratingRepository = ratingRepository;
+//    }
 
     public List<RatingDTO> findAll() {
         return ratingRepository.findAll()
@@ -48,6 +50,24 @@ public class RatingService {
 
     public void delete(final UUID id) {
         ratingRepository.deleteById(id);
+    }
+
+    public Double getAverageRatingForRecipe(final UUID recipeId){
+        return ratingRepository.getAverageRatingByRecipeId(recipeId);
+    }
+
+    public List<RatingDTO> getRatingsForUser(final UUID userId){
+        return ratingRepository.getAllByUserId(userId)
+                .stream()
+                .map(rating -> mapToDTO(rating, new RatingDTO()))
+                .collect(Collectors.toList());
+    }
+
+    public List<RatingDTO> getRatingsForRecipe(final UUID recepeId){
+        return ratingRepository.getAllByRecipeId(recepeId)
+                .stream()
+                .map(rating -> mapToDTO(rating, new RatingDTO()))
+                .collect(Collectors.toList());
     }
 
     private RatingDTO mapToDTO(final Rating rating, final RatingDTO ratingDTO) {

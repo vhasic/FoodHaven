@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FoodHaven.iml" filepath="$PROJECT_DIR$/.idea/FoodHaven.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/ingredient-service/ingredient-service.iml" filepath="$PROJECT_DIR$/ingredient-service/ingredient-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/rating-service/rating-service.iml" filepath="$PROJECT_DIR$/rating-service/rating-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/recipe-service/recipe-service.iml" filepath="$PROJECT_DIR$/recipe-service/recipe-service.iml" />

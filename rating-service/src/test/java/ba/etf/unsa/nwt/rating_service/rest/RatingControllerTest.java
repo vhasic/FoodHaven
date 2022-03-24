@@ -1,3 +1,5 @@
+package ba.etf.unsa.nwt.rating_service.rest;
+
 import ba.etf.unsa.nwt.rating_service.model.RatingDTO;
 import ba.etf.unsa.nwt.rating_service.service.RatingService;
 import org.junit.jupiter.api.AfterEach;
@@ -8,26 +10,23 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes={ba.etf.unsa.nwt.rating_service.RatingServiceApplication.class})
+@SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class RatingControllerTest {
+@TestPropertySource(locations = "classpath:application-test.properties")
+class RatingControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -87,7 +86,7 @@ public class RatingControllerTest {
     public void deleteRatingSuccess() throws Exception {
         UUID id= ratingService.create(new RatingDTO(5,"Ovo je testni komentar",UUID.randomUUID(), UUID.randomUUID()));
         mockMvc.perform(delete(String.format("/api/ratings/%s", id)))
-            .andExpect(status().isOk());
+                .andExpect(status().isOk());
     }
 
     @Test

@@ -2,7 +2,10 @@ package ba.etf.unsa.nwt.rating_service.rest;
 
 import ba.etf.unsa.nwt.rating_service.model.RatingDTO;
 import ba.etf.unsa.nwt.rating_service.service.RatingService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.validation.Valid;
 
@@ -61,12 +64,18 @@ public class RatingController {
         return ResponseEntity.ok(ratingService.getRatingsForUser(userId));
     }
 
-    @GetMapping("/averageRating")
+    @GetMapping(value = "/averageRating", produces = MediaType.APPLICATION_JSON_VALUE)
     //@ResponseBody // ovo je po defaultu za klasu @RestController
-    public Double getAverageRatingForRecipe(@RequestParam UUID recipeId) {
-        //todo upit u repositoriju za ovo pravi problem
-        double averageRating= ratingService.getAverageRatingForRecipe(recipeId);
-        return averageRating;
+    public ResponseEntity<Object> getAverageRatingForRecipe(@RequestParam UUID recipeId) {
+        Double averageRating=ratingService.getAverageRatingForRecipe(recipeId);
+        Integer numberOfRatings=ratingService.getNumberOfRatings(recipeId);
+
+        // custom JSON
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("averageRating", averageRating);
+        map.put("numberOfRatings", numberOfRatings);
+
+        return ResponseEntity.ok(map);
     }
 
 }

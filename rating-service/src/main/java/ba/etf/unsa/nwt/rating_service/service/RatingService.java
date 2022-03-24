@@ -52,24 +52,6 @@ public class RatingService {
         ratingRepository.deleteById(id);
     }
 
-    public Double getAverageRatingForRecipe(final UUID recipeId){
-        return ratingRepository.getAverageRatingByRecipeId(recipeId);
-    }
-
-    public List<RatingDTO> getRatingsForUser(final UUID userId){
-        return ratingRepository.getAllByUserId(userId)
-                .stream()
-                .map(rating -> mapToDTO(rating, new RatingDTO()))
-                .collect(Collectors.toList());
-    }
-
-    public List<RatingDTO> getRatingsForRecipe(final UUID recepeId){
-        return ratingRepository.getAllByRecipeId(recepeId)
-                .stream()
-                .map(rating -> mapToDTO(rating, new RatingDTO()))
-                .collect(Collectors.toList());
-    }
-
     private RatingDTO mapToDTO(final Rating rating, final RatingDTO ratingDTO) {
         ratingDTO.setId(rating.getId());
         ratingDTO.setRating(rating.getRating());
@@ -87,4 +69,25 @@ public class RatingService {
         return rating;
     }
 
+    public Integer getNumberOfRatings(UUID recipeId) {
+        return ratingRepository.countByRecipeId(recipeId);
+    }
+
+    public Double getAverageRatingForRecipe(final UUID recipeId){
+        return ratingRepository.getAverageRatingByRecipeId(recipeId.toString());
+    }
+
+    public List<RatingDTO> getRatingsForUser(final UUID userId){
+        return ratingRepository.getAllByUserId(userId)
+                .stream()
+                .map(rating -> mapToDTO(rating, new RatingDTO()))
+                .collect(Collectors.toList());
+    }
+
+    public List<RatingDTO> getRatingsForRecipe(final UUID recepeId){
+        return ratingRepository.getAllByRecipeId(recepeId)
+                .stream()
+                .map(rating -> mapToDTO(rating, new RatingDTO()))
+                .collect(Collectors.toList());
+    }
 }

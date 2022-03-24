@@ -2,9 +2,7 @@ package ba.etf.unsa.nwt.rating_service.rest;
 
 import ba.etf.unsa.nwt.rating_service.model.RatingDTO;
 import ba.etf.unsa.nwt.rating_service.service.RatingService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,23 +17,39 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application-test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RatingControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private RatingService ratingService;
 
-    @BeforeEach
-    public void beforeEachTest() {
+    private UUID uuid1,uuid2,ratingId1,ratingId2,ratingId3;
 
+    @BeforeAll
+    public void beforeAll() {
+        uuid1= UUID.fromString("ce67e275-9f05-44d4-b401-cd0ac67f588a");
+        uuid2= UUID.fromString("f7babcf7-3e1e-4482-af7d-1ff7c7921e20");
+        ratingId1= ratingService.create(new RatingDTO(5,"Ovo je testni komentar",uuid1,uuid2));
+        ratingId2= ratingService.create(new RatingDTO(4,"Ovo je testni komentar 2",uuid2,uuid1));
+        ratingId3= ratingService.create(new RatingDTO(3,"Ovo je testni komentar 3",uuid1,uuid1));
     }
+
+    @Test
+    void getAllRatings() throws Exception {
+        mockMvc.perform(get("/api/ratings"))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON)
+                );
+    }
+
     @Test
     public void createRatingSuccessTest() throws Exception{
         UUID recipeID = UUID.randomUUID();
@@ -115,6 +129,34 @@ class RatingControllerTest {
                                 "    \"userId\":\"%s\"\n" +
                                 "}", recipeID, userID)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllRatingsForUser() throws Exception {
+        mockMvc.perform(get("/api/ratings/user").param("userId",uuid1.toString()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON)
+                );
+    }
+
+    @Test
+    void getAllRatingsForRecipe() throws Exception {
+        mockMvc.perform(get("/api/ratings/recipe").param("recipeId",uuid1.toString()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON)
+                );
+    }
+
+    @Test
+    void getAverageRatingForRecipe() throws Exception {
+        mockMvc.perform(get("/api/ratings/averageRating").param("recipeId",uuid1.toString()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.averageRating").value(4)
+                );
     }
 
     @AfterEach

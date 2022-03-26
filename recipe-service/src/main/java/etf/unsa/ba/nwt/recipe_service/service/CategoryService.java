@@ -1,11 +1,13 @@
 package etf.unsa.ba.nwt.recipe_service.service;
 
+import etf.unsa.ba.nwt.recipe_service.config.UnpocessableEntityException;
 import etf.unsa.ba.nwt.recipe_service.domain.Category;
 import etf.unsa.ba.nwt.recipe_service.domain.Picture;
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,10 +43,23 @@ public class CategoryService {
                 .map(category -> mapToDTO(category, new CategoryDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
-
+    public CategoryDTO getCategoryByName(String name) {
+        return categoryRepository.getCategoryByName(name)
+                .map(category -> mapToDTO(category, new CategoryDTO()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
     public UUID create(final CategoryDTO categoryDTO) {
         final Category category = new Category();
         mapToEntity(categoryDTO, category);
+        Optional<Category> customerWithExistingAddress = categoryRepository.findAll()
+                .stream()
+                .filter(x -> x.getName().equals(category.getName()))
+                .findFirst();
+
+        customerWithExistingAddress.ifPresent(c -> {
+            throw new UnpocessableEntityException("Category with this name already exists");
+        });
+
         return categoryRepository.save(category).getId();
     }
 
@@ -78,4 +93,6 @@ public class CategoryService {
         }
         return category;
     }
+
+
 }

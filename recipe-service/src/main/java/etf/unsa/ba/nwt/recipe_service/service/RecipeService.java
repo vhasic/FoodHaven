@@ -42,6 +42,18 @@ public class RecipeService {
                 .map(recipe -> mapToDTO(recipe, new RecipeDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+    public List<RecipeDTO> getRecipesFromCategory(UUID id) {
+        return recipeRepository.getRecipesFromCategory(id.toString())
+                .stream()
+                .map(recipe -> mapToDTO(recipe, new RecipeDTO()))
+                .collect(Collectors.toList());
+    }
+    public List<RecipeDTO> getRecipesFromUser(UUID id) {
+        return recipeRepository.getRecipesFromUser(id.toString())
+                .stream()
+                .map(recipe -> mapToDTO(recipe, new RecipeDTO()))
+                .collect(Collectors.toList());
+    }
 
     public UUID create(final RecipeDTO recipeDTO) {
         final Recipe recipe = new Recipe();
@@ -91,5 +103,6 @@ public class RecipeService {
         }
         return recipe;
     }
+
 
 }

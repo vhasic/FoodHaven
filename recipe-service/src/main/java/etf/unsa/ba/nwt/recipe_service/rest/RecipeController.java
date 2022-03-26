@@ -1,5 +1,6 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
+import etf.unsa.ba.nwt.recipe_service.domain.Recipe;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
 import java.util.List;
@@ -36,6 +37,14 @@ public class RecipeController {
     @GetMapping("/{id}")
     public ResponseEntity<RecipeDTO> getRecipe(@PathVariable final UUID id) {
         return ResponseEntity.ok(recipeService.get(id));
+    }
+    @GetMapping("/categorys/{id}")
+    public ResponseEntity<List<RecipeDTO>> getRecipesFromCategory(@PathVariable final UUID id) {
+        return ResponseEntity.ok(recipeService.getRecipesFromCategory(id));
+    }
+    @GetMapping("/users/{id}")
+    public ResponseEntity<List<RecipeDTO>> getRecipesFromUser(@PathVariable final UUID id) {
+        return ResponseEntity.ok(recipeService.getRecipesFromUser(id));
     }
 
     @PostMapping

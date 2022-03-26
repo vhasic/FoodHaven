@@ -1,5 +1,6 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
+import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.model.StepDTO;
 import etf.unsa.ba.nwt.recipe_service.service.StepService;
 import java.util.List;
@@ -37,7 +38,14 @@ public class StepController {
     public ResponseEntity<StepDTO> getStep(@PathVariable final UUID id) {
         return ResponseEntity.ok(stepService.get(id));
     }
-
+    @GetMapping("/recipe/{id}")
+    public ResponseEntity<List<StepDTO>> getStepsForRecipe(@PathVariable final UUID id) {
+        return ResponseEntity.ok(stepService.getStepsForRecipe(id));
+    }
+    @GetMapping("/recipe/{id}/number/{oNumber}")
+    public ResponseEntity<StepDTO> getStepXForRecipe(@PathVariable final UUID id, @PathVariable final Integer oNumber) {
+        return ResponseEntity.ok(stepService.getStepXForRecipe(id, oNumber));
+    }
     @PostMapping
     public ResponseEntity<UUID> createStep(@RequestBody @Valid final StepDTO stepDTO) {
         return new ResponseEntity<>(stepService.create(stepDTO), HttpStatus.CREATED);

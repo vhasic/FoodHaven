@@ -42,6 +42,6 @@ public class RecipeServiceApplication {
             stepService.create(new StepDTO("In saucepan, combine milk and whipping cream",1, pictureId1, recipeId1));
             stepService.create(new StepDTO("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",1, pictureId2,recipeId2));
             stepService.create(new StepDTO("Using a rolling pin, roll out the pieces of dough into thin, flat rectangles. Leave to rest for a few minutes.",1, pictureId3,recipeId3));
-       */ };
+       */};
     }
 }

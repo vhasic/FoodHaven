@@ -3,6 +3,7 @@ package etf.unsa.ba.nwt.recipe_service.service;
 import etf.unsa.ba.nwt.recipe_service.domain.Picture;
 import etf.unsa.ba.nwt.recipe_service.domain.Recipe;
 import etf.unsa.ba.nwt.recipe_service.domain.Step;
+import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.model.StepDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.RecipeRepository;
@@ -41,7 +42,17 @@ public class StepService {
                 .map(step -> mapToDTO(step, new StepDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
-
+    public List<StepDTO> getStepsForRecipe(UUID id) {
+        return stepRepository.getStepsForRecipe(id.toString())
+                .stream()
+                .map(step -> mapToDTO(step, new StepDTO()))
+                .collect(Collectors.toList());
+    }
+    public StepDTO getStepXForRecipe(final UUID id, final Integer oNumber) {
+        return stepRepository.getStepXForRecipe(id.toString(), oNumber)
+                .map(step -> mapToDTO(step, new StepDTO()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
     public UUID create(final StepDTO stepDTO) {
         final Step step = new Step();
         mapToEntity(stepDTO, step);

@@ -1,6 +1,7 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
+import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import java.util.List;
@@ -33,6 +34,10 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> getCategory(@PathVariable final UUID id) {
         return ResponseEntity.ok(categoryService.get(id));
+    }
+    @GetMapping("/name/{name}")
+    public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable final String name) {
+        return ResponseEntity.ok(categoryService.getCategoryByName(name));
     }
 
     @PostMapping

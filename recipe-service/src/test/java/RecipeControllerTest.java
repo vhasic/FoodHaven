@@ -16,13 +16,12 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
 
 import java.util.UUID;
 
@@ -49,11 +48,11 @@ public class RecipeControllerTest {
 
     @BeforeEach
     public void beforeEachTest() {
-        pictureID=pictureService.create(new PictureDTO("testPicture"));
-        categoryID =categoryService.create(new CategoryDTO("testCategory", pictureID));
+        pictureID=pictureService.create(new PictureDTO("Picture"));
+        categoryID =categoryService.create(new CategoryDTO("Category" + pictureID, pictureID));
         userID = UUID.randomUUID();
     }
-    @Test
+   @Test
     public void createRecipeSuccessTest() throws Exception{
         mockMvc.perform(post("/api/recipes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -125,8 +124,47 @@ public class RecipeControllerTest {
         mockMvc.perform(get(String.format("/api/recipes/01011001-e012-1111-bd11-2c2a4faef0fc")))
                 .andExpect(status().isNotFound());
     }
-
-    @AfterEach
-    public void afterEachTest() {
+    @Test
+    void updateRecipeTest() throws Exception {
+        UUID recipeID = recipeService.create(new RecipeDTO("Test recipe name", "Test recipe description", 20, userID,pictureID, categoryID));
+        mockMvc.perform(put(String.format("/api/recipes/%s", recipeID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(String.format("{\n" +
+                                "    \"name\" : \"Updated test recipe name\",\n" +
+                                "    \"description\":\"Updated test recipe description...\",\n" +
+                                "    \"preparationTime\":20, \n" +
+                                "    \"userID\":\"%s\",\n" +
+                                "    \"recipePicture\": \"%s\",\n" +
+                                "    \"recipeCategory\": \"%s\"\n" +
+                                "\n" +
+                                "}", userID, pictureID, categoryID)))
+                .andExpect(status().isOk());
     }
+   @Test
+   public void getRecipesFromUserTest() throws Exception {
+       UUID recipeID1 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, pictureID, categoryID));
+       UUID picture =pictureService.create(new PictureDTO("Picture"));
+       UUID category =categoryService.create(new CategoryDTO("Category" + picture, picture));
+       UUID recipeID2 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, picture, category));
+
+       mockMvc.perform(get(String.format("/api/recipes/users/%s", userID)))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.*", hasSize(2)));
+   }
+   @Test
+   public void getRecipesFromCategoryTest() throws Exception {
+        UUID recipeID1 = recipeService.create(new RecipeDTO("Name1", "Description1...", 20, userID, pictureID, categoryID));
+        UUID picture =pictureService.create(new PictureDTO("Picture"));
+        UUID recipeID2 = recipeService.create(new RecipeDTO("Name2", "Description2...", 20, UUID.randomUUID(), picture, categoryID));
+        UUID picture1 =pictureService.create(new PictureDTO("Picture"));
+        UUID category1 =categoryService.create(new CategoryDTO("Category" + picture1, picture1));
+        UUID recipeID3 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, picture1, category1));
+
+        mockMvc.perform(get(String.format("/api/recipes/categorys/%s", categoryID)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(2)));
+    }
+   @AfterEach
+   public void afterEachTest() {
+   }
 }

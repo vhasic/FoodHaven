@@ -22,14 +22,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
 
 import java.util.UUID;
 
@@ -60,7 +59,7 @@ public class StepControllerTest {
     @BeforeEach
     public void beforeEachTest() {
         pictureID=pictureService.create(new PictureDTO("testPicture"));
-        categoryID =categoryService.create(new CategoryDTO("testCategory", pictureID));
+        categoryID =categoryService.create(new CategoryDTO("testCategory"+pictureID, pictureID));
         userID = UUID.randomUUID();
         recipeID = recipeService.create(new RecipeDTO("TestName", "TestDescription", 20, userID,pictureID, categoryID));
 
@@ -74,6 +73,17 @@ public class StepControllerTest {
                                 "    \"stepRecipe\": \"%s\",\n" +
                                 "    \"onumber\": 1}", pictureID, recipeID)))
                 .andExpect(status().isCreated());
+    }
+    @Test
+    public void updateCategoryTest() throws Exception{
+        UUID stepID = stepService.create(new StepDTO("New description",1, pictureID, recipeID));
+        mockMvc.perform(put(String.format("/api/steps/%s", stepID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(String.format("{\"description\": \"Updated description\",\n" +
+                                "    \"stepPicture\": \"%s\",\n" +
+                                "    \"stepRecipe\": \"%s\",\n" +
+                                "    \"onumber\": 1}", pictureID, recipeID)))
+                .andExpect(status().isOk());
     }
     @Test
     public void createRecipeValidationBlank() throws Exception{
@@ -123,20 +133,28 @@ public class StepControllerTest {
         mockMvc.perform(get(String.format("/api/steps/01011001-e012-1111-bd11-2c2a4faef0fc")))
                 .andExpect(status().isNotFound());
     }
-
-
     @Test
     public void deleteAll() throws Exception {
         mockMvc.perform(delete(String.format("/api/steps")))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void getStepsForRecipeTest() throws Exception {
+        stepService.create(new StepDTO("Step Description 1...",1, pictureID, recipeID));
+        UUID pictureID1 = pictureID=pictureService.create(new PictureDTO("testPicture"));
+        stepService.create(new StepDTO("Step Description 2...",2, pictureID1, recipeID));
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        mockMvc.perform(get(String.format("/api/steps/recipe/%s", recipeID)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(2)));
+    }
+    @Test
+    public void getStepXForRecipeTest() throws Exception {
+        stepService.create(new StepDTO("Step Description 1...",7, pictureID, recipeID));
+
+        mockMvc.perform(get(String.format("/api/steps/recipe/%s/number/%s", recipeID, 7)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value(is("Step Description 1...")));
     }
     @AfterEach
     public void afterEachTest() {

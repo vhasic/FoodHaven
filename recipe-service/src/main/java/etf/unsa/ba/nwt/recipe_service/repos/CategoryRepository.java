@@ -13,6 +13,6 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
-    @Query(value = "SELECT * FROM recipeservicedb.category c where c.name=:categoryName", nativeQuery = true)
+    @Query(value = "SELECT * FROM Category c where c.name=:categoryName", nativeQuery = true)
     Optional<Category> getCategoryByName(@Param("categoryName") String categoryName);
 }

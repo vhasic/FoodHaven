@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
-    @Query(value = "SELECT * FROM recipeservicedb.recipe r where r.recipe_category_id=:recipeCategory", nativeQuery = true)
+    @Query(value = "SELECT * FROM Recipe r where r.recipe_category_id=:recipeCategory", nativeQuery = true)
     List<Recipe> getRecipesFromCategory(@Param("recipeCategory") String recipeCategory);
-    @Query(value = "SELECT * FROM recipeservicedb.recipe r where r.userid=:recipeUser", nativeQuery = true)
+    @Query(value = "SELECT * FROM Recipe r where r.userid=:recipeUser", nativeQuery = true)
     List<Recipe> getRecipesFromUser(@Param("recipeUser") String recipeUser);
 }

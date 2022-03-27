@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -44,11 +44,36 @@ public class CategoryControllerTest {
 
     @Test
     public void createCategorySuccessTest() throws Exception{
+        String name = "Category"+pictureID;
         mockMvc.perform(post("/api/categorys")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.format("{\"name\":\"Turkish\",\n" +
-                                "    \"categoryPicture\":\"%s\"}", pictureID)))
+                        .content(String.format("{\"name\":\"%s\",\n" +
+                                "    \"categoryPicture\":\"%s\"}", name, pictureID)))
                 .andExpect(status().isCreated());
+    }
+    @Test
+    public void createCategoryAlreadyExistTest() throws Exception{
+        String name = "Category"+pictureID;
+        UUID categoryID = categoryService.create(new CategoryDTO(name, pictureID));
+        UUID picture = pictureService.create(new PictureDTO("testPicture"));
+        mockMvc.perform(post("/api/categorys")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(String.format("{\"name\":\"%s\",\n" +
+                                "    \"categoryPicture\":\"%s\"}", name, picture)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message", is("422 UNPROCESSABLE_ENTITY \"Category with this name already exists\"")));
+    }
+    @Test
+    public void updateCategoryTest() throws Exception{
+        UUID categoryID = categoryService.create(new CategoryDTO("Category"+pictureID, pictureID));
+        UUID picture=pictureService.create(new PictureDTO("testPicture"));
+        String name = "Category"+picture;
+
+        mockMvc.perform(put(String.format("/api/categorys/%s", categoryID))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(String.format("{\"name\":\"%s\",\n" +
+                                "    \"categoryPicture\":\"%s\"}", name, pictureID)))
+                .andExpect(status().isOk());
     }
     @Test
     public void createCategoryValidationsBlank() throws Exception {
@@ -63,14 +88,14 @@ public class CategoryControllerTest {
 
     @Test
     public void deleteCategorySuccess() throws Exception {
-        UUID categoryID = categoryService.create(new CategoryDTO("TestCategory", pictureID));
+        UUID categoryID = categoryService.create(new CategoryDTO("TestCategory"+pictureID, pictureID));
         mockMvc.perform(delete(String.format("/api/categorys/%s", categoryID)))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getCategoryByIdSuccess() throws Exception {
-        UUID categoryID = categoryService.create(new CategoryDTO("TestCategory", pictureID));
+        UUID categoryID = categoryService.create(new CategoryDTO("TestCategory"+pictureID, pictureID));
 
         mockMvc.perform(get(String.format("/api/categorys/%s", categoryID)))
                 .andExpect(status().isOk())
@@ -81,5 +106,13 @@ public class CategoryControllerTest {
         mockMvc.perform(get(String.format("/api/categorys/01011001-e012-1111-bd11-2c2a4faef0fc")))
                 .andExpect(status().isNotFound());
     }
+    @Test
+    public void getCategoryByNameTest() throws Exception {
+        String name = "TestCategory"+pictureID;
+        UUID categoryID = categoryService.create(new CategoryDTO(name, pictureID));
 
+        mockMvc.perform(get(String.format("/api/categorys/name/%s",name)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(is(categoryID.toString())));
+    }
 }

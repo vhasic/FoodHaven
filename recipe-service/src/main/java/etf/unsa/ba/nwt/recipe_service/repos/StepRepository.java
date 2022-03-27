@@ -13,8 +13,8 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface StepRepository extends JpaRepository<Step, UUID> {
-    @Query(value = "SELECT * FROM recipeservicedb.step s where s.step_recipe_id=:stepRecipe order by s.o_number", nativeQuery = true)
+    @Query(value = "SELECT * FROM Step s where s.step_recipe_id=:stepRecipe order by s.o_number", nativeQuery = true)
     List<Step> getStepsForRecipe(@Param("stepRecipe") String stepRecipe);
-    @Query(value = "SELECT * FROM recipeservicedb.step s where s.step_recipe_id=:stepRecipe and s.o_number=:oNumber", nativeQuery = true)
+    @Query(value = "SELECT * FROM Step s where s.step_recipe_id=:stepRecipe and s.o_number=:oNumber", nativeQuery = true)
     Optional<Step> getStepXForRecipe(@Param("stepRecipe") String stepRecipe, @Param("oNumber") Integer oNumber);
 }

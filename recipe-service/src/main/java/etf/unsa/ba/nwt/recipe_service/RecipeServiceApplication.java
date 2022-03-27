@@ -27,7 +27,7 @@ public class RecipeServiceApplication {
     @Bean
     public CommandLineRunner demo(RecipeService recipeService, PictureService pictureService, CategoryService categoryService, StepService stepService) {
         return (args) -> {
-          /*  UUID pictureId1=pictureService.create(new PictureDTO("image1"));
+            /*UUID pictureId1=pictureService.create(new PictureDTO("image1"));
             UUID pictureId2=pictureService.create(new PictureDTO("image2"));
             UUID pictureId3=pictureService.create(new PictureDTO("image3"));
 

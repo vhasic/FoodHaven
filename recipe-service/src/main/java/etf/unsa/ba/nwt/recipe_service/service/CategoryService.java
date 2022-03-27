@@ -57,7 +57,7 @@ public class CategoryService {
                 .findFirst();
 
         customerWithExistingAddress.ifPresent(c -> {
-            throw new UnpocessableEntityException("Category with this name already exists");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Category with this name already exists");
         });
 
         return categoryRepository.save(category).getId();

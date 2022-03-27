@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: config-service
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    config:
+      server:
+        git:
+          uri: https://github.com/aalialzaya1/FoodHaven
+          searchPaths: 'config/{application}'
+          username: ${FOODHAVEN_GIT_USERNAME}
+          password: ${FOODHAVEN_GIT_PASSWORD}
+  security:
+    user:
+      name: root
+      password: secret
+server:
+  port: 8888

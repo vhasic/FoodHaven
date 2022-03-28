@@ -58,6 +58,11 @@ public class StepControllerTest {
 
     @BeforeEach
     public void beforeEachTest() {
+        stepService.deleteAll();
+        recipeService.deleteAll();
+        categoryService.deleteAll();
+        pictureService.deleteAll();
+
         pictureID=pictureService.create(new PictureDTO("testPicture"));
         categoryID =categoryService.create(new CategoryDTO("testCategory"+pictureID, pictureID));
         userID = UUID.randomUUID();

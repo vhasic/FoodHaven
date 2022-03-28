@@ -2,6 +2,8 @@ import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
 import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import etf.unsa.ba.nwt.recipe_service.service.PictureService;
+import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
+import etf.unsa.ba.nwt.recipe_service.service.StepService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +37,20 @@ public class CategoryControllerTest {
     private PictureService pictureService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private RecipeService recipeService;
+    @Autowired
+    private StepService stepService;
+
     private UUID pictureID;
 
     @BeforeEach
     public void setUpTest() {
+        stepService.deleteAll();
+        recipeService.deleteAll();
+        categoryService.deleteAll();
+        pictureService.deleteAll();
+
         pictureID=pictureService.create(new PictureDTO("testPicture"));
     }
 

@@ -177,4 +177,13 @@ class UserControllerTest {
         mockMvc.perform(delete(String.format("/api/users/%s", id)))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void getUsersByRole() throws Exception {
+        UUID id1 =userService.create(new UserDTO("User1","User1","user4","user4@nesto.com","Password1!", userRoleId));
+        UUID id2 =userService.create(new UserDTO("User2","User2","user5","user5@nesto.com","Password1!", userRoleId));
+
+        mockMvc.perform(get(String.format("/api/users/role/User")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.*", hasSize(2)));
+    }
 }

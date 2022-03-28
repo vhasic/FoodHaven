@@ -34,6 +34,13 @@ public class UserService {
                 .map(user -> mapToDTO(user, new UserDTO()))
                 .collect(Collectors.toList());
     }
+    public List<UserDTO> getUsersByRole(String name){
+        return userRepository.getUsersByRole(name)
+                .stream()
+                .map(user -> mapToDTO(user, new UserDTO()))
+                .collect(Collectors.toList());
+    }
+
 
     public UserDTO get(final UUID id) {
         return userRepository.findById(id)

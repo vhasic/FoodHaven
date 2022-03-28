@@ -4,6 +4,7 @@ import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import etf.unsa.ba.nwt.recipe_service.service.PictureService;
 import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
+import etf.unsa.ba.nwt.recipe_service.service.StepService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,8 @@ public class RecipeControllerTest {
     private CategoryService categoryService;
     @Autowired
     private RecipeService recipeService;
+    @Autowired
+    private StepService stepService;
 
     private UUID pictureID;
     private UUID categoryID;
@@ -48,6 +51,11 @@ public class RecipeControllerTest {
 
     @BeforeEach
     public void beforeEachTest() {
+        stepService.deleteAll();
+        recipeService.deleteAll();
+        categoryService.deleteAll();
+        pictureService.deleteAll();
+
         pictureID=pictureService.create(new PictureDTO("Picture"));
         categoryID =categoryService.create(new CategoryDTO("Category" + pictureID, pictureID));
         userID = UUID.randomUUID();

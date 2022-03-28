@@ -7,10 +7,11 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/aalialzaya1/FoodHaven
-          searchPaths: 'config/{application}'
-          username: ${FOODHAVEN_GIT_USERNAME}
-          password: ${FOODHAVEN_GIT_PASSWORD}
+          uri: https://github.com/NWT-FoodHaven/FoodHaven
+          searchPaths: 'config/'
+          default-label: main
+          username: ${PROJECTHUB_GIT_USERNAME}
+          password: ${PROJECTHUB_GIT_PASSWORD}
   security:
     user:
       name: root

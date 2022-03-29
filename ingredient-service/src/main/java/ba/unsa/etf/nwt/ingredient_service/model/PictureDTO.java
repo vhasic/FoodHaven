@@ -15,7 +15,6 @@ public class PictureDTO {
     private UUID id;
 
     @NotNull(message = "Picture of ingredient is required")
-    @Size(max = 255)
     private String picData;
 
     public PictureDTO() {

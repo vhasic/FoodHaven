@@ -92,4 +92,8 @@ public class IngredientService {
         return ingredient;
     }
 
+    public Integer getTotalCalories(UUID id) {
+        return ingredientRepository.getTotalCalories(id.toString());
+    }
+
 }

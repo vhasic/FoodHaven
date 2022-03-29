@@ -65,4 +65,9 @@ public class IngredientController {
         ingredientService.deleteAll();
         return ResponseEntity.ok("Successfully deleted all!");
     }
+
+    @GetMapping("/totalCalories/{id}")
+    public ResponseEntity<Integer> getTotalCalories(@PathVariable final UUID id) {
+        return ResponseEntity.ok(ingredientService.getTotalCalories(id));
+    }
 }

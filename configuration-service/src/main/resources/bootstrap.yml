@@ -10,8 +10,8 @@ spring:
           uri: https://github.com/NWT-FoodHaven/FoodHaven
           searchPaths: 'config/'
           default-label: main
-          username: ${PROJECTHUB_GIT_USERNAME}
-          password: ${PROJECTHUB_GIT_PASSWORD}
+          username: ${FOODHAVEN_GIT_USERNAME}
+          password: ${FOODHAVEN_GIT_PASSWORD}
   security:
     user:
       name: root

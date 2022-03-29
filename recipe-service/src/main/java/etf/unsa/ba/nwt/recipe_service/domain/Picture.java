@@ -31,8 +31,58 @@ public class Picture {
     @GeneratedValue(generator = "uuid")
     private UUID id;
 
-    @Column(nullable = false)
-    private String picData;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "picByte", length = 65555)
+    private byte[] picByte;
+
+    public Picture(String name, String type, byte[] picByte) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+    }
+
+
+    public Picture() {
+
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
 
     @OneToOne(mappedBy = "recipePicture", fetch = FetchType.LAZY)
     private Recipe recipePicture;

@@ -56,7 +56,7 @@ public class StepControllerTest {
     private UUID userID;
     private UUID recipeID;
 
-    @BeforeEach
+    /*@BeforeEach
     public void beforeEachTest() {
         stepService.deleteAll();
         recipeService.deleteAll();
@@ -164,4 +164,5 @@ public class StepControllerTest {
     @AfterEach
     public void afterEachTest() {
     }
+    */
 }

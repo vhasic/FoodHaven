@@ -15,7 +15,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -32,23 +37,25 @@ public class IngredientServiceApplication {
     public CommandLineRunner demo(PictureService pictureService, IngredientService ingredientService,
                                   IngredientRecipeService ingredientRecipeService) {
         return (args) -> {
-            /*
-
-            UUID uuid= UUID.randomUUID();
-            UUID p1 = pictureService.create(new PictureDTO("image1"));
-            UUID p2 = pictureService.create(new PictureDTO("image2"));
-            UUID p3 = pictureService.create(new PictureDTO("image3"));
-            UUID r1 = ingredientService.create(new IngredientDTO("Chicken", 200,
-                    0, 12, 3, 12, "gram", p1));
-            UUID r2 = ingredientService.create(new IngredientDTO("Milk", 200,
-                    4, 0, 3, 5, "liter", p2));
-            UUID r3 = ingredientService.create(new IngredientDTO("Strawberry",
-                    200, 10, 2, 0, 4, "gram", p3));
-            ingredientRecipeService.create(new IngredientRecipeDTO(1, uuid, r1));
-            ingredientRecipeService.create(new IngredientRecipeDTO(2, uuid, r2));
-            ingredientRecipeService.create(new IngredientRecipeDTO(3, uuid, r3));
-
-             */
+            MultipartFile file = null;
+            try {
+                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
+                UUID p1=pictureService.create(file);
+                UUID p2=pictureService.create(file);
+                UUID p3=pictureService.create(file);
+                UUID uuid= UUID.randomUUID();
+                UUID r1 = ingredientService.create(new IngredientDTO("Chicken", 200,
+                        0, 12, 3, 12, "gram", p1));
+                UUID r2 = ingredientService.create(new IngredientDTO("Milk", 200,
+                        4, 0, 3, 5, "liter", p2));
+                UUID r3 = ingredientService.create(new IngredientDTO("Strawberry",
+                        200, 10, 2, 0, 4, "gram", p3));
+                ingredientRecipeService.create(new IngredientRecipeDTO(1, uuid, r1));
+                ingredientRecipeService.create(new IngredientRecipeDTO(2, uuid, r2));
+                ingredientRecipeService.create(new IngredientRecipeDTO(3, uuid, r3));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         };
     }

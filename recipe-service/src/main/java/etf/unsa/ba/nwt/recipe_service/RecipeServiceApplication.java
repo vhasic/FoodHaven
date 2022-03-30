@@ -33,9 +33,9 @@ public class RecipeServiceApplication {
     @Bean
     public CommandLineRunner demo(RecipeService recipeService, PictureService pictureService, CategoryService categoryService, StepService stepService) {
         return (args) -> {
-            /*MultipartFile file = null;
+           /* MultipartFile file = null;
             try {
-                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("recipe-service/src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
                 UUID pictureId1=pictureService.create(file);
                 UUID pictureId2=pictureService.create(file);
                 UUID pictureId3=pictureService.create(file);

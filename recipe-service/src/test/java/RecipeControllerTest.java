@@ -174,7 +174,7 @@ public class RecipeControllerTest {
        UUID category =categoryService.create(new CategoryDTO("Category" + picture, picture));
        UUID recipeID2 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, picture, category));
 
-       mockMvc.perform(get(String.format("/api/recipes/users/%s", userID)))
+       mockMvc.perform(get(String.format("/api/recipes/user?userId=%s", userID)))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.*", hasSize(2)));
    }
@@ -198,7 +198,7 @@ public class RecipeControllerTest {
         UUID category1 =categoryService.create(new CategoryDTO("Category" + picture1, picture1));
         UUID recipeID3 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, picture1, category1));
 
-        mockMvc.perform(get(String.format("/api/recipes/categorys/%s", categoryID)))
+        mockMvc.perform(get(String.format("/api/recipes/category?categoryId=%s", categoryID)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(2)));
     }

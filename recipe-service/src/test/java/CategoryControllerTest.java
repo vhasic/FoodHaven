@@ -149,7 +149,7 @@ public class CategoryControllerTest {
         String name = "TestCategory"+pictureID;
         UUID categoryID = categoryService.create(new CategoryDTO(name, pictureID));
 
-        mockMvc.perform(get(String.format("/api/categorys/name/%s",name)))
+        mockMvc.perform(get(String.format("/api/categorys/name?name=%s",name)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(is(categoryID.toString())));
     }

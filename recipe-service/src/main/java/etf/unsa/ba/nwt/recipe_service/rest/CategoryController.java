@@ -37,8 +37,8 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> getCategory(@PathVariable final UUID id) {
         return ResponseEntity.ok(categoryService.get(id));
     }
-    @GetMapping("/name/{name}")
-    public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable final String name) {
+    @GetMapping("/name")
+    public ResponseEntity<CategoryDTO> getCategoryByName(@RequestParam final String name) {
         return ResponseEntity.ok(categoryService.getCategoryByName(name));
     }
 

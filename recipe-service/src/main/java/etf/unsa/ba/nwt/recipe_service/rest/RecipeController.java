@@ -9,14 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -38,13 +31,13 @@ public class RecipeController {
     public ResponseEntity<RecipeDTO> getRecipe(@PathVariable final UUID id) {
         return ResponseEntity.ok(recipeService.get(id));
     }
-    @GetMapping("/categorys/{id}")
-    public ResponseEntity<List<RecipeDTO>> getRecipesFromCategory(@PathVariable final UUID id) {
-        return ResponseEntity.ok(recipeService.getRecipesFromCategory(id));
+    @GetMapping("/category")
+    public ResponseEntity<List<RecipeDTO>> getRecipesFromCategory(@RequestParam final String categoryId) {
+        return ResponseEntity.ok(recipeService.getRecipesFromCategory(UUID.fromString(categoryId)));
     }
-    @GetMapping("/users/{id}")
-    public ResponseEntity<List<RecipeDTO>> getRecipesFromUser(@PathVariable final UUID id) {
-        return ResponseEntity.ok(recipeService.getRecipesFromUser(id));
+    @GetMapping("/user")
+    public ResponseEntity<List<RecipeDTO>> getRecipesFromUser(@RequestParam final String userId) {
+        return ResponseEntity.ok(recipeService.getRecipesFromUser(UUID.fromString(userId)));
     }
 
     @PostMapping

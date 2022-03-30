@@ -182,7 +182,7 @@ class UserControllerTest {
         UUID id1 =userService.create(new UserDTO("User1","User1","user4","user4@nesto.com","Password1!", userRoleId));
         UUID id2 =userService.create(new UserDTO("User2","User2","user5","user5@nesto.com","Password1!", userRoleId));
 
-        mockMvc.perform(get(String.format("/api/users/role/User")))
+        mockMvc.perform(get(String.format("/api/users/role?role=User")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(2)));
     }

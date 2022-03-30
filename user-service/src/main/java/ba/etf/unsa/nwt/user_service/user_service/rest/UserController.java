@@ -32,9 +32,9 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable final UUID id) {
         return ResponseEntity.ok(userService.get(id));
     }
-    @GetMapping("/role/{name}")
-    public ResponseEntity<List<UserDTO>> getUserByRole(@PathVariable final String name) {
-        return ResponseEntity.ok(userService.getUsersByRole(name));
+    @GetMapping("/role")
+    public ResponseEntity<List<UserDTO>> getUserByRole(@RequestParam final String role) {
+        return ResponseEntity.ok(userService.getUsersByRole(role));
     }
 
     @PostMapping

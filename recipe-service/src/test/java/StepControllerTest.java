@@ -167,7 +167,7 @@ public class StepControllerTest {
         }
         stepService.create(new StepDTO("Step Description 2...",2, pictureID1, recipeID));
 
-        mockMvc.perform(get(String.format("/api/steps/recipe/%s", recipeID)))
+        mockMvc.perform(get(String.format("/api/steps/recipe?recipeId=%s", recipeID)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.*", hasSize(2)));
     }
@@ -175,7 +175,7 @@ public class StepControllerTest {
     public void getStepXForRecipeTest() throws Exception {
         stepService.create(new StepDTO("Step Description 1...",7, pictureID, recipeID));
 
-        mockMvc.perform(get(String.format("/api/steps/recipe/%s/number/%s", recipeID, 7)))
+        mockMvc.perform(get(String.format("/api/steps/number?recipeId=%s&number=%s", recipeID, 7)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value(is("Step Description 1...")));
     }

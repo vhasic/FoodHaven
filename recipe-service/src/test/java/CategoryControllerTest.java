@@ -49,8 +49,9 @@ public class CategoryControllerTest {
     private StepService stepService;
 
     private UUID pictureID;
+    private UUID picture;
 
-    @Test
+    @BeforeEach
     public void setUpTest() {
         stepService.deleteAll();
         recipeService.deleteAll();
@@ -60,15 +61,13 @@ public class CategoryControllerTest {
         MultipartFile file = null;
         try {
             file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
-            UUID pictureId1=pictureService.create(file);
-            UUID pictureId2=pictureService.create(file);
-            UUID pictureId3=pictureService.create(file);
+            pictureID=pictureService.create(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-/*
+
    @Test
     public void createCategorySuccessTest() throws Exception{
         String name = "Category"+pictureID;
@@ -82,7 +81,13 @@ public class CategoryControllerTest {
     public void createCategoryAlreadyExistTest() throws Exception{
         String name = "Category"+pictureID;
         UUID categoryID = categoryService.create(new CategoryDTO(name, pictureID));
-        UUID picture = pictureService.create(new PictureDTO("testPicture"));
+        MultipartFile file = null;
+        try {
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+            picture=pictureService.create(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mockMvc.perform(post("/api/categorys")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(String.format("{\"name\":\"%s\",\n" +
@@ -93,7 +98,13 @@ public class CategoryControllerTest {
     @Test
     public void updateCategoryTest() throws Exception{
         UUID categoryID = categoryService.create(new CategoryDTO("Category"+pictureID, pictureID));
-        UUID picture=pictureService.create(new PictureDTO("testPicture"));
+        MultipartFile file = null;
+        try {
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+            picture=pictureService.create(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String name = "Category"+picture;
 
         mockMvc.perform(put(String.format("/api/categorys/%s", categoryID))
@@ -141,5 +152,5 @@ public class CategoryControllerTest {
         mockMvc.perform(get(String.format("/api/categorys/name/%s",name)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(is(categoryID.toString())));
-    }*/
+    }
 }

@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +32,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -55,15 +60,22 @@ public class StepControllerTest {
     private UUID categoryID;
     private UUID userID;
     private UUID recipeID;
+    private UUID pictureID1;
 
-    /*@BeforeEach
+    @BeforeEach
     public void beforeEachTest() {
         stepService.deleteAll();
         recipeService.deleteAll();
         categoryService.deleteAll();
         pictureService.deleteAll();
 
-        pictureID=pictureService.create(new PictureDTO("testPicture"));
+        MultipartFile file = null;
+        try {
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+            pictureID=pictureService.create(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         categoryID =categoryService.create(new CategoryDTO("testCategory"+pictureID, pictureID));
         userID = UUID.randomUUID();
         recipeID = recipeService.create(new RecipeDTO("TestName", "TestDescription", 20, userID,pictureID, categoryID));
@@ -146,7 +158,13 @@ public class StepControllerTest {
     @Test
     public void getStepsForRecipeTest() throws Exception {
         stepService.create(new StepDTO("Step Description 1...",1, pictureID, recipeID));
-        UUID pictureID1 = pictureID=pictureService.create(new PictureDTO("testPicture"));
+        MultipartFile file = null;
+        try {
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+            pictureID1=pictureService.create(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         stepService.create(new StepDTO("Step Description 2...",2, pictureID1, recipeID));
 
         mockMvc.perform(get(String.format("/api/steps/recipe/%s", recipeID)))
@@ -164,5 +182,5 @@ public class StepControllerTest {
     @AfterEach
     public void afterEachTest() {
     }
-    */
+
 }

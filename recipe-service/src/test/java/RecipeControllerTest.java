@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,6 +26,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,15 +53,23 @@ public class RecipeControllerTest {
     private UUID pictureID;
     private UUID categoryID;
     private UUID userID;
+    private UUID picture;
+    private UUID picture1;
 
-  /*  @BeforeEach
+    @BeforeEach
     public void beforeEachTest() {
         stepService.deleteAll();
         recipeService.deleteAll();
         categoryService.deleteAll();
         pictureService.deleteAll();
 
-        pictureID=pictureService.create(new PictureDTO("Picture"));
+        MultipartFile file = null;
+        try {
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+            pictureID=pictureService.create(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         categoryID =categoryService.create(new CategoryDTO("Category" + pictureID, pictureID));
         userID = UUID.randomUUID();
     }
@@ -151,7 +164,13 @@ public class RecipeControllerTest {
    @Test
    public void getRecipesFromUserTest() throws Exception {
        UUID recipeID1 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, pictureID, categoryID));
-       UUID picture =pictureService.create(new PictureDTO("Picture"));
+       MultipartFile file = null;
+       try {
+           file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+           picture=pictureService.create(file);
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
        UUID category =categoryService.create(new CategoryDTO("Category" + picture, picture));
        UUID recipeID2 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, picture, category));
 
@@ -162,9 +181,20 @@ public class RecipeControllerTest {
    @Test
    public void getRecipesFromCategoryTest() throws Exception {
         UUID recipeID1 = recipeService.create(new RecipeDTO("Name1", "Description1...", 20, userID, pictureID, categoryID));
-        UUID picture =pictureService.create(new PictureDTO("Picture"));
+       MultipartFile file = null;
+       try {
+           file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+           picture=pictureService.create(file);
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
         UUID recipeID2 = recipeService.create(new RecipeDTO("Name2", "Description2...", 20, UUID.randomUUID(), picture, categoryID));
-        UUID picture1 =pictureService.create(new PictureDTO("Picture"));
+       try {
+           file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
+           picture1=pictureService.create(file);
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
         UUID category1 =categoryService.create(new CategoryDTO("Category" + picture1, picture1));
         UUID recipeID3 = recipeService.create(new RecipeDTO("Name", "Description...", 20, userID, picture1, category1));
 
@@ -174,5 +204,5 @@ public class RecipeControllerTest {
     }
    @AfterEach
    public void afterEachTest() {
-   }*/
+   }
 }

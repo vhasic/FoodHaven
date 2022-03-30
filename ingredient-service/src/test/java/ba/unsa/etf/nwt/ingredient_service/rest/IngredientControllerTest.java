@@ -14,9 +14,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +46,13 @@ public class IngredientControllerTest {
 
     @BeforeEach
     public void beforeEachTest() {
-        pictureID=pictureService.create(new PictureDTO("testPicture"));
+        MultipartFile file = null;
+        try {
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
+            pictureID=pictureService.create(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Test
     public void createIngredientSuccessTest() throws Exception{

@@ -1,131 +1,73 @@
 package ba.unsa.etf.nwt.ingredient_service.rest;
 
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientDTO;
-import ba.unsa.etf.nwt.ingredient_service.model.PictureDTO;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientService;
-import ba.unsa.etf.nwt.ingredient_service.service.PictureService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
+import java.util.List;
 import java.util.UUID;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import javax.validation.Valid;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
 
-@TestPropertySource(locations = "classpath:./application-test.properties")
-@SpringBootTest(classes={ba.unsa.etf.nwt.ingredient_service.IngredientServiceApplication.class})
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-public class IngredientControllerTest {
+@RestController
+@RequestMapping(value = "/api/ingredients", produces = MediaType.APPLICATION_JSON_VALUE)
+public class IngredientController {
+
     @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private PictureService pictureService;
-    @Autowired
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
 
-    private UUID pictureID;
-
-    @BeforeEach
-    public void beforeEachTest() {
-        MultipartFile file = null;
-        try {
-            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
-            pictureID=pictureService.create(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    @Test
-    public void createIngredientSuccessTest() throws Exception{
-        mockMvc.perform(post("/api/ingredients")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.format("{\n" +
-                                "    \"name\" : \"TestIngredient\",\n" +
-                                "    \"calorieCount\":\"100\",\n" +
-                                "    \"vitamins\":20, \n" +
-                                "    \"carbohidrates\":30, \n" +
-                                "    \"fat\":10, \n" +
-                                "    \"proteins\":0, \n" +
-                                "    \"measuringUnit\":\"gram\", \n" +
-                                "    \"ingredientPicture\": \"%s\"\n" +
-                                "\n" +
-                                "}", pictureID)))
-                .andExpect(status().isCreated());
+    public IngredientController(final IngredientService ingredientService) {
+        this.ingredientService = ingredientService;
     }
 
-    @Test
-    public void createIngredientValidationsBlank() throws Exception {
-        mockMvc.perform(post("/api/ingredients")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.format("{\n" +
-                                "    \"name\" : \"\",\n" +
-                                "    \"calorieCount\":\"100\",\n" +
-                                "    \"vitamins\":20, \n" +
-                                "    \"carbohidrates\":30, \n" +
-                                "    \"fat\":10, \n" +
-                                "    \"proteins\":0, \n" +
-                                "    \"measuringUnit\":\"gram\", \n" +
-                                "    \"ingredientPicture\": \"%s\"\n" +
-                                "\n" +
-                                "}", pictureID)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.fieldErrors[*].field", containsInAnyOrder("Ingredient name is required")))
-        ;
+    @GetMapping
+    public ResponseEntity<List<IngredientDTO>> getAllIngredients() {
+        return ResponseEntity.ok(ingredientService.findAll());
     }
 
-    @Test
-    public void deleteIngredientSuccess() throws Exception {
-        UUID ingredientID = ingredientService.create(new IngredientDTO("TestIngredient", 100, 20, 30, 10, 0, "gram",pictureID));
-        mockMvc.perform(delete(String.format("/api/ingredients/%s", ingredientID)))
-                .andExpect(status().isOk());
+    @GetMapping("/{id}")
+    public ResponseEntity<IngredientDTO> getIngredient(@PathVariable final UUID id) {
+        return ResponseEntity.ok(ingredientService.get(id));
     }
 
-    @Test
-    public void getIngredientByIdSuccess() throws Exception {
-        UUID ingredientID = ingredientService.create(new IngredientDTO("TestIngredient", 100, 20, 30, 10, 0, "gram",pictureID));
-        mockMvc.perform(get(String.format("/api/ingredients/%s", ingredientID)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(is(ingredientID.toString())));
-    }
-    @Test
-    public void getIngredientByIdError() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredients/01011001-e012-1111-bd11-2c2a4faef0fc")))
-                .andExpect(status().isNotFound());
+    @PostMapping
+    public ResponseEntity<UUID> createIngredient(
+            @RequestBody @Valid final IngredientDTO ingredientDTO) {
+        return new ResponseEntity<>(ingredientService.create(ingredientDTO), HttpStatus.CREATED);
     }
 
-    @Test
-    public void getTotalCaloriesSuccess() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredients/totalCalories/0826a497-202c-4cfb-9191-b474f3e3c8df")))
-                .andExpect(status().isOk());
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateIngredient(@PathVariable final UUID id,
+                                                   @RequestBody @Valid final IngredientDTO ingredientDTO) {
+        ingredientService.update(id, ingredientDTO);
+        return ResponseEntity.ok("Successfully updated!");
     }
 
-    @Test
-    public void getTotalCaloriesError() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredients/totalCalories/01011001-e012-1111-bd11-2c2a4faef0fc")))
-                .andExpect(jsonPath("$").doesNotExist());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteIngredient(@PathVariable final UUID id) {
+        ingredientService.delete(id);
+        return ResponseEntity.ok("Successfully delated!");
     }
 
-    @AfterEach
-    public void afterEachTest() {
+    @DeleteMapping
+    public ResponseEntity<String> deleteAll() {
+        ingredientService.deleteAll();
+        return ResponseEntity.ok("Successfully deleted all!");
+    }
+
+    @GetMapping("/totalCalories/{id}")
+    public ResponseEntity<Integer> getTotalCalories(@PathVariable final UUID id) {
+        return ResponseEntity.ok(ingredientService.getTotalCalories(id));
     }
 }
-

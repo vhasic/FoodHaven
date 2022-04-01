@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 
 @RestController
@@ -21,10 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class RatingController {
     @Autowired
     private RatingService ratingService;
-
-//    public RatingController(final RatingService ratingService) {
-//        this.ratingService = ratingService;
-//    }
 
     @GetMapping
     public ResponseEntity<List<RatingDTO>> getAllRatings() {

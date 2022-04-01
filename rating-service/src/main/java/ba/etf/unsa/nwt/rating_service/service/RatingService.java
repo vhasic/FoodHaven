@@ -1,6 +1,8 @@
 package ba.etf.unsa.nwt.rating_service.service;
 
 import ba.etf.unsa.nwt.rating_service.domain.Rating;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import ba.etf.unsa.nwt.rating_service.model.RatingDTO;
 import ba.etf.unsa.nwt.rating_service.repos.RatingRepository;
 import java.util.List;
@@ -9,7 +11,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -17,6 +22,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class RatingService {
     @Autowired
     private RatingRepository ratingRepository;
+    @Autowired
+    private RestTemplate restTemplate;
+    private final DiscoveryClient discoveryClient;
+
+    @Autowired
+    public RatingService(DiscoveryClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+    }
+
 
 //    public RatingService(final RatingRepository ratingRepository) {
 //        this.ratingRepository = ratingRepository;
@@ -37,8 +51,21 @@ public class RatingService {
 
     public UUID create(final RatingDTO ratingDTO) {
         final Rating rating = new Rating();
-        mapToEntity(ratingDTO, rating);
-        return ratingRepository.save(rating).getId();
+        UUID id=null;
+        ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("recipe-service").get(0);
+        String resourceURL = serviceInstanceRecipe.getUri() + "/api/recipes/";
+        try {
+            ResponseEntity<String> response= restTemplate.getForEntity(resourceURL+ratingDTO.getRecipeId(), String.class);
+            if (response.getStatusCode().equals(HttpStatus.OK)){
+                mapToEntity(ratingDTO, rating);
+                id=ratingRepository.save(rating).getId();
+            }
+        }catch ( Exception e ){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe with given id doesn't exist");
+        }
+
+        return id;
+//        return ratingRepository.save(rating).getId();
     }
 
     public void update(final UUID id, final RatingDTO ratingDTO) {

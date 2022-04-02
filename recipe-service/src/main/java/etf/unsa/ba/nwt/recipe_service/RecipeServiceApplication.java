@@ -33,21 +33,28 @@ public class RecipeServiceApplication {
     @Bean
     public CommandLineRunner demo(RecipeService recipeService, PictureService pictureService, CategoryService categoryService, StepService stepService) {
         return (args) -> {
-           /* MultipartFile file = null;
             try {
-                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("recipe-service/src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
-                UUID pictureId1=pictureService.create(file);
-                UUID pictureId2=pictureService.create(file);
-                UUID pictureId3=pictureService.create(file);
 
+                stepService.deleteAll();
+                recipeService.deleteAll();
+                categoryService.deleteAll();
+                pictureService.deleteAll();
+
+                File file = new File("recipe-service/src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
+                FileInputStream fis = new FileInputStream(file);
+                MockMultipartFile multipart = new MockMultipartFile("file", file.getName(), "image/jpeg", fis);
+
+                UUID pictureId1=pictureService.create(multipart);
+                UUID pictureId2=pictureService.create(multipart);
+                UUID pictureId3=pictureService.create(multipart);
 
                 UUID categoryId1 =categoryService.create(new CategoryDTO("French", pictureId1));
                 UUID categoryId2 =categoryService.create(new CategoryDTO("Italian", pictureId2));
                 UUID categoryId3 =categoryService.create(new CategoryDTO("Mexican", pictureId3));
 
-                UUID recipeId1 = recipeService.create(new RecipeDTO("Creme brulee", "This Creme Brulee recipe is delicious, creamy, and the most perfect French dessert...", 30, UUID.randomUUID(),pictureId1 ,categoryId1));
-                UUID recipeId2 = recipeService.create(new RecipeDTO("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, UUID.randomUUID(),pictureId2, categoryId2));
-                UUID recipeId3 = recipeService.create(new RecipeDTO("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, UUID.randomUUID(), pictureId3,categoryId3));
+                UUID recipeId1 = recipeService.create(new RecipeDTO("Creme brulee", "This Creme Brulee recipe is delicious, creamy, and the most perfect French dessert...", 30, UUID.fromString("8a3e904c-dc70-45dd-8a8b-766817dec1e6"), pictureId1, categoryId1));
+                UUID recipeId2 = recipeService.create(new RecipeDTO("Tajarin al Tartufo", "Tajarin is the Piemontese version of tagliatelle.", 20, UUID.fromString("8a3e904c-dc70-45dd-8a8b-766817dec1e6"),pictureId2, categoryId2));
+                UUID recipeId3 = recipeService.create(new RecipeDTO("Mexican Tortilla", "Tortillas are an all-time family favourite down Mexico way, and they're fast becoming just as popular around Kiwi tables. ", 40, UUID.fromString("8a3e904c-dc70-45dd-8a8b-766817dec1e6"), pictureId3,categoryId3));
 
                 stepService.create(new StepDTO("In saucepan, combine milk and whipping cream",1, pictureId1, recipeId1));
                 stepService.create(new StepDTO("Heat a non-stick frying pan or wok with a dash of oil, stir fry schnitzel strips until browned, this is best done in two batches, set aside.",1, pictureId2,recipeId2));
@@ -55,6 +62,6 @@ public class RecipeServiceApplication {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        */};
+        };
     }
 }

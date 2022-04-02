@@ -59,9 +59,7 @@ public class PictureControllerTest {
     public void uploadPictureSuccessTest() throws Exception{
         File file = new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
         FileInputStream fis = new FileInputStream(file);
-        MockMultipartFile multipart = new MockMultipartFile(
-                "file", file.getName(), "multipart/form-data",
-                fis);
+        MockMultipartFile multipart = new MockMultipartFile("file", file.getName(), "image/jpeg", fis);
         mockMvc.perform(MockMvcRequestBuilders
                         .multipart("/api/pictures/upload").file(multipart))
                 .andExpect(status().isCreated());

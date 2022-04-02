@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, UUID> {
 
-    @Query(value = "SELECT avg(rating) FROM reviewservicedb.rating r where r.recipe_id=:recipeId", nativeQuery = true)
+    @Query(value = "SELECT avg(rating) FROM Rating r where r.recipe_id=:recipeId", nativeQuery = true)
     Double getAverageRatingByRecipeId(String recipeId); // ovdje nije radio parametar UUID, već je morao biti String
 
     Integer countByRecipeId(UUID recipeId);

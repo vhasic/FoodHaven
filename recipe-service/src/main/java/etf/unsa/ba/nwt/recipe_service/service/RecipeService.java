@@ -10,24 +10,39 @@ import etf.unsa.ba.nwt.recipe_service.repos.RecipeRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
 public class RecipeService {
 
+    @Autowired
     private final RecipeRepository recipeRepository;
+    @Autowired
     private final PictureRepository pictureRepository;
+    @Autowired
     private final CategoryRepository categoryRepository;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private final DiscoveryClient discoveryClient;
 
     public RecipeService(final RecipeRepository recipeRepository,
             final PictureRepository pictureRepository,
-            final CategoryRepository categoryRepository) {
+            final CategoryRepository categoryRepository,
+                         final DiscoveryClient discoveryClient) {
         this.recipeRepository = recipeRepository;
         this.pictureRepository = pictureRepository;
         this.categoryRepository = categoryRepository;
+        this.discoveryClient = discoveryClient;
     }
 
     public List<RecipeDTO> findAll() {
@@ -57,8 +72,25 @@ public class RecipeService {
 
     public UUID create(final RecipeDTO recipeDTO) {
         final Recipe recipe = new Recipe();
-        mapToEntity(recipeDTO, recipe);
-        return recipeRepository.save(recipe).getId();
+        UUID recipeID = null;
+        ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("user-service").get(0);
+        String resourceURL = serviceInstanceRecipe.getUri() + "/api/users/";
+        boolean userExist = false;
+        try{
+            ResponseEntity<String> response= restTemplate.getForEntity(resourceURL+recipeDTO.getUserID(), String.class);
+            if (response.getStatusCode().equals(HttpStatus.OK)) {
+                userExist = true;
+
+            }
+        }catch(Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id doesn't exist");
+        }
+        if(userExist)
+        {
+            mapToEntity(recipeDTO, recipe);
+            recipeID = recipeRepository.save(recipe).getId();
+        }
+        return recipeID;
     }
 
     public void update(final UUID id, final RecipeDTO recipeDTO) {

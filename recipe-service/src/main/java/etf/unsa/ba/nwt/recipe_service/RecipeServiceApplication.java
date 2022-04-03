@@ -33,7 +33,7 @@ public class RecipeServiceApplication {
     @Bean
     public CommandLineRunner demo(RecipeService recipeService, PictureService pictureService, CategoryService categoryService, StepService stepService) {
         return (args) -> {
-            try {
+            /*try {
 
                 stepService.deleteAll();
                 recipeService.deleteAll();
@@ -62,6 +62,6 @@ public class RecipeServiceApplication {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        };
+        */};
     }
 }

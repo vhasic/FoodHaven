@@ -58,10 +58,11 @@ public class CategoryControllerTest {
         categoryService.deleteAll();
         pictureService.deleteAll();
 
-        MultipartFile file = null;
         try {
-            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
-            pictureID=pictureService.create(file);
+            File file = new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
+            FileInputStream fis = new FileInputStream(file);
+            MockMultipartFile multipart = new MockMultipartFile("file", file.getName(), "image/jpeg", fis);
+            pictureID=pictureService.create(multipart);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,10 +82,12 @@ public class CategoryControllerTest {
     public void createCategoryAlreadyExistTest() throws Exception{
         String name = "Category"+pictureID;
         UUID categoryID = categoryService.create(new CategoryDTO(name, pictureID));
-        MultipartFile file = null;
+
         try {
-            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
-            picture=pictureService.create(file);
+            File file = new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
+            FileInputStream fis = new FileInputStream(file);
+            MockMultipartFile multipart = new MockMultipartFile("file", file.getName(), "image/jpeg", fis);
+            picture=pictureService.create(multipart);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,10 +101,11 @@ public class CategoryControllerTest {
     @Test
     public void updateCategoryTest() throws Exception{
         UUID categoryID = categoryService.create(new CategoryDTO("Category"+pictureID, pictureID));
-        MultipartFile file = null;
         try {
-            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg")));
-            picture=pictureService.create(file);
+            File file = new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
+            FileInputStream fis = new FileInputStream(file);
+            MockMultipartFile multipart = new MockMultipartFile("file", file.getName(), "image/jpeg", fis);
+            picture=pictureService.create(multipart);
         } catch (IOException e) {
             e.printStackTrace();
         }

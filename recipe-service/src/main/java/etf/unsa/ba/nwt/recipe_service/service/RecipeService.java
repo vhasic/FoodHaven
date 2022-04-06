@@ -35,7 +35,7 @@ public class RecipeService {
 
     private final DiscoveryClient discoveryClient;
 
-    public RecipeService(final RecipeRepository recipeRepository,
+   /* public RecipeService(final RecipeRepository recipeRepository,
             final PictureRepository pictureRepository,
             final CategoryRepository categoryRepository,
                          final DiscoveryClient discoveryClient) {
@@ -43,6 +43,13 @@ public class RecipeService {
         this.pictureRepository = pictureRepository;
         this.categoryRepository = categoryRepository;
         this.discoveryClient = discoveryClient;
+    }*/
+    public RecipeService(RecipeRepository recipeRepository, RestTemplate restTemplate, DiscoveryClient discoveryClient, PictureRepository pictureRepository, CategoryRepository categoryRepository) {
+        this.recipeRepository = recipeRepository;
+        this.restTemplate = restTemplate;
+        this.discoveryClient = discoveryClient;
+        this.pictureRepository = pictureRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<RecipeDTO> findAll() {

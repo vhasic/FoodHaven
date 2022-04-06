@@ -3,6 +3,8 @@ import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
 import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.model.StepDTO;
+import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
+import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.RecipeRepository;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import etf.unsa.ba.nwt.recipe_service.service.PictureService;
@@ -11,14 +13,14 @@ import etf.unsa.ba.nwt.recipe_service.service.StepService;
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -29,6 +31,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -40,6 +45,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -61,8 +67,17 @@ public class StepControllerTest {
     private RecipeService recipeService;
     @Autowired
     private StepService stepService;
-    @Autowired
+
+    @Mock
     private DiscoveryClient discoveryClient;
+    @Mock
+    private RestTemplate restTemplate;
+    @Autowired
+    private RecipeRepository recipeRepository;
+    @Autowired
+    private PictureRepository pictureRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     private UUID pictureID;
     private UUID categoryID;
@@ -71,44 +86,24 @@ public class StepControllerTest {
     private UUID pictureID1;
     private String stringUserID;
 
-    @BeforeAll
-    public void beforeAll() {
-        try{
-            RestTemplate restTemplate = new RestTemplate();
-            ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("user-service").get(0);
-            String resourceURL = serviceInstanceRecipe.getUri() + "/api/users/";
-            URI uri = new URI(resourceURL);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            int length = 10;
-            boolean useLetters = true;
-            boolean useNumbers = false;
-            String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-            String username = "user" + generatedString;
-
-            JSONObject json = new JSONObject();
-            json.put("firstName", "TestUser");
-            json.put("lastName", "TestUser");
-            json.put("username", username);
-            json.put("email", username+"@gmail.com");
-            json.put("password", "Password2!");
-
-            HttpEntity<String> httpEntity = new HttpEntity<>(json.toString(), headers);
-            stringUserID = restTemplate.postForObject(uri, httpEntity, String.class);
-        } catch (Exception e) {
-            System.out.println("Can't connect to user_service");
-        }
-        userID = UUID.fromString(stringUserID.substring(1, 37));
-    }
-
     @BeforeEach
-    public void beforeEachTest() {
+    public void beforeEach() {
         stepService.deleteAll();
         recipeService.deleteAll();
         categoryService.deleteAll();
         pictureService.deleteAll();
 
+        String resourceURL="http://localhost:8083";
+        MockitoAnnotations.initMocks(this);
+        ServiceInstance si = mock(ServiceInstance.class);
+        when(si.getUri()).thenReturn(URI.create(resourceURL));
+        doReturn(List.of(si)).when(discoveryClient).getInstances(anyString());
+        userID= UUID.fromString("9374c7fa-9b39-42d0-af4a-b4f93701cd9a");
+
+        ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("user-service").get(0);
+        resourceURL = serviceInstanceRecipe.getUri() + "/api/users/";
+        doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+userID,String.class);
+        recipeService=new RecipeService(recipeRepository,restTemplate,discoveryClient, pictureRepository, categoryRepository);
         try {
             File file = new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
             FileInputStream fis = new FileInputStream(file);
@@ -117,10 +112,11 @@ public class StepControllerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        categoryID =categoryService.create(new CategoryDTO("testCategory"+pictureID, pictureID));
+        categoryID =categoryService.create(new CategoryDTO("Category" + pictureID, pictureID));
         recipeID = recipeService.create(new RecipeDTO("TestName", "TestDescription", 20, userID,pictureID, categoryID));
 
     }
+
    @Test
     public void createCategorySuccessTest() throws Exception{
         mockMvc.perform(post("/api/steps")
@@ -197,16 +193,16 @@ public class StepControllerTest {
     }
     @Test
     public void getStepsForRecipeTest() throws Exception {
-        stepService.create(new StepDTO("Step Description 1...",1, pictureID, recipeID));
+        stepService.create(new StepDTO("Step Description 1...", 1, pictureID, recipeID));
         try {
             File file = new File("src/main/java/etf/unsa/ba/nwt/recipe_service/image/image.jpg");
             FileInputStream fis = new FileInputStream(file);
             MockMultipartFile multipart = new MockMultipartFile("file", file.getName(), "image/jpeg", fis);
-            pictureID1=pictureService.create(multipart);
+            pictureID1 = pictureService.create(multipart);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stepService.create(new StepDTO("Step Description 2...",2, pictureID1, recipeID));
+        stepService.create(new StepDTO("Step Description 2...", 2, pictureID1, recipeID));
 
         mockMvc.perform(get(String.format("/api/steps/recipe?recipeId=%s", recipeID)))
                 .andExpect(status().isOk())

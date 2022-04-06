@@ -107,7 +107,7 @@ public class IngredientRecipeControllerTest {
     }
     @Test
     public void getIngredientRecipeByIdError() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredientRecipes/01011001-e012-1111-bd11-2c2a4faef0fc")))
+        mockMvc.perform(get(String.format("/api/ingredientRecipes/11111111-1111-1111-1111-111111111111")))
                 .andExpect(status().isNotFound());
     }
 

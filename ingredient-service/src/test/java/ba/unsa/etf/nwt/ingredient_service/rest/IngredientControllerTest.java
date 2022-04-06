@@ -108,7 +108,7 @@ public class IngredientControllerTest {
     }
     @Test
     public void getIngredientByIdError() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredients/01011001-e012-1111-bd11-2c2a4faef0fc")))
+        mockMvc.perform(get(String.format("/api/ingredients/11111111-1111-1111-1111-111111111111")))
                 .andExpect(status().isNotFound());
     }
 
@@ -120,7 +120,7 @@ public class IngredientControllerTest {
 
     @Test
     public void getTotalCaloriesError() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredients/totalCalories/01011001-e012-1111-bd11-2c2a4faef0fc")))
+        mockMvc.perform(get(String.format("/api/ingredients/totalCalories/11111111-1111-1111-1111-111111111111")))
                 .andExpect(jsonPath("$").doesNotExist());
     }
 

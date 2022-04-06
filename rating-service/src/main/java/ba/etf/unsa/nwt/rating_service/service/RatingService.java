@@ -31,8 +31,12 @@ public class RatingService {
         this.discoveryClient = discoveryClient;
     }
 
-
-//    public RatingService(final RatingRepository ratingRepository) {
+    public RatingService(RatingRepository ratingRepository, RestTemplate restTemplate, DiscoveryClient discoveryClient) {
+        this.ratingRepository = ratingRepository;
+        this.restTemplate = restTemplate;
+        this.discoveryClient = discoveryClient;
+    }
+    //    public RatingService(final RatingRepository ratingRepository) {
 //        this.ratingRepository = ratingRepository;
 //    }
 

@@ -7,22 +7,34 @@ import ba.unsa.etf.nwt.ingredient_service.service.PictureService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 
+import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.mockito.Mock;
+
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +46,7 @@ import static org.hamcrest.Matchers.is;
 @SpringBootTest(classes={ba.unsa.etf.nwt.ingredient_service.IngredientServiceApplication.class})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class IngredientControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -41,14 +54,30 @@ public class IngredientControllerTest {
     private PictureService pictureService;
     @Autowired
     private IngredientService ingredientService;
+    @Mock
+    private DiscoveryClient discoveryClient;
+    @Mock
+    private RestTemplate restTemplate;
+    private MockRestServiceServer mockServer;
 
     private UUID pictureID;
+    private UUID recipeID;
 
     @BeforeEach
     public void beforeEachTest() {
+        String resourceURL="http://localhost:8083";
+        MockitoAnnotations.initMocks(this);
+        ServiceInstance si = mock(ServiceInstance.class);
+        when(si.getUri()).thenReturn(URI.create(resourceURL));
+        doReturn(List.of(si)).when(discoveryClient).getInstances(anyString());
+        recipeID= UUID.fromString("0826a497-202c-4cfb-9191-b474f3e3c8df");
+
+        ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("recipe-service").get(0);
+        resourceURL = serviceInstanceRecipe.getUri() + "/api/recipes/";
+        doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+recipeID,String.class);
         MultipartFile file = null;
         try {
-            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
+            file = new MockMultipartFile("image.jpg", new FileInputStream(new File("ingredient-service/src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
             pictureID=pictureService.create(file);
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,14 +143,16 @@ public class IngredientControllerTest {
 
     @Test
     public void getTotalCaloriesSuccess() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredients/totalCalories/0826a497-202c-4cfb-9191-b474f3e3c8df")))
-                .andExpect(status().isOk());
+        String path = "/api/ingredients/totalCalories/"+recipeID;
+        mockMvc.perform(get(String.format(path)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalCalories").value(isNotNull()));
     }
 
     @Test
     public void getTotalCaloriesError() throws Exception {
         mockMvc.perform(get(String.format("/api/ingredients/totalCalories/11111111-1111-1111-1111-111111111111")))
-                .andExpect(jsonPath("$").doesNotExist());
+                .andExpect(jsonPath("$.totalCalories").value(is(null)));
     }
 
     @AfterEach

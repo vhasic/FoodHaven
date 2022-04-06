@@ -23,19 +23,24 @@ import org.springframework.web.client.RestTemplate;
 public class IngredientService {
 
     @Autowired
-    private final IngredientRepository ingredientRepository;
+    private IngredientRepository ingredientRepository;
     @Autowired
-    private final PictureRepository pictureRepository;
+    private PictureRepository pictureRepository;
     @Autowired
     private RestTemplate restTemplate;
-
     private final DiscoveryClient discoveryClient;
+
+    @Autowired
+    public IngredientService(DiscoveryClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+    }
 
     public IngredientService(final IngredientRepository ingredientRepository,
             final PictureRepository pictureRepository,
-                             final DiscoveryClient discoveryClient) {
+                             RestTemplate restTemplate, DiscoveryClient discoveryClient) {
         this.ingredientRepository = ingredientRepository;
         this.pictureRepository = pictureRepository;
+        this.restTemplate = restTemplate;
         this.discoveryClient = discoveryClient;
     }
 
@@ -103,20 +108,15 @@ public class IngredientService {
     }
 
     public Integer getTotalCalories(UUID id) {
-        ServiceInstance serviceInstanceIngredient = discoveryClient.getInstances("recipe-service").get(0);
-        String resourceURL = serviceInstanceIngredient.getUri() + "/api/recipes/";
-        boolean userExist = false;
-        try{
+        ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("recipe-service").get(0);
+        String resourceURL = serviceInstanceRecipe.getUri() + "/api/recipes/";
+        try {
             ResponseEntity<String> response= restTemplate.getForEntity(resourceURL+id, String.class);
-            if (response.getStatusCode().equals(HttpStatus.OK)) {
-                userExist = true;
-
+            if (response.getStatusCode().equals(HttpStatus.OK)){
+                return ingredientRepository.getTotalCalories(id.toString());
             }
-        }catch(Exception e) {
+        }catch ( Exception e ){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe with given id doesn't exist");
-        }
-        if(userExist) {
-            return ingredientRepository.getTotalCalories(id.toString());
         }
         return null;
     }

@@ -2,7 +2,10 @@ package ba.unsa.etf.nwt.ingredient_service.rest;
 
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientDTO;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.validation.Valid;
 
@@ -24,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/ingredients", produces = MediaType.APPLICATION_JSON_VALUE)
 public class IngredientController {
 
-    @Autowired
     private final IngredientService ingredientService;
 
     public IngredientController(final IngredientService ingredientService) {
@@ -66,8 +68,12 @@ public class IngredientController {
         return ResponseEntity.ok("Successfully deleted all!");
     }
 
-    @GetMapping("/totalCalories/{id}")
-    public ResponseEntity<Integer> getTotalCalories(@PathVariable final UUID id) {
-        return ResponseEntity.ok(ingredientService.getTotalCalories(id));
+    @GetMapping(value = "/totalCalories/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getTotalCalories(@PathVariable final UUID id) {
+        Integer totalCalories = ingredientService.getTotalCalories(id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("totalCalories", totalCalories);
+
+        return ResponseEntity.ok(map);
     }
 }

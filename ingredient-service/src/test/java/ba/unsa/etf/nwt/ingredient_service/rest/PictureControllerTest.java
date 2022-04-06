@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.mock.web.MockMultipartFile;
 
@@ -80,7 +81,7 @@ public class PictureControllerTest {
     }
     @Test
     public void getPictureByIdError() throws Exception {
-        mockMvc.perform(get(String.format("/api/ingredientPictures/01011001-e012-1111-bd11-2c2a4faef0fc")))
+        mockMvc.perform(get(String.format("/api/ingredientPictures/11111111-1111-1111-1111-111111111111")))
                 .andExpect(status().isNotFound());
     }
 

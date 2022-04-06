@@ -10,9 +10,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.web.client.RestTemplate;
 
 
 @Service
@@ -22,11 +26,17 @@ public class IngredientService {
     private final IngredientRepository ingredientRepository;
     @Autowired
     private final PictureRepository pictureRepository;
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private final DiscoveryClient discoveryClient;
 
     public IngredientService(final IngredientRepository ingredientRepository,
-            final PictureRepository pictureRepository) {
+            final PictureRepository pictureRepository,
+                             final DiscoveryClient discoveryClient) {
         this.ingredientRepository = ingredientRepository;
         this.pictureRepository = pictureRepository;
+        this.discoveryClient = discoveryClient;
     }
 
     public List<IngredientDTO> findAll() {
@@ -93,7 +103,22 @@ public class IngredientService {
     }
 
     public Integer getTotalCalories(UUID id) {
-        return ingredientRepository.getTotalCalories(id.toString());
+        ServiceInstance serviceInstanceIngredient = discoveryClient.getInstances("recipe-service").get(0);
+        String resourceURL = serviceInstanceIngredient.getUri() + "/api/recipes/";
+        boolean userExist = false;
+        try{
+            ResponseEntity<String> response= restTemplate.getForEntity(resourceURL+id, String.class);
+            if (response.getStatusCode().equals(HttpStatus.OK)) {
+                userExist = true;
+
+            }
+        }catch(Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe with given id doesn't exist");
+        }
+        if(userExist) {
+            return ingredientRepository.getTotalCalories(id.toString());
+        }
+        return null;
     }
 
 }

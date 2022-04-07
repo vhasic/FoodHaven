@@ -39,11 +39,11 @@ public class IngredientServiceApplication {
         return (args) -> {
             MultipartFile file = null;
             try {
-                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
+                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("ingredient-service/src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
                 UUID p1=pictureService.create(file);
                 UUID p2=pictureService.create(file);
                 UUID p3=pictureService.create(file);
-                UUID uuid= UUID.randomUUID();
+                UUID uuid = UUID.fromString("0142b320-c67f-4d29-a58b-38a5cf6ec632");
                 UUID r1 = ingredientService.create(new IngredientDTO("Chicken", 200,
                         0, 12, 3, 12, "gram", p1));
                 UUID r2 = ingredientService.create(new IngredientDTO("Milk", 200,

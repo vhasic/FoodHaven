@@ -24,7 +24,7 @@ public class RatingService {
     private RatingRepository ratingRepository;
     @Autowired
     private RestTemplate restTemplate;
-    private final DiscoveryClient discoveryClient;
+    private DiscoveryClient discoveryClient;
 
     @Autowired
     public RatingService(DiscoveryClient discoveryClient) {
@@ -35,6 +35,13 @@ public class RatingService {
         this.ratingRepository = ratingRepository;
         this.restTemplate = restTemplate;
         this.discoveryClient = discoveryClient;
+    }
+    public void setDiscoveryClient(DiscoveryClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
     //    public RatingService(final RatingRepository ratingRepository) {
 //        this.ratingRepository = ratingRepository;

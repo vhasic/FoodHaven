@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/ingredient-service/ingredient-service.iml" filepath="$PROJECT_DIR$/ingredient-service/ingredient-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/rating-service/rating-service.iml" filepath="$PROJECT_DIR$/rating-service/rating-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/recipe-service/recipe-service.iml" filepath="$PROJECT_DIR$/recipe-service/recipe-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/system-events-service/system-events-service.iml" filepath="$PROJECT_DIR$/system-events-service/system-events-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/user-service/user-service.iml" filepath="$PROJECT_DIR$/user-service/user-service.iml" />
     </modules>
   </component>

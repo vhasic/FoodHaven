@@ -47,13 +47,4 @@ public class Action {
 
     @Column(nullable = false)
     private String responseType;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private OffsetDateTime dateCreated;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private OffsetDateTime lastUpdated;
-
 }

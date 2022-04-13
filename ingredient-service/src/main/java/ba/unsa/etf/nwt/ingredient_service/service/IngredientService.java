@@ -28,7 +28,7 @@ public class IngredientService {
     private PictureRepository pictureRepository;
     @Autowired
     private RestTemplate restTemplate;
-    private final DiscoveryClient discoveryClient;
+    private DiscoveryClient discoveryClient;
 
     @Autowired
     public IngredientService(DiscoveryClient discoveryClient) {
@@ -42,6 +42,14 @@ public class IngredientService {
         this.pictureRepository = pictureRepository;
         this.restTemplate = restTemplate;
         this.discoveryClient = discoveryClient;
+    }
+
+    public void setDiscoveryClient(DiscoveryClient discoveryClient) {
+        this.discoveryClient = discoveryClient;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     public List<IngredientDTO> findAll() {

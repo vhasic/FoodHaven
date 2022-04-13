@@ -37,6 +37,7 @@ public class IngredientServiceApplication {
     public CommandLineRunner demo(PictureService pictureService, IngredientService ingredientService,
                                   IngredientRecipeService ingredientRecipeService) {
         return (args) -> {
+            /*
             MultipartFile file = null;
             try {
                 file = new MockMultipartFile("image.jpg", new FileInputStream(new File("ingredient-service/src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
@@ -56,6 +57,8 @@ public class IngredientServiceApplication {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+             */
 
         };
     }

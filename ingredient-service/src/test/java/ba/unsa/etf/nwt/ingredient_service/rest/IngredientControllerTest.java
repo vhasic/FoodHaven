@@ -65,13 +65,12 @@ public class IngredientControllerTest {
 
     @BeforeEach
     public void beforeEachTest() {
-        String resourceURL="http://localhost:8083";
+        recipeID= UUID.fromString("0142b320-c67f-4d29-a58b-38a5cf6ec632");
+        String resourceURL="http://localhost:8082";
         MockitoAnnotations.initMocks(this);
         ServiceInstance si = mock(ServiceInstance.class);
         when(si.getUri()).thenReturn(URI.create(resourceURL));
         doReturn(List.of(si)).when(discoveryClient).getInstances(anyString());
-        recipeID= UUID.fromString("0142b320-c67f-4d29-a58b-38a5cf6ec632");
-
         ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("recipe-service").get(0);
         resourceURL = serviceInstanceRecipe.getUri() + "/api/recipes/";
         doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+recipeID,String.class);
@@ -82,6 +81,8 @@ public class IngredientControllerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ingredientService.setDiscoveryClient(discoveryClient);
+        ingredientService.setRestTemplate(restTemplate);
     }
     @Test
     public void createIngredientSuccessTest() throws Exception{
@@ -143,15 +144,14 @@ public class IngredientControllerTest {
 
 //    @Test
 //    public void getTotalCaloriesSuccess() throws Exception {
-//        String path = "/api/ingredients/totalCalories/"+recipeID;
-//        mockMvc.perform(get(String.format(path)))
+//        mockMvc.perform(get("/ingredients/totalCalories/recipe").param("recipeId",recipeID.toString()))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.totalCalories").value(isNotNull()));
 //    }
 //
 //    @Test
 //    public void getTotalCaloriesError() throws Exception {
-//        mockMvc.perform(get(String.format("/api/ingredients/totalCalories/11111111-1111-1111-1111-111111111111")))
+//        mockMvc.perform(get("/ingredients/totalCalories/recipe").param("recipeId","11111111-1111-1111-1111-111111111111"))
 //                .andExpect(status().isNotFound());
 //    }
 

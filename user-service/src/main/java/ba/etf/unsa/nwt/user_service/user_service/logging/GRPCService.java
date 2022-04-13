@@ -28,7 +28,7 @@ public class GRPCService {
             ActionsServiceGrpc.ActionsServiceBlockingStub stub = ActionsServiceGrpc.newBlockingStub(channel);
             ActionsRequest actionsRequest=ActionsRequest.newBuilder()
                     .setTimestamp(Timestamp.newBuilder().setSeconds(now.getEpochSecond()).setNanos(now.getNano()).build())
-                    .setService("rating-service")
+                    .setService("user-service")
                     .setActionType(actionType)
                     .setResourceName(resourceName)
                     .setResponseType(responseType)

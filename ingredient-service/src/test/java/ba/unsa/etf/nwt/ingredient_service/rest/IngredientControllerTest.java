@@ -141,7 +141,8 @@ public class IngredientControllerTest {
         mockMvc.perform(get(String.format("/api/ingredients/11111111-1111-1111-1111-111111111111")))
                 .andExpect(status().isNotFound());
     }
-
+    
+//    only after running recipe-service tests work
 //    @Test
 //    public void getTotalCaloriesSuccess() throws Exception {
 //        mockMvc.perform(get("/ingredients/totalCalories/recipe").param("recipeId",recipeID.toString()))

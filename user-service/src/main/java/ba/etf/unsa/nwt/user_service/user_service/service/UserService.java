@@ -41,6 +41,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public UserDTO getUserByUsername(final String username) {
+        return mapToDTO(userRepository.getUserByUsername(username),new UserDTO());
+    }
 
     public UserDTO get(final UUID id) {
         return userRepository.findById(id)

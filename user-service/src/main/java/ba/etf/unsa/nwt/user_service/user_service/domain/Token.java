@@ -67,4 +67,9 @@ public class Token {
     @Column(nullable = false)
     private OffsetDateTime lastUpdated;
 
+
+    public Boolean isExpired() {
+        OffsetDateTime expiryTime = dateCreated.plusSeconds(duration);
+        return OffsetDateTime.now().compareTo(expiryTime) > 0 || !valid;
+    }
 }

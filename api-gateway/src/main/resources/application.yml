@@ -35,10 +35,16 @@ zuul:
       serviceId: http://localhost:8083/
       stripPrefix: false
 
-    auth-service:
-      path: "/login/**"
+#    auth-service:
+#      path: "/login/**"
+##      serviceId: user-service
+#      serviceId: http://localhost:8083/
+#      stripPrefix: false
+##      sensitive-headers: Cookie,Set-Cookie
+
+    token:
+      path: "/oauth/token/**"
 #      serviceId: user-service
       serviceId: http://localhost:8083/
       stripPrefix: false
-#      sensitive-headers: Cookie,Set-Cookie
   sensitive-headers:

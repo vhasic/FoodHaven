@@ -1,61 +1,27 @@
 package ba.etf.unsa.nwt.user_service.user_service.rest;
 
-import ba.etf.unsa.nwt.user_service.user_service.model.TokenDTO;
-import ba.etf.unsa.nwt.user_service.user_service.service.TokenService;
-import java.util.List;
-import java.util.UUID;
-import javax.validation.Valid;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import ba.etf.unsa.nwt.user_service.user_service.model.GrantTokenDTO;
+import ba.etf.unsa.nwt.user_service.user_service.model.GrantTokenRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.security.Principal;
 
-@RestController
-@RequestMapping(value = "/api/tokens", produces = MediaType.APPLICATION_JSON_VALUE)
-public class TokenController {
-//    @Autowired
-//    private TokenService tokenService;
-    private final TokenService tokenService;
-
-    public TokenController(TokenService tokenService) {
-        this.tokenService = tokenService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<TokenDTO>> getAllTokens() {
-        return ResponseEntity.ok(tokenService.findAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<TokenDTO> getToken(@PathVariable final UUID id) {
-        return ResponseEntity.ok(tokenService.get(id));
-    }
+@RequestMapping(value = "/oauth/token")
+public class TokenController extends TokenEndpoint {
 
     @PostMapping
-    public ResponseEntity<UUID> createToken(@RequestBody @Valid final TokenDTO tokenDTO) {
-        return new ResponseEntity<>(tokenService.create(tokenDTO), HttpStatus.CREATED);
+    public ResponseEntity<GrantTokenDTO> postAccessToken(
+            Principal principal,
+            @Valid @RequestBody GrantTokenRequest request
+    ) throws HttpRequestMethodNotSupportedException {
+        OAuth2AccessToken oauthResponse = super.postAccessToken(principal, request.toForm()).getBody();
+        return ResponseEntity.ok(new GrantTokenDTO(oauthResponse));
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateToken(@PathVariable final UUID id,
-            @RequestBody @Valid final TokenDTO tokenDTO) {
-        tokenService.update(id, tokenDTO);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteToken(@PathVariable final UUID id) {
-        tokenService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
 }

@@ -6,6 +6,7 @@ import ba.etf.unsa.nwt.user_service.user_service.model.UserDTO;
 import ba.etf.unsa.nwt.user_service.user_service.repos.RoleRepository;
 import ba.etf.unsa.nwt.user_service.user_service.repos.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -105,4 +106,7 @@ public class UserService {
         return user;
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

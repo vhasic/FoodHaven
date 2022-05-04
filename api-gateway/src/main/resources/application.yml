@@ -22,18 +22,19 @@ spring:
             - Path=/api/recipes/**
           uri: lb://recipe-service
         - id: user-service
-          uri: http://localhost:8083/
           predicates:
             - Path=/api/users/**
-          #      todo riješiti ovaj problem: ne povlači sa Eureka servera iako bi moralo raditi!
+          uri: lb://user-service
+#          uri: http://localhost:8083/
           filters:
             - StripPrefix=1
         - id: auth-service
-          uri: http://localhost:8083/
           predicates:
-            - Path=/login/**
+            - Path=/auth/**
+          uri: lb://user-service
           filters:
             - StripPrefix=1
+            - RemoveRequestHeader=Authorization
 server:
   port: 8088
 

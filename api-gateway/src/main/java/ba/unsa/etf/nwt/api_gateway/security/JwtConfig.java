@@ -1,4 +1,4 @@
-package ba.unsa.etf.nwt.api_gateway.config;
+package ba.unsa.etf.nwt.api_gateway.security;
 
 import lombok.Getter;
 import lombok.Setter;

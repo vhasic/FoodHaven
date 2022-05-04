@@ -1,6 +1,9 @@
+/*
 package ba.unsa.etf.nwt.api_gateway.security;
 
+import ba.unsa.etf.nwt.api_gateway.security.JwtConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +41,8 @@ import java.util.function.Function;
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity(proxyTargetClass = true)
 public class WebFluxSecurityConfig {
+    @Autowired
+    private JwtConfig jwtConfig;
 
     @Autowired
     private ReactiveUserDetailsService userDetailsService;
@@ -55,7 +60,7 @@ public class WebFluxSecurityConfig {
         WebSessionServerSecurityContextRepository securityContextRepository =
                 new WebSessionServerSecurityContextRepository();
 
-        securityContextRepository.setSpringSecurityContextAttrName("langdope-security-context");
+        securityContextRepository.setSpringSecurityContextAttrName("securityContext");
 
         return securityContextRepository;
     }
@@ -85,8 +90,21 @@ public class WebFluxSecurityConfig {
                 .addFilterAt(logoutWebFilter(), SecurityWebFiltersOrder.LOGOUT)
                 .build();
     }
+    @Bean
+    public AuthenticationWebFilter authenticationWebFilter() {
+        AuthenticationWebFilter filter = new AuthenticationWebFilter(authenticationManager());
 
-    private AuthenticationWebFilter authenticationWebFilter() {
+        filter.setSecurityContextRepository(securityContextRepository());
+        filter.setAuthenticationConverter(jsonBodyAuthenticationConverter());
+        filter.setRequiresAuthenticationMatcher(
+                ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/signin")
+        );
+
+        return filter;
+    }
+
+*/
+/*    private AuthenticationWebFilter authenticationWebFilter() {
         AuthenticationWebFilter filter = new AuthenticationWebFilter(authenticationManager());
 
         filter.setSecurityContextRepository(securityContextRepository());
@@ -102,7 +120,8 @@ public class WebFluxSecurityConfig {
         );
 
         return filter;
-    }
+    }*//*
+
 
     private LogoutWebFilter logoutWebFilter() {
         LogoutWebFilter logoutWebFilter = new LogoutWebFilter();
@@ -129,8 +148,8 @@ public class WebFluxSecurityConfig {
                 .next()
                 .flatMap(body -> {
                     try {
-                        UserController.SignInForm signInForm =
-                                mapper.readValue(body.asInputStream(), UserController.SignInForm.class);
+                        SignInForm signInForm =
+                                mapper.readValue(body.asInputStream(), SignInForm.class);
 
                         return Mono.just(
                                 new UsernamePasswordAuthenticationToken(
@@ -144,4 +163,11 @@ public class WebFluxSecurityConfig {
                 });
     }
 
+    @Data
+    private static class SignInForm{
+        private String username;
+        private String password;
+
+    }
 }
+*/

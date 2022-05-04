@@ -2,6 +2,7 @@ package ba.etf.unsa.nwt.user_service.user_service.security;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +40,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         // By default, UsernamePasswordAuthenticationFilter listens to "/login" path.
         // In our case, we use "/auth". So, we need to override the defaults.
-//        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
+        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
     }
 
     @Override
@@ -69,6 +71,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             Authentication auth) throws IOException, ServletException {
 
         Long now = System.currentTimeMillis();
+        final String SECRET = Base64.getEncoder().encodeToString(jwtConfig.getSecret().getBytes());
         String token = Jwts.builder()
                 .setSubject(auth.getName())
                 // Convert to list of strings.
@@ -77,7 +80,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))  // in milliseconds
-                .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+//                .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
                 .compact();
 
         // Add token to header

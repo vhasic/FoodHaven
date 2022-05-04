@@ -1,4 +1,9 @@
 spring:
+  # ovo za main je dodano kako bi se mogao pokrenuti servis
+  main:
+    web-application-type: reactive # dodaje asinhronost, extends WebSecurityConfigurerAdapter ne radi kada je ovdje reactive
+    allow-bean-definition-overriding: true
+
   application:
     name: api-gateway
   cloud:

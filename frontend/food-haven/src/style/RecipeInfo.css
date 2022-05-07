@@ -1,0 +1,41 @@
+.circle-image{
+    margin-top: 2%;
+    width: 50%;
+    height: 40%;
+    text-align: center;
+    display: block;
+    margin-bottom: 5%;
+    border: 1px solid black;
+  }
+  .select-button{
+      border: 1px solid black;
+      text-align: center;
+  }
+  .about {
+      margin-left: 20%;
+  }
+  .input-info {
+    margin-bottom: 5%;
+    margin-top: 2%;
+    width: 50%;
+    height: 30px;
+  }
+  .textarea-style {
+      width: 50%;
+      margin-bottom: 5%;
+      margin-top: 2%;
+      height: 100px;
+  }
+  .dropbtn {
+    background-color: #bbb;
+    color: white;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    margin-bottom: 5%;
+    margin-top: 2%;
+    width: 50%;
+  }
+  .option:hover {
+     background: #ff6127;
+  }

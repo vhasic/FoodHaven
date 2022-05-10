@@ -1,12 +1,13 @@
-package etf.unsa.ba.nwt.recipe_service.model;
+package ba.etf.unsa.nwt.rating_service.model;
 
-import java.util.UUID;
-import javax.validation.constraints.*;
-
-import etf.unsa.ba.nwt.recipe_service.domain.Recipe;
+import ba.etf.unsa.nwt.rating_service.domain.Recipe;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -36,15 +37,6 @@ public class RecipeDTO {
     public RecipeDTO() {
     }
 
-    public RecipeDTO(String name, String description, Integer preparationTime, UUID userID, UUID recipePicture, UUID recipeCategory) {
-        this.name = name;
-        this.description = description;
-        this.preparationTime = preparationTime;
-        this.userID = userID;
-        this.recipePicture = recipePicture;
-        this.recipeCategory = recipeCategory;
-    }
-
     public RecipeDTO(Recipe recipe) {
         this.id = recipe.getId();
         this.name = recipe.getName();
@@ -55,3 +47,4 @@ public class RecipeDTO {
         this.recipeCategory = recipe.getRecipeCategory().getId();
     }
 }
+

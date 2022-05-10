@@ -1,6 +1,7 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
 import etf.unsa.ba.nwt.recipe_service.domain.Recipe;
+import etf.unsa.ba.nwt.recipe_service.messaging.RecipeDeletePublisher;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
 import java.util.List;
@@ -17,14 +18,16 @@ import org.springframework.web.bind.annotation.*;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final RecipeDeletePublisher publisher;
 
-    public RecipeController(final RecipeService recipeService) {
+    public RecipeController(final RecipeService recipeService, RecipeDeletePublisher publisher) {
         this.recipeService = recipeService;
+        this.publisher = publisher;
     }
 
     @GetMapping
     public ResponseEntity<List<RecipeDTO>> getAllRecipes() {
-        return ResponseEntity.ok(recipeService.findAll());
+        return ResponseEntity.ok(recipeService.getRecipes());
     }
 
     @GetMapping("/{id}")
@@ -54,8 +57,10 @@ public class RecipeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRecipe(@PathVariable final UUID id) {
-        recipeService.delete(id);
-        return ResponseEntity.ok("Successfully delated!");
+        Recipe recipe = recipeService.findRecipeById(id);
+        recipeService.softDelete(recipe);
+        publisher.send(new RecipeDTO(recipe));
+        return ResponseEntity.ok("Successfully deleted recipe with given id!");
     }
     @DeleteMapping
     public ResponseEntity<String> deleteAll() {

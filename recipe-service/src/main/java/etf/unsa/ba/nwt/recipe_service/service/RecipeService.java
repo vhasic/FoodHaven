@@ -64,6 +64,13 @@ public class RecipeService {
                 .map(recipe -> mapToDTO(recipe, new RecipeDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public Recipe findRecipeById(UUID recipeId) {
+        return recipeRepository.findById(recipeId).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        });
+    }
+
     public List<RecipeDTO> getRecipesFromCategory(UUID id) {
         return recipeRepository.getRecipesFromCategory(id.toString())
                 .stream()
@@ -143,5 +150,15 @@ public class RecipeService {
         return recipe;
     }
 
+    public List<RecipeDTO> getRecipes() {
+        return recipeRepository.getRecipes()
+                .stream()
+                .map(recipe -> mapToDTO(recipe, new RecipeDTO()))
+                .collect(Collectors.toList());
+    }
 
+    public void softDelete(Recipe recipe) {
+        recipe.setDeleted(true);
+        recipeRepository.save(recipe);
+    }
 }

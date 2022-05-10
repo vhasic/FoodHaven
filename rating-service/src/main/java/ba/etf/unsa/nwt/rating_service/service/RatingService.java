@@ -128,4 +128,8 @@ public class RatingService {
                 .map(rating -> mapToDTO(rating, new RatingDTO()))
                 .collect(Collectors.toList());
     }
+
+    public void deleteRatingsOfRecipe(UUID recipeId) {
+        ratingRepository.deleteAllByRecipeId(recipeId.toString());
+    }
 }

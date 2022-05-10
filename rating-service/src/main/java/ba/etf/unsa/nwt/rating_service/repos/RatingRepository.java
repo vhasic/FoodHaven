@@ -5,8 +5,11 @@ import ba.etf.unsa.nwt.rating_service.domain.Rating;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, UUID> {
@@ -19,4 +22,9 @@ public interface RatingRepository extends JpaRepository<Rating, UUID> {
     List<Rating> getAllByUserId(UUID userId);
 
     List<Rating> getAllByRecipeId(UUID recipeId);
+
+    @Query(value = "DELETE FROM Rating r WHERE r.recipe_id = :recipeId", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void deleteAllByRecipeId(String recipeId);
 }

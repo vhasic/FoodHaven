@@ -1,26 +1,27 @@
+/*
 package ba.unsa.etf.nwt.api_gateway.security;
 
-import ba.unsa.etf.nwt.api_gateway.security.JwtConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
+*/
 /**
  * WebSecurityConfig class
  *
- */
+ *//*
+
 @Configuration
 @EnableReactiveMethodSecurity
+@EnableWebFluxSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
@@ -28,15 +29,16 @@ public class WebSecurityConfig {
     private JwtConfig jwtConfig;
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http/*, AuthenticationManager authManager*/) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http*/
+/*, AuthenticationManager authManager*//*
+) {
 //        return http.csrf().disable().authorizeExchange().anyExchange().permitAll().and().build();
         return http.csrf().disable()
                 .httpBasic().disable()
                 .formLogin().disable()
                 .authorizeExchange()
                     .pathMatchers(HttpMethod.OPTIONS).permitAll()
-    //                .pathMatchers( HttpMethod.POST, jwtConfig.getUri()).permitAll()
-                    .pathMatchers( HttpMethod.POST, "/auth/").permitAll()
+                    .pathMatchers( HttpMethod.POST, jwtConfig.getUri()).permitAll()
                     .pathMatchers( HttpMethod.GET, "/api/users").permitAll() //test
                     .anyExchange().authenticated()
                 .and()
@@ -54,6 +56,7 @@ public class WebSecurityConfig {
                 .and()
                 .addFilterAt(new JwtTokenAuthenticationFilter(jwtConfig),SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
+*/
 /*        return http
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
@@ -85,10 +88,12 @@ public class WebSecurityConfig {
 //                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig),SecurityWebFiltersOrder.AUTHENTICATION)
 //                .addFilterAt(bearerAuthenticationFilter(authManager), SecurityWebFiltersOrder.AUTHENTICATION)
 //                .addFilterAt(cookieAuthenticationFilter(authManager), SecurityWebFiltersOrder.AUTHENTICATION)
-                .build();*/
+                .build();*//*
+
     }
 
-    /**
+    */
+/**
      * Spring security works by filter chaining.
      * We need to add a JWT CUSTOM FILTER to the chain.
      *
@@ -104,7 +109,9 @@ public class WebSecurityConfig {
      *  If authentication is successful, ServerAuthenticationSuccessHandler is invoked and the authentication is set on ReactiveSecurityContextHolder,
      *  else ServerAuthenticationFailureHandler is invoked
      *
-     */
+     *//*
+
+*/
 /*    AuthenticationWebFilter bearerAuthenticationFilter(AuthenticationManager authManager) {
         AuthenticationWebFilter bearerAuthenticationFilter = new AuthenticationWebFilter(authManager);
         bearerAuthenticationFilter.setAuthenticationConverter(new ServerHttpBearerAuthenticationConverter(new JwtVerifyHandler(jwtSecret)));
@@ -119,5 +126,6 @@ public class WebSecurityConfig {
         cookieAuthenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/**"));
 
         return cookieAuthenticationFilter;
-    }*/
-}
+    }*//*
+
+}*/

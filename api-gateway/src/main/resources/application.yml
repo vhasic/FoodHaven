@@ -1,8 +1,20 @@
+server:
+  port: 8088
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
+
 spring:
   # ovo za main je dodano kako bi se mogao pokrenuti servis
   main:
-    web-application-type: reactive # dodaje asinhronost, extends WebSecurityConfigurerAdapter ne radi kada je ovdje reactive
-    allow-bean-definition-overriding: true
+#    web-application-type: reactive # dodaje asinhronost, extends WebSecurityConfigurerAdapter ne radi kada je ovdje reactive
+    allow-bean-definition-overriding: true #todo dodano zbog errora: The bean 'conversionServicePostProcessor', defined in class path resource [org/springframework/security/config/annotation/web/reactive/WebFluxSecurityConfiguration.class], could not be registered. A bean with that name has already been defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class] and overriding is disabled.
 
   application:
     name: api-gateway
@@ -34,15 +46,11 @@ spring:
           uri: lb://user-service
           filters:
             - StripPrefix=1
-            - RemoveRequestHeader=Authorization
-server:
-  port: 8088
+            - RemoveRequestHeader=Cookie
+            - RemoveRequestHeader=Set-Cookie,Authorization
+            - RemoveRequestHeader=Authorization     #Remove All the sensitive request headers (Cookie, Set-Cookie & Authorization) while passing request to downstream services
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    preferIpAddress: true
+  security:
+    user:
+      password: "password"
+

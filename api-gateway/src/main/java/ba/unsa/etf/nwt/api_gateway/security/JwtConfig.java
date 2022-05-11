@@ -1,12 +1,15 @@
+/*
 package ba.unsa.etf.nwt.api_gateway.security;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 
+*/
 /**
  * The JwtConfig is just a class contains configuration variables.
- */
+ *//*
+
 @Getter
 @Setter
 public class JwtConfig {
@@ -25,3 +28,4 @@ public class JwtConfig {
     @Value("${security.jwt.secret:JwtSecretKey}")
     private String secret;
 }
+*/

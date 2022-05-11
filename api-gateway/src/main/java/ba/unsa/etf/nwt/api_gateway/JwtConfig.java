@@ -1,10 +1,8 @@
-package ba.etf.unsa.nwt.user_service.user_service.security;
+package ba.unsa.etf.nwt.api_gateway;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * The JwtConfig is just a class contains configuration variables.

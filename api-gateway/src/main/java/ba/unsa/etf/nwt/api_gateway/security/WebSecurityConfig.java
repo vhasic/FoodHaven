@@ -1,4 +1,3 @@
-/*
 package ba.unsa.etf.nwt.api_gateway.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +12,10 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
-*/
 /**
  * WebSecurityConfig class
  *
- *//*
-
+ */
 @Configuration
 @EnableReactiveMethodSecurity
 @EnableWebFluxSecurity
@@ -29,9 +26,7 @@ public class WebSecurityConfig {
     private JwtConfig jwtConfig;
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http*/
-/*, AuthenticationManager authManager*//*
-) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http/*, AuthenticationManager authManager*/) {
 //        return http.csrf().disable().authorizeExchange().anyExchange().permitAll().and().build();
         return http.csrf().disable()
                 .httpBasic().disable()
@@ -56,7 +51,6 @@ public class WebSecurityConfig {
                 .and()
                 .addFilterAt(new JwtTokenAuthenticationFilter(jwtConfig),SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
-*/
 /*        return http
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
@@ -88,12 +82,10 @@ public class WebSecurityConfig {
 //                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig),SecurityWebFiltersOrder.AUTHENTICATION)
 //                .addFilterAt(bearerAuthenticationFilter(authManager), SecurityWebFiltersOrder.AUTHENTICATION)
 //                .addFilterAt(cookieAuthenticationFilter(authManager), SecurityWebFiltersOrder.AUTHENTICATION)
-                .build();*//*
-
+                .build();*/
     }
 
-    */
-/**
+    /**
      * Spring security works by filter chaining.
      * We need to add a JWT CUSTOM FILTER to the chain.
      *
@@ -109,9 +101,7 @@ public class WebSecurityConfig {
      *  If authentication is successful, ServerAuthenticationSuccessHandler is invoked and the authentication is set on ReactiveSecurityContextHolder,
      *  else ServerAuthenticationFailureHandler is invoked
      *
-     *//*
-
-*/
+     */
 /*    AuthenticationWebFilter bearerAuthenticationFilter(AuthenticationManager authManager) {
         AuthenticationWebFilter bearerAuthenticationFilter = new AuthenticationWebFilter(authManager);
         bearerAuthenticationFilter.setAuthenticationConverter(new ServerHttpBearerAuthenticationConverter(new JwtVerifyHandler(jwtSecret)));
@@ -126,6 +116,5 @@ public class WebSecurityConfig {
         cookieAuthenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/**"));
 
         return cookieAuthenticationFilter;
-    }*//*
-
-}*/
+    }*/
+}

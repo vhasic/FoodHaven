@@ -1,4 +1,3 @@
-/*
 package ba.unsa.etf.nwt.api_gateway.security;
 
 import io.jsonwebtoken.Claims;
@@ -19,11 +18,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-*/
 /**
  * Filter that validates the tokens.
- *//*
-
+ */
 
 @Component
 public class JwtTokenAuthenticationFilter implements WebFilter {
@@ -96,4 +93,3 @@ public class JwtTokenAuthenticationFilter implements WebFilter {
         return chain.filter(exchange);
     }
 }
-*/

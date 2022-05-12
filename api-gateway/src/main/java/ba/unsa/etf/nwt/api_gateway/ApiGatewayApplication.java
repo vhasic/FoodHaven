@@ -1,11 +1,10 @@
 package ba.unsa.etf.nwt.api_gateway;
 
-import ba.unsa.etf.nwt.api_gateway.security.JwtConfig;
+import ba.unsa.etf.nwt.api_gateway.config.JwtConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
-
 
 @SpringBootApplication
 @EnableEurekaClient

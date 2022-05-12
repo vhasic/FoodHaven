@@ -3,26 +3,33 @@ package ba.unsa.etf.nwt.api_gateway.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 */
 /**
  * Filter that validates the tokens.
- *//*
+ * *//*
 
-public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
+
+
+
+
+@Component
+public class JwtTokenAuthenticationFilter implements WebFilter {
 
     private final JwtConfig jwtConfig;
 
@@ -32,16 +39,20 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        System.out.println("Entered filter");
+        ServerHttpRequest request=  exchange.getRequest();
+        ServerHttpResponse response=exchange.getResponse();
         // 1. get the authentication header. Tokens are supposed to be passed in the authentication header
-        String header = request.getHeader(jwtConfig.getHeader());
+        List<String> headers =request.getHeaders().get(jwtConfig.getHeader());
+        String header=null;
+        if (headers!=null){
+            header =request.getHeaders().get(jwtConfig.getHeader()).get(0);
+        }
 
         // 2. validate the header and check the prefix
-        if(header == null || !header.startsWith(jwtConfig.getPrefix())) {
-            chain.doFilter(request, response);  		// If not valid, go to the next filter.
-            return;
+        if(headers == null || !header.startsWith(jwtConfig.getPrefix())) { // if there is no authorization header or it is not Bearer token
+            return chain.filter(exchange);  		// If not valid, go to the next filter.
         }
 
         // If there is no token provided and hence the user won't be authenticated.
@@ -75,6 +86,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 // 6. Authenticate the user
                 // Now, user is authenticated
                 SecurityContextHolder.getContext().setAuthentication(auth);
+                System.out.println("User should be authenticated");
             }
 
         } catch (Exception e) {
@@ -84,8 +96,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // go to the next filter in the filter chain
-        chain.doFilter(request, response);
+        return chain.filter(exchange);
     }
-
 }
 */

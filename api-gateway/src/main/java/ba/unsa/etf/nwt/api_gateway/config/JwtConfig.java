@@ -1,8 +1,12 @@
-package ba.unsa.etf.nwt.api_gateway.security;
+package ba.unsa.etf.nwt.api_gateway.config;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Date;
 
 /**
  * The JwtConfig is just a class contains configuration variables.
@@ -10,7 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 @Getter
 @Setter
 public class JwtConfig {
-    @Value("${security.jwt.uri:/auth/**}")
+//    @Value("${security.jwt.uri:/auth/**}")
+    @Value("${security.jwt.uri:/login/**}")
     private String Uri;
 
     @Value("${security.jwt.header:Authorization}")
@@ -24,4 +29,13 @@ public class JwtConfig {
 
     @Value("${security.jwt.secret:JwtSecretKey}")
     private String secret;
+
+
+    public Boolean validateToken(String token, String secret) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+        return !claims.getExpiration().before(new Date()); //ako je istekao vrati false inače vrati true
+    }
 }

@@ -13,33 +13,41 @@ spring:
           predicates:
             - Path=/api/ingredients/**
           uri: lb://ingredient-service
+          filters:
+            - StripPrefix=0
         - id: rating-service
           predicates:
             - Path=/api/ratings/**
           uri: lb://rating-service
+          filters:
+            - StripPrefix=0
         - id: recipe-service
           predicates:
             - Path=/api/recipes/**
           uri: lb://recipe-service
+          filters:
+            - StripPrefix=0
         - id: user-service
           predicates:
             - Path=/api/users/**
           uri: lb://user-service
 #          uri: http://localhost:8083/
           filters:
-            - StripPrefix=1
+            - StripPrefix=0
         - id: auth-service
           predicates:
-            - Path=/auth/**
+            - Path=/login/**
+#            - Path=/auth/**
           uri: lb://user-service
           filters:
-            - StripPrefix=1
+            - StripPrefix=0
             - RemoveRequestHeader=Cookie
             - RemoveRequestHeader=Set-Cookie,Authorization
             - RemoveRequestHeader=Authorization     #Remove All the sensitive request headers (Cookie, Set-Cookie & Authorization) while passing request to downstream services
 
   security:
     user:
+      name: "user"
       password: "password"
 server:
   port: 8088
@@ -52,3 +60,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     preferIpAddress: true
+
+#da se ipsisuje u konzoli kroz koje je korake prošao
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

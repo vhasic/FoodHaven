@@ -32,9 +32,12 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
             userDTO= userService.getUserByUsername(username);
         } catch ( Exception ignored){
             // If user not found. Throw this exception.
+            //todo vratiti response da username ne postoji
+            //todo vratiti reponse kada se password ne podudara
             throw new UsernameNotFoundException("Username: " + username + " not found");
         }
         String roleName=roleRepository.findById(userDTO.getRole()).get().getName();
+        if (roleName.equals("Administrator")) roleName="Admin"; //radi lakšeg rada na gatewayu
 
         // Remember that Spring needs roles to be in this format: "ROLE_" + userRole (i.e. "ROLE_ADMIN")
         // So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).

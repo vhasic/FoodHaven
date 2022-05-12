@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Application;
 
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
@@ -34,13 +37,13 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     private final JwtConfig jwtConfig;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig) {
+    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig, String path) {
         this.authManager = authManager;
         this.jwtConfig = jwtConfig;
 
         // By default, UsernamePasswordAuthenticationFilter listens to "/login" path.
         // In our case, we use "/auth". So, we need to override the defaults.
-        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
+        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(path, "POST"));
     }
 
     @Override
@@ -72,7 +75,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         Long now = System.currentTimeMillis();
         final String SECRET = Base64.getEncoder().encodeToString(jwtConfig.getSecret().getBytes());
-        String token = Jwts.builder()
+        String accessToken = Jwts.builder()
                 .setSubject(auth.getName())
                 // Convert to list of strings.
                 // This is important because it affects the way we get them back in the Gateway.
@@ -85,7 +88,12 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .compact();
 
         // Add token to header
-        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
+        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + accessToken);
+        // return json
+        Map<String,String> tokens=new HashMap<>();
+        tokens.put("accessToken",accessToken);
+        response.setContentType("application/json");
+        new ObjectMapper().writeValue(response.getOutputStream(),tokens);
     }
 
     // A (temporary) class just to represent the user credentials

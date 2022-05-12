@@ -3,7 +3,6 @@ package ba.etf.unsa.nwt.user_service.user_service;
 import ba.etf.unsa.nwt.user_service.user_service.model.RoleDTO;
 import ba.etf.unsa.nwt.user_service.user_service.model.UserDTO;
 import ba.etf.unsa.nwt.user_service.user_service.service.RoleService;
-import ba.etf.unsa.nwt.user_service.user_service.service.TokenService;
 import ba.etf.unsa.nwt.user_service.user_service.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +21,7 @@ public class UserServiceApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(RoleService roleService, TokenService tokenService, UserService userService) {
+    public CommandLineRunner demo(RoleService roleService, UserService userService) {
         return (args) -> {
             UUID adminId=roleService.create(new RoleDTO("Administrator"));
             UUID userId=roleService.create(new RoleDTO("User"));

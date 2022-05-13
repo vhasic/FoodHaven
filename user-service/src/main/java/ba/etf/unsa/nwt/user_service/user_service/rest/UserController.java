@@ -1,9 +1,11 @@
 package ba.etf.unsa.nwt.user_service.user_service.rest;
 
 import ba.etf.unsa.nwt.user_service.user_service.model.UserDTO;
+import ba.etf.unsa.nwt.user_service.user_service.model.UserToReturn;
 import ba.etf.unsa.nwt.user_service.user_service.service.UserService;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -24,17 +26,19 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<List<UserToReturn>> getAllUsers() {
+        List<UserToReturn> returnList = userService.findAll().stream().map(userDTO -> new UserToReturn(userDTO)).collect(Collectors.toList());
+        return ResponseEntity.ok(returnList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable final UUID id) {
-        return ResponseEntity.ok(userService.get(id));
+    public ResponseEntity<UserToReturn> getUser(@PathVariable final UUID id) {
+        return ResponseEntity.ok(new UserToReturn(userService.get(id)));
     }
     @GetMapping("/role")
-    public ResponseEntity<List<UserDTO>> getUserByRole(@RequestParam final String role) {
-        return ResponseEntity.ok(userService.getUsersByRole(role));
+    public ResponseEntity<List<UserToReturn>> getUserByRole(@RequestParam final String role) {
+        List<UserToReturn> returnList = userService.getUsersByRole(role).stream().map(userDTO -> new UserToReturn(userDTO)).collect(Collectors.toList());
+        return ResponseEntity.ok(returnList);
     }
 
     @PostMapping
@@ -58,3 +62,18 @@ public class UserController {
     }
 
 }
+
+/*
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable final UUID id) {
+        return ResponseEntity.ok(userService.get(id));
+    }
+    @GetMapping("/role")
+    public ResponseEntity<List<UserDTO>> getUserByRole(@RequestParam final String role) {
+        return ResponseEntity.ok(userService.getUsersByRole(role));
+    }*/

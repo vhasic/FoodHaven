@@ -1,0 +1,68 @@
+.h3-user {
+  color: black;
+  text-align:left;
+  font-size: 20px;
+  margin-left: 8%;
+  margin-bottom: 5%;
+}
+.column1-user-page {
+    float: left;
+    width: 30%;
+    height: 1000px;
+    background-color:#ededed;
+  }
+  .column2-user-page {
+    float: left;
+    width: 70%;
+    height: 1000px;
+  }
+  .h2-style {
+    font-size: 80px;
+    color: #ff6127;
+    margin-left: 3%;
+    font-family:'Brush Script MT'; 
+    font-weight:500;
+    margin-top: 2%;
+  }
+  .button-logout{
+    margin-top: 2%;
+    margin-left: 33%;
+    margin-right: 33%;
+    letter-spacing: 1px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    border-radius: 25px;
+    width: 33%; 
+    height: 40px;
+    color:white;
+    border: none;
+    background:#ff6127;
+  }
+  a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: black;
+    background-color: #ededed;
+    width: 40%;
+    height: 5%;
+    font-size: 28px;
+    margin-left: 25%;
+    margin-right: 35%;
+    text-align: left;
+    text-indent: 4%;
+    justify-content: center;
+    border: 1px solid grey;
+    border-radius: 5px;
+    color: rgb(59, 59, 59);
+    margin-bottom: 3%;
+}
+.userPage-h2{
+  margin-bottom:1px;
+  font-size:70px;
+  text-align:center;
+}

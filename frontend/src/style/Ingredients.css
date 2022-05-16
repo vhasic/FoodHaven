@@ -1,0 +1,87 @@
+
+* {
+    box-sizing: border-box;
+  }
+  
+  form.example input[type=text] {
+    padding: 15px;
+    font-size: 17px;
+    border: 1px solid #bbbb;
+    float: left;
+    width: 15%;
+    background: #f1f1f1;
+    margin-left: 5%;
+    margin-bottom: 3%;
+  }
+  
+  form.example button {
+    float: left;
+    width: 6%;
+    padding: 15px;
+    background: #ff6127;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+  }
+  
+  form.example button:hover {
+    background: #f97241;
+  }
+  
+  form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+  }.remove-button {
+    border: none;
+    background-color: white;
+    color: #ff6127;
+    font-size: 30px;
+}
+.add-ingredient {
+    font-size: 17px;
+    padding: 15px;
+    border: 1px solid grey;
+    background: white;
+    border: none;
+    margin-top: 5%;
+}
+
+.add-ingredient-button{
+    width: 4%;
+    padding: 14px;
+    background: white;
+    color: black;
+    font-size: 21px;
+    border: 1px solid grey;
+    border: none;
+    cursor: pointer;
+}
+.quantity{
+    width: 5%;
+    padding: 15px;
+    margin-right: 2%;
+}
+.a-back{
+  text-decoration: none; 
+  color:#ff6127;
+  font-size:150%;
+  margin-left:5%
+}
+.a-next{
+  text-decoration:none;
+  color:#ff6127;
+  font-size:150%;
+  margin-left:75%
+}
+.ingredient-image{
+  height:50px; 
+  width:50px;
+  margin-top:2%;
+}
+.select-style{
+  border:none;
+  font-size:17px;
+}

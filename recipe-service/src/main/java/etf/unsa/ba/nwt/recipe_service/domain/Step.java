@@ -40,7 +40,7 @@ public class Step {
     private Integer oNumber;
 
     @OneToOne
-    @JoinColumn(name = "step_picture_id", nullable = false)
+    @JoinColumn(name = "step_picture_id", nullable = true)
     private Picture stepPicture;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/ratings", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RatingController {

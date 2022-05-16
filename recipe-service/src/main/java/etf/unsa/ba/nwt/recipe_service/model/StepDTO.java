@@ -26,7 +26,6 @@ public class StepDTO {
     @Size(max = 255, message = "Step description can't be longer than 255 characters!")
     private String description;
 
-    @NotNull
     private UUID stepPicture;
 
     @NotNull

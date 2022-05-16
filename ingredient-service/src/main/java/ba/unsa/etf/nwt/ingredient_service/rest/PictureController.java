@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/ingredientPictures", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PictureController {

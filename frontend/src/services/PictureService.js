@@ -10,7 +10,7 @@ class PictureService {
     getIngredientPictures(){
         return axios.get('http://localhost:8084/api/ingredientPictures');
     }
-    getPictureById(id) {
+    getRecipePictureById(id) {
         return axios.get('http://localhost:8082/api/pictures/' + id);
     }
 }

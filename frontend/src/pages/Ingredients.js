@@ -71,7 +71,7 @@ class Ingredients extends Component {
       }
     
       handleSubmit(event) {
-        alert('Saved! ');
+        alert('Ingredient Saved! ');
         event.preventDefault();
       }
     

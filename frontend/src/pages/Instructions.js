@@ -36,7 +36,7 @@ class Instructions extends Component {
       }
     
       handleSubmit(event) {
-        alert('Saved! ');
+        alert('Recipe Saved! ');
         const json = JSON.stringify({
           description: 'posalji opis',
           stepRecipe : '47ca7045-14dd-424a-b5f0-f8d0544f7545',

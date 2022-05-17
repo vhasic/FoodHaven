@@ -66,7 +66,30 @@ public class IngredientController {
         Integer totalCalories = ingredientService.getTotalCalories(recipeId);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("totalCalories", totalCalories);
+        return ResponseEntity.ok(map);
+    }
 
+    @GetMapping(value = "/totalVitamins", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getTotalVitamins(@RequestParam UUID recipeId) {
+        Integer totalVitamins = ingredientService.getTotalVitamins(recipeId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("totalVitamins", totalVitamins);
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping(value = "/totalFat", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getTotalFat(@RequestParam UUID recipeId) {
+        Integer totalFat = ingredientService.getTotalFat(recipeId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("totalFat", totalFat);
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping(value = "/totalProteins", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getTotalProteins(@RequestParam UUID recipeId) {
+        Integer totalProteins = ingredientService.getTotalProteins(recipeId);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("totalProteins", totalProteins);
         return ResponseEntity.ok(map);
     }
 }

@@ -57,7 +57,7 @@ class SignUp extends React.Component {
 
         if(!this.state.firstName.trim()){
             isValid = false;
-            this.setState({firstNameValidationMessage : "First name is requiered!"});
+            this.setState({firstNameValidationMessage : "First name is required!"});
         } else if (this.state.firstName.length > 20) {
             this.setState({firstNameValidationMessage : "First name can't be longer than twenty characters!"});
         }else {
@@ -65,7 +65,7 @@ class SignUp extends React.Component {
         }
         if(!this.state.lastName.trim()){
             isValid = false;
-            this.setState({lastNameValidationMessage : "Last name is requiered!"});
+            this.setState({lastNameValidationMessage : "Last name is required!"});
         } else if (this.state.lastName.length > 20) {
             this.setState({lastNameValidationMessage : "Last name can't be longer than twenty characters!"});
         } else {
@@ -74,14 +74,14 @@ class SignUp extends React.Component {
 
         if(!this.state.username.trim()){
             isValid = false;
-            this.setState({usernameValidationMessage : "Username is requiered!"});
+            this.setState({usernameValidationMessage : "Username is required!"});
         } else {
             this.setState({usernameValidationMessage : ""});
         }
 
         if(!this.state.email.trim()){
           isValid = false;
-          this.setState({emailValidationMessage : "Email address is requiered!"});
+          this.setState({emailValidationMessage : "Email address is required!"});
         }else if (!/\S+@\S+\.\S+/.test(this.state.email)) {
           isValid = false;
           this.setState({emailValidationMessage :  'Email address format is invalid!'});
@@ -94,7 +94,7 @@ class SignUp extends React.Component {
           this.setState({passwordValidationMessage : 'Password is required!'});
         } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=()!?."]).{8,}/.test(this.state.password)) {
           isValid = false;
-          this.setState({passwordValidationMessage : 'The password must contain minimum eight characters, at least one uppercase letter, one lowercase letter and one number!'});
+          this.setState({passwordValidationMessage : 'The password must contain minimum of eight characters, at least one uppercase letter, one lowercase letter and one number!'});
         } else {
           this.setState({passwordValidationMessage : ''});   
         }

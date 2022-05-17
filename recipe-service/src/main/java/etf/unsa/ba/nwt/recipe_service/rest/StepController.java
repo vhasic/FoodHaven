@@ -32,8 +32,8 @@ public class StepController {
         return ResponseEntity.ok(stepService.get(id));
     }
     @GetMapping("/recipe")
-    public ResponseEntity<List<StepDTO>> getStepsForRecipe(@RequestParam final String recipeId) {
-        return ResponseEntity.ok(stepService.getStepsForRecipe(UUID.fromString(recipeId)));
+    public ResponseEntity<List<StepDTO>> getStepsForRecipe(@RequestParam UUID recipeId) {
+        return ResponseEntity.ok(stepService.getStepsForRecipe(recipeId));
     }
     @GetMapping("/number")
     public ResponseEntity<StepDTO> getStepXForRecipe(@RequestParam final String recipeId, @RequestParam final Integer number) {

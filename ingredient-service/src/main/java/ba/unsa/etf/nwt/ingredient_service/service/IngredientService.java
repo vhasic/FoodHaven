@@ -129,4 +129,16 @@ public class IngredientService {
         return null;
     }
 
+    public Integer getTotalVitamins(UUID id) {
+        return ingredientRepository.getTotalVitamins(id.toString());
+    }
+
+    public Integer getTotalFat(UUID id) {
+        return ingredientRepository.getTotalFat(id.toString());
+    }
+
+    public Integer getTotalProteins(UUID id) {
+        return ingredientRepository.getTotalProteins(id.toString());
+    }
+
 }

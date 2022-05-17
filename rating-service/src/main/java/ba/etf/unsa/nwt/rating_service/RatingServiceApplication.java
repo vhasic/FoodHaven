@@ -21,11 +21,13 @@ public class RatingServiceApplication {
     public CommandLineRunner demo(RatingService ratingService) {
         return (args) -> {
             // save a few reviews
-//            UUID uuid1= UUID.fromString("82ebb0ee-4d62-491d-8afa-a8253b39b38f");
-//            UUID uuid2= UUID.fromString("8355d636-3d0c-41e0-a759-95f115b46d52");
-//            UUID id1= ratingService.create(new RatingDTO(5,"Ovo je testni komentar",uuid1,uuid2));
-//            UUID id2= ratingService.create(new RatingDTO(4,"Ovo je testni komentar 2",uuid2,uuid1));
-//            UUID id3= ratingService.create(new RatingDTO(3,"Ovo je testni komentar 3",uuid1,uuid1));
+            UUID uuid1= UUID.fromString("51f14681-7726-4cc9-9ad1-966970b0e08c");
+            UUID uuid2= UUID.fromString("c2f71975-3f5a-46d1-af30-ec17d14c9f66");
+            UUID id1= ratingService.create(new RatingDTO(5,"Ovo je testni komentar",uuid1,uuid2));
+            UUID id2= ratingService.create(new RatingDTO(4,"Ovo je testni komentar 2",uuid2,uuid1));
+            UUID id3= ratingService.create(new RatingDTO(3,"Ovo je testni komentar 3 koji" +
+                    "treba biti mnogooogo mnogo mnogo duzi kako bih provjerila da li sve radi kako treba i da li ce preci u novi" +
+                    "red ako vidi da je ovo kriza dugo",uuid1,uuid1));
         };
     }
 }

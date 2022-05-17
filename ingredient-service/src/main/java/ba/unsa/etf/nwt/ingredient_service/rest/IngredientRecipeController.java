@@ -2,7 +2,10 @@ package ba.unsa.etf.nwt.ingredient_service.rest;
 
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientRecipeDTO;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientRecipeService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.validation.Valid;
 
@@ -58,5 +61,4 @@ public class IngredientRecipeController {
         ingredientRecipeService.deleteAll();
         return ResponseEntity.ok("Successfully deleted all!");
     }
-
 }

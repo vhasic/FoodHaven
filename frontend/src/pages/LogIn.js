@@ -20,12 +20,16 @@ class LogIn extends React.Component {
         this.setState({username:this.state.username, password:event.target.value});
     }
 
-    onSubmit = event => {
+    onSubmit = async event => {
         event.preventDefault();
 
-        const currentUser = AuthService.login(this.state.username,this.state.password);
+        const authenticated = await AuthService.login(this.state.username, this.state.password);
         // const currentUser=AuthService.getCurrentUser(); const userId=currentUser.userId; const token=currentUser.token; // dobavljanje userId-a i tokena
-        console.log(currentUser);
+        if (authenticated === true) {
+            window.location.href = './UserPage';
+        } else {
+            alert("Your login credentials could not be verified, please try again");
+        }
     }
 
     render() {

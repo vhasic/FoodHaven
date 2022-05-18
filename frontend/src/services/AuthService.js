@@ -9,7 +9,7 @@ class AuthService {
         return axios.post(API_URL + "login", {
             username: username,
             password: password
-        }.then(response => {
+        }).then(response => {
             if (response.data.accessToken) {
                 const token = response.data.accessToken;
                 console.log(token);
@@ -17,16 +17,16 @@ class AuthService {
                 console.log(tokenData.sub);
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({userId: tokenData.sub, token: token}));
             }
-            return this.getCurrentUser();
+            return true;
         }).catch(err => {
-            let message = typeof err.response !== "undefined" ? err.response.data.message : err.message;
-            console.warn( message);
-
-        }));
+            console.warn( err);
+            return false;
+        });
     }
 
     logout() {
         localStorage.removeItem(LOCAL_STORAGE_KEY);
+        window.location.href = './Home';
     }
 
     getCurrentUser() {

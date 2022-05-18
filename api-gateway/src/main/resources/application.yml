@@ -1,8 +1,8 @@
 spring:
-#  # ovo za main je dodano kako bi se mogao pokrenuti servis
-#  main:
-#    web-application-type: reactive # dodaje asinhronost, extends WebSecurityConfigurerAdapter ne radi kada je ovdje reactive
-#    allow-bean-definition-overriding: true
+  #  # ovo za main je dodano kako bi se mogao pokrenuti servis
+  #  main:
+  #    web-application-type: reactive # dodaje asinhronost, extends WebSecurityConfigurerAdapter ne radi kada je ovdje reactive
+  #    allow-bean-definition-overriding: true
 
   application:
     name: api-gateway
@@ -11,7 +11,7 @@ spring:
       routes:
         - id: ingredient-service
           predicates:
-            - Path=/api/ingredients/**
+            - Path=/api/ingredients/**,/api/ingredientPictures/**,/api/ingredientRecipes/**
           uri: lb://ingredient-service
           filters:
             - StripPrefix=0
@@ -23,21 +23,19 @@ spring:
             - StripPrefix=0
         - id: recipe-service
           predicates:
-            - Path=/api/recipes/**
+            - Path=/api/recipes/**,/api/categorys/**,/api/pictures/**,/api/steps/**
           uri: lb://recipe-service
           filters:
             - StripPrefix=0
         - id: user-service
           predicates:
-            - Path=/api/users/**
+            - Path=/api/users/**,/api/roles/**
           uri: lb://user-service
-#          uri: http://localhost:8083/
           filters:
             - StripPrefix=0
         - id: auth-service
           predicates:
             - Path=/login/**
-#            - Path=/auth/**
           uri: lb://user-service
           filters:
             - StripPrefix=0

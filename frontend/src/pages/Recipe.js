@@ -22,7 +22,8 @@ class Recipe extends React.Component {
             fat : Object(),
             proteins : Object(),
             ratings : [],
-            steps : []
+            steps : [],
+            ingredients: []
     };
  }
 
@@ -57,6 +58,9 @@ class Recipe extends React.Component {
       StepService.getRecipeSteps("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
           this.setState({steps : res.data});
       });
+      IngredientService.getIngredientInfoForRecipe("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+          this.setState({ingredients : res.data});
+      });
         return (
             <div>
                <a href='./Home'><h2 style={{marginLeft:"5%"}} className='h2-style'>FoodHaven</h2></a>
@@ -73,9 +77,15 @@ class Recipe extends React.Component {
                     </div>
                         <div className="column2-recipe"> 
                         <h1>Ingredients</h1>
-                        <label>
-                            <p>Placeholder for now</p>
-                        </label>
+                            <ul>
+                                {this.state.ingredients.map(ingredient => {
+                                    return (
+                                        <li style={{fontSize:"20px", padding:"10px", borderBottom: "1px solid #444444",
+                                            width:"70%"}} key={ingredient[0]}>
+                                            {ingredient[2]} {ingredient[1]} {ingredient[0]}</li>
+                                    );
+                                })}
+                            </ul>
                         <h1>Instructions</h1>
                             <ol>
                                 {this.state.steps.map(step => {
@@ -88,7 +98,7 @@ class Recipe extends React.Component {
                             </ol>
                     </div>
                     <div >
-                        <h1>Ratings:</h1>
+                        <h1>Reviews:</h1>
                         <ul>
                             {this.state.ratings.map(rating => {
                                 return (

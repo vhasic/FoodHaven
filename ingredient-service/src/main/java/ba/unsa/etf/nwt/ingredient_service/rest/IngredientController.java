@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,7 @@ public class IngredientController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteIngredient(@PathVariable final UUID id) {
         ingredientService.delete(id);
-        return ResponseEntity.ok("Successfully delated!");
+        return ResponseEntity.ok("Successfully deleted!");
     }
 
     @DeleteMapping
@@ -91,5 +90,10 @@ public class IngredientController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("totalProteins", totalProteins);
         return ResponseEntity.ok(map);
+    }
+
+    @GetMapping(value = "/ingredientInfo")
+    public ResponseEntity<Object> getIngredientInfo(@RequestParam UUID recipeId) {
+        return ResponseEntity.ok(ingredientService.getIngredientInfo(recipeId));
     }
 }

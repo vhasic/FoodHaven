@@ -1,10 +1,10 @@
 package ba.unsa.etf.nwt.ingredient_service.repos;
 
 import ba.unsa.etf.nwt.ingredient_service.domain.Ingredient;
-import ba.unsa.etf.nwt.ingredient_service.domain.IngredientRecipe;
 
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +23,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, UUID> {
     @Query(value = "SELECT SUM(i.proteins*ir.quantity) FROM ingredient i, ingredient_recipe ir" +
             " WHERE i.id = ir.ingredient_recipeid_id AND ir.recipeid =:RecipeID", nativeQuery = true)
     Integer getTotalProteins(@Param("RecipeID") String RecipeID);
+    @Query(value = "SELECT i.name, i.measuring_unit, ir.quantity FROM ingredient i, ingredient_recipe ir" +
+            " WHERE i.id = ir.ingredient_recipeid_id AND ir.recipeid =:RecipeID", nativeQuery = true)
+    List<Object> getIngredientInfo(@Param("RecipeID") String RecipeID);
 }

@@ -19,6 +19,9 @@ class IngredientService {
     getTotalProteins(id) {
         return axios.get('http://localhost:8084/api/ingredients/totalProteins?recipeId=' + id);
     }
+    getIngredientInfoForRecipe(id) {
+        return axios.get('http://localhost:8084/api/ingredients/ingredientInfo?recipeId=' + id);
+    }
 }
 
 export default new IngredientService();

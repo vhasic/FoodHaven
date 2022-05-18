@@ -141,4 +141,8 @@ public class IngredientService {
         return ingredientRepository.getTotalProteins(id.toString());
     }
 
+    public List<Object> getIngredientInfo(UUID id) {
+        return ingredientRepository.getIngredientInfo(id.toString());
+    }
+
 }

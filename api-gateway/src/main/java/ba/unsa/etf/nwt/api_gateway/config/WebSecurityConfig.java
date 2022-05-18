@@ -59,13 +59,20 @@ public class WebSecurityConfig {
                     .pathMatchers(HttpMethod.DELETE,"/api/pictures").denyAll()//hasRole("Admin") // sve slike može samo admin obrisati
                     .pathMatchers(HttpMethod.DELETE,"/api/recipes").denyAll()//hasRole("Admin") // sve recepte može samo admin obrisati
                     .pathMatchers(HttpMethod.GET,"/api/steps").permitAll()
+                    .pathMatchers(HttpMethod.GET,"/api/steps/recipe/**").permitAll()
                     .pathMatchers(HttpMethod.DELETE,"/api/steps").denyAll()//hasRole("Admin") // sve korake može samo admin obrisati
                     // rating-service
                     .pathMatchers(HttpMethod.GET,"/api/ratings/**").permitAll()
                     // ingredients-service
                     .pathMatchers(HttpMethod.GET,"/api/ingredients").permitAll()
-                    .pathMatchers(HttpMethod.GET,"/api/ingredientPictures/**").permitAll()
-                    .pathMatchers(HttpMethod.POST,"/api/ingredients/**").hasRole("Admin")
+                    .pathMatchers(HttpMethod.GET,"/api/ingredientPictures").permitAll()
+                    .pathMatchers(HttpMethod.GET,"/api/ingredients/totalCalories/**").permitAll()
+                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalVitamins/**").permitAll()
+                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalFat/**").permitAll()
+                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalProteins/**").permitAll()
+                .pathMatchers(HttpMethod.GET,"/api/ingredients/ingredientInfo/**").permitAll()
+
+                .pathMatchers(HttpMethod.POST,"/api/ingredients/**").hasRole("Admin")
                     .pathMatchers(HttpMethod.PUT,"/api/ingredients/**").hasRole("Admin")
                     .pathMatchers(HttpMethod.DELETE,"/api/ingredients").denyAll()//hasRole("Admin") // niko ne može sve obrisati
                     .pathMatchers(HttpMethod.DELETE,"/api/ingredients/**").hasRole("Admin")

@@ -44,7 +44,7 @@ public class IngredientServiceApplication {
 //                UUID p1=pictureService.create(file);
 //                UUID p2=pictureService.create(file);
 //                UUID p3=pictureService.create(file);
-//                UUID uuid = UUID.fromString("51f14681-7726-4cc9-9ad1-966970b0e08c");
+//                UUID uuid = UUID.fromString("04b03880-5b56-4464-a466-a150958c32f7");
 //                UUID r1 = ingredientService.create(new IngredientDTO("Chicken", 200,
 //                        0, 12, 3, 12, "gram", p1));
 //                UUID r2 = ingredientService.create(new IngredientDTO("Milk", 200,

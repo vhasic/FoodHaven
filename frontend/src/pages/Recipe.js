@@ -28,39 +28,40 @@ class Recipe extends React.Component {
  }
 
   componentDidMount() {
-    RecipeService.getRecipeByID("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+    RecipeService.getRecipeByID("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({recipe : res.data});
     });
-    RatingService.getAverageRatingForRecipe("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+    RatingService.getAverageRatingForRecipe("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({averageRating : res.data});
     });
-    IngredientService.getTotalCalories("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+    IngredientService.getTotalCalories("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({calories : res.data});
     });
-    IngredientService.getTotalVitamins("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+    IngredientService.getTotalVitamins("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({vitamins : res.data});
     });
-    IngredientService.getTotalFat("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+    IngredientService.getTotalFat("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({fat : res.data});
     });
-    IngredientService.getTotalProteins("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
+    IngredientService.getTotalProteins("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({proteins : res.data});
     });
+    IngredientService.getIngredientInfoForRecipe("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
+        this.setState({ingredients : res.data});
+    });
+    StepService.getRecipeSteps("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
+        this.setState({steps : res.data});
+    });
+    RatingService.getRatingForRecipe("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
+        this.setState({ratings : res.data});
+    });
+
   }
 
   render() {
-      PictureService.getRecipePictureById(this.state.recipe.recipePicture).then((res) => {
-          this.setState({pic : res.data})
-      });
-      RatingService.getRatingForRecipe("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
-          this.setState({ratings : res.data});
-      });
-      StepService.getRecipeSteps("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
-          this.setState({steps : res.data});
-      });
-      IngredientService.getIngredientInfoForRecipe("51f14681-7726-4cc9-9ad1-966970b0e08c").then((res) => {
-          this.setState({ingredients : res.data});
-      });
+      // PictureService.getRecipePictureById(this.state.recipe.recipePicture).then((res) => {
+      //     this.setState({pic : res.data})
+      // });
         return (
             <div>
                <a href='./Home'><h2 style={{marginLeft:"5%"}} className='h2-style'>FoodHaven</h2></a>
@@ -68,7 +69,8 @@ class Recipe extends React.Component {
                     <div className="column1-recipe" >
                         <h1>{this.state.recipe.name}</h1>
                         <h4>Average rating: <i className='fas fa-star recipe-i'></i> {this.state.averageRating.averageRating}</h4>
-                        <img className='recipe-img' src={'data:image/jpeg;base64,' + this.state.pic.picByte} alt='' />
+                        <p>{this.state.pic.picByte}</p>
+                        <img className='recipe-img' src={'data:image/jpeg;base64,' + "R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="} alt='' />
                         <p>{this.state.recipe.description}</p>
                         <div className="numberCircle">calories: <b>{this.state.calories.totalCalories}</b></div>
                         <div className="numberCircle">vitamins: <b>{this.state.vitamins.totalVitamins}</b></div>

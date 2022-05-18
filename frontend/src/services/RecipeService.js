@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const RECIPES_REST_API_URL = 'http://localhost:8088/api/recipes';
+const RECIPES_REST_API_URL = 'http://localhost:8082/api/recipes';
 
 class RecipeService {
 
@@ -8,7 +8,7 @@ class RecipeService {
         return axios.get(RECIPES_REST_API_URL);
     }
     getRecipeByID(id) {
-        return axios.get('http://localhost:8088/api/recipes/' + id)
+        return axios.get('http://localhost:8082/api/recipes/' + id)
     }
 }
 

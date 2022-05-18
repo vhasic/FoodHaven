@@ -33,31 +33,31 @@ public class IngredientServiceApplication {
         SpringApplication.run(IngredientServiceApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner demo(PictureService pictureService, IngredientService ingredientService,
-                                  IngredientRecipeService ingredientRecipeService) {
-        return (args) -> {
-
-            MultipartFile file = null;
-            try {
-                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("ingredient-service/src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
-                UUID p1=pictureService.create(file);
-                UUID p2=pictureService.create(file);
-                UUID p3=pictureService.create(file);
-                UUID uuid = UUID.fromString("51f14681-7726-4cc9-9ad1-966970b0e08c");
-                UUID r1 = ingredientService.create(new IngredientDTO("Chicken", 200,
-                        0, 12, 3, 12, "gram", p1));
-                UUID r2 = ingredientService.create(new IngredientDTO("Milk", 200,
-                        4, 0, 3, 5, "liter", p2));
-                UUID r3 = ingredientService.create(new IngredientDTO("Strawberry",
-                        200, 10, 2, 0, 4, "gram", p3));
-                ingredientRecipeService.create(new IngredientRecipeDTO(1, uuid, r1));
-                ingredientRecipeService.create(new IngredientRecipeDTO(2, uuid, r2));
-                ingredientRecipeService.create(new IngredientRecipeDTO(3, uuid, r3));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        };
-    }
+//    @Bean
+//    public CommandLineRunner demo(PictureService pictureService, IngredientService ingredientService,
+//                                  IngredientRecipeService ingredientRecipeService) {
+//        return (args) -> {
+//
+//            MultipartFile file = null;
+//            try {
+//                file = new MockMultipartFile("image.jpg", new FileInputStream(new File("ingredient-service/src/main/java/ba/unsa/etf/nwt/ingredient_service/image/image.jpg")));
+//                UUID p1=pictureService.create(file);
+//                UUID p2=pictureService.create(file);
+//                UUID p3=pictureService.create(file);
+//                UUID uuid = UUID.fromString("51f14681-7726-4cc9-9ad1-966970b0e08c");
+//                UUID r1 = ingredientService.create(new IngredientDTO("Chicken", 200,
+//                        0, 12, 3, 12, "gram", p1));
+//                UUID r2 = ingredientService.create(new IngredientDTO("Milk", 200,
+//                        4, 0, 3, 5, "liter", p2));
+//                UUID r3 = ingredientService.create(new IngredientDTO("Strawberry",
+//                        200, 10, 2, 0, 4, "gram", p3));
+//                ingredientRecipeService.create(new IngredientRecipeDTO(1, uuid, r1));
+//                ingredientRecipeService.create(new IngredientRecipeDTO(2, uuid, r2));
+//                ingredientRecipeService.create(new IngredientRecipeDTO(3, uuid, r3));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        };
+//    }
 }

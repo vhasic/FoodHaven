@@ -2,7 +2,6 @@ import React from 'react';
 import '../style/AccessForms.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import AuthService from "../services/AuthService";
-import authService from "../services/AuthService";
 
 class LogIn extends React.Component {
     constructor(props) {

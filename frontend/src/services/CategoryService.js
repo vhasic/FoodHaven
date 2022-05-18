@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const CATEGORIES_REST_API_URL = 'http://localhost:8082/api/categorys';
+const CATEGORIES_REST_API_URL = 'http://localhost:8088/api/categorys';
 
 class CategoryService {
 

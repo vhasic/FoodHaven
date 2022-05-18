@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../style/Instructions.css';
 import axios from 'axios'
+import AuthService from '../services/AuthService';
 
 class Instructions extends Component { 
     constructor(props) {
@@ -48,13 +49,14 @@ class Instructions extends Component {
         let i = 1;
         {this.state.steps.map(
           step => (
-            axios.post(`http://localhost:8082/api/steps`, 
+            axios.post(`http://localhost:8088/api/steps`, 
               JSON.stringify({
                 description: step,
-                stepRecipe : 'afbee9bb-dfce-42c2-9988-18d0db35da4b',
+                stepRecipe : "07c6b1cb-6190-4602-ae3d-120313efff7e",
                 onumber : i
               }), {
                 headers: {
+                  'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
                   'Content-Type': 'application/json'
                 }
             }),

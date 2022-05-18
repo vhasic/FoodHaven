@@ -33,7 +33,7 @@ class SignUp extends React.Component {
                 'username': this.state.username,
                 'email': this.state.email,
                 'password': this.state.password};
-            axios.post(`http://localhost:8083/api/users`, formData, {
+            axios.post(`http://localhost:8088/api/users`, formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

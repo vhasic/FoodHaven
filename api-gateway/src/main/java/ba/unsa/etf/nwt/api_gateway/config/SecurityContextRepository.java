@@ -34,31 +34,6 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
                     String token = authHeader.substring(7);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(token, token);
                     return this.authenticationManager.authenticate(authentication).map(SecurityContextImpl::new);
-/*                    String username = null;
-                    List<String> authorities = null;
-
-                    try {
-                        String token = authHeader.substring(7);
-                        final String SECRET = Base64.getEncoder().encodeToString(jwtConfig.getSecret().getBytes());
-                        // 4. Validate the token
-                        Claims claims = Jwts.parser()
-                                .setSigningKey(SECRET)
-                                .parseClaimsJws(token)
-                                .getBody();
-
-                        username = claims.getSubject();
-                        authorities = (List<String>) claims.get("authorities");
-
-                    } catch ( Exception e ) {
-                        e.printStackTrace();
-                    }
-
-                    // 5. Create auth object
-                    // UsernamePasswordAuthenticationToken: A built-in object, used by spring to represent the current authenticated / being authenticated user.
-                    // It needs a list of authorities, which has type of GrantedAuthority interface, where SimpleGrantedAuthority is an implementation of that interface
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                            username, null, authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-                    return this.authenticationManager.authenticate(authentication).map(SecurityContextImpl::new);*/
                 });
     }
 }

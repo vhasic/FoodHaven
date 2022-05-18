@@ -5,7 +5,10 @@ import axios from 'axios'
 class Instructions extends Component { 
     constructor(props) {
         super(props);
-        this.state = { values: [] };
+        this.state = { 
+          values: [],
+          steps : []
+         };
         this.handleSubmit = this.handleSubmit.bind(this);
       }
     
@@ -13,7 +16,11 @@ class Instructions extends Component {
          return this.state.values.map((el, i) => 
              <div key={i}>
                  <h4>Step {i+1}</h4><br/>
-                 <textarea className='instruction-input'  type="text" onChange={this.handleChange.bind(this, i)} />
+                 <textarea 
+                    key = {i+1}
+                    className='instruction-input' 
+                    type="text" 
+                    onChange={this.handleChange.bind(this, i)} />
                  <button className='remove-button' type='button' value='remove' onClick={this.removeClick.bind(this, i)}><i className='fas fa-trash-alt'></i></button>
              </div>          
          )
@@ -22,7 +29,8 @@ class Instructions extends Component {
       handleChange(i, event) {
          let values = [...this.state.values];
          values[i] = event.target.value;
-         this.setState({ values });
+         this.setState({ values : values });
+         this.setState({ steps : values});
       }
       
       addClick(){
@@ -32,21 +40,28 @@ class Instructions extends Component {
       removeClick(i){
          let values = [...this.state.values];
          values.splice(i,1);
-         this.setState({ values });
+         this.setState({ values : values });
+         this.setState({ steps : values});
       }
     
       handleSubmit(event) {
-        alert('Recipe Saved! ');
-        const json = JSON.stringify({
-          description: 'posalji opis',
-          stepRecipe : '47ca7045-14dd-424a-b5f0-f8d0544f7545',
-          onumber : 1
-        })
-        axios.post(`http://localhost:8082/api/steps`, json, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+        let i = 1;
+        {this.state.steps.map(
+          step => (
+            axios.post(`http://localhost:8082/api/steps`, 
+              JSON.stringify({
+                description: step,
+                stepRecipe : 'afbee9bb-dfce-42c2-9988-18d0db35da4b',
+                onumber : i
+              }), {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+            }),
+            i+=1
+          ));
+        }
+        alert("Saved!")
         event.preventDefault();
       }
     

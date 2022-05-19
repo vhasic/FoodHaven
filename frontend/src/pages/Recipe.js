@@ -18,9 +18,7 @@ class Recipe extends React.Component {
             pic : "",
             averageRating : Object(),
             calories : Object(),
-            vitamins : Object(),
-            fat : Object(),
-            proteins : Object(),
+            nutrition : Object(),
             ratings : [],
             steps : [],
             ingredients: []
@@ -37,14 +35,8 @@ class Recipe extends React.Component {
     IngredientService.getTotalCalories("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({calories : res.data});
     });
-    IngredientService.getTotalVitamins("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
-        this.setState({vitamins : res.data});
-    });
-    IngredientService.getTotalFat("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
-        this.setState({fat : res.data});
-    });
-    IngredientService.getTotalProteins("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
-        this.setState({proteins : res.data});
+    IngredientService.getNutrition("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
+        this.setState({nutrition : res.data});
     });
     IngredientService.getIngredientInfoForRecipe("04b03880-5b56-4464-a466-a150958c32f7").then((res) => {
         this.setState({ingredients : res.data});
@@ -59,9 +51,9 @@ class Recipe extends React.Component {
   }
 
   render() {
-      // PictureService.getRecipePictureById(this.state.recipe.recipePicture).then((res) => {
-      //     this.setState({pic : res.data})
-      // });
+      PictureService.getRecipePictureById(this.state.recipe.recipePicture).then((res) => {
+          this.setState({pic : res.data})
+      });
         return (
             <div>
                <a href='./Home'><h2 style={{marginLeft:"5%"}} className='h2-style'>FoodHaven</h2></a>
@@ -69,13 +61,12 @@ class Recipe extends React.Component {
                     <div className="column1-recipe" >
                         <h1>{this.state.recipe.name}</h1>
                         <h4>Average rating: <i className='fas fa-star recipe-i'></i> {this.state.averageRating.averageRating}</h4>
-                        <p>{this.state.pic.picByte}</p>
-                        <img className='recipe-img' src={'data:image/jpeg;base64,' + "R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="} alt='' />
+                        <img className='recipe-img' src={'data:image/jpeg;base64,' + this.state.pic.picByte} alt='' />
                         <p>{this.state.recipe.description}</p>
                         <div className="numberCircle">calories: <b>{this.state.calories.totalCalories}</b></div>
-                        <div className="numberCircle">vitamins: <b>{this.state.vitamins.totalVitamins}</b></div>
-                        <div className="numberCircle">fat: <b>{this.state.fat.totalFat}</b></div>
-                        <div className="numberCircle">proteins: <b>{this.state.proteins.totalProteins}</b></div>
+                        <div className="numberCircle">vitamins: <b>{this.state.nutrition.totalVitamins}</b></div>
+                        <div className="numberCircle">fat: <b>{this.state.nutrition.totalFat}</b></div>
+                        <div className="numberCircle">proteins: <b>{this.state.nutrition.totalProteins}</b></div>
                     </div>
                         <div className="column2-recipe"> 
                         <h1>Ingredients</h1>

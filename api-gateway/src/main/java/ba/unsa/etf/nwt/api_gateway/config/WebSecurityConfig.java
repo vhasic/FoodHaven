@@ -67,9 +67,7 @@ public class WebSecurityConfig {
                     .pathMatchers(HttpMethod.GET,"/api/ingredients").permitAll()
                     .pathMatchers(HttpMethod.GET,"/api/ingredientPictures").permitAll()
                     .pathMatchers(HttpMethod.GET,"/api/ingredients/totalCalories/**").permitAll()
-                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalVitamins/**").permitAll()
-                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalFat/**").permitAll()
-                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalProteins/**").permitAll()
+                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalNutrition/**").permitAll()
                 .pathMatchers(HttpMethod.GET,"/api/ingredients/ingredientInfo/**").permitAll()
 
                 .pathMatchers(HttpMethod.POST,"/api/ingredients/**").hasRole("Admin")

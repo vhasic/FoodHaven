@@ -68,27 +68,15 @@ public class IngredientController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping(value = "/totalVitamins", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getTotalVitamins(@RequestParam UUID recipeId) {
-        Integer totalVitamins = ingredientService.getTotalVitamins(recipeId);
+    @GetMapping(value = "/totalNutrition", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getNutrition(@RequestParam UUID recipeId) {
+        Integer vitamins = ingredientService.getTotalVitamins(recipeId);
+        Integer fat = ingredientService.getTotalFat(recipeId);
+        Integer proteins = ingredientService.getTotalProteins(recipeId);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("totalVitamins", totalVitamins);
-        return ResponseEntity.ok(map);
-    }
-
-    @GetMapping(value = "/totalFat", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getTotalFat(@RequestParam UUID recipeId) {
-        Integer totalFat = ingredientService.getTotalFat(recipeId);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("totalFat", totalFat);
-        return ResponseEntity.ok(map);
-    }
-
-    @GetMapping(value = "/totalProteins", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getTotalProteins(@RequestParam UUID recipeId) {
-        Integer totalProteins = ingredientService.getTotalProteins(recipeId);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("totalProteins", totalProteins);
+        map.put("totalVitamins", vitamins);
+        map.put("totalFat", fat);
+        map.put("totalProteins", proteins);
         return ResponseEntity.ok(map);
     }
 

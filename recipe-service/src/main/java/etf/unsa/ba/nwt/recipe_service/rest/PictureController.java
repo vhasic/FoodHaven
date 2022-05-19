@@ -33,7 +33,7 @@ public class PictureController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PictureDTO> getPicture(@PathVariable final UUID id) throws IOException {
+    public ResponseEntity<PictureDTO> getPicture(@PathVariable UUID id) throws IOException {
         return ResponseEntity.ok(pictureService.get(id));
     }
 

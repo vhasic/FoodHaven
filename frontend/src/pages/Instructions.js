@@ -52,7 +52,7 @@ class Instructions extends Component {
             axios.post(`http://localhost:8088/api/steps`, 
               JSON.stringify({
                 description: step,
-                stepRecipe : "07c6b1cb-6190-4602-ae3d-120313efff7e",
+                stepRecipe : "04b03880-5b56-4464-a466-a150958c32f7",
                 onumber : i
               }), {
                 headers: {

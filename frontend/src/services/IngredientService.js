@@ -10,14 +10,8 @@ class IngredientService {
     getTotalCalories(id) {
         return axios.get('http://localhost:8088/api/ingredients/totalCalories?recipeId=' + id);
     }
-    getTotalVitamins(id) {
-        return axios.get('http://localhost:8088/api/ingredients/totalVitamins?recipeId=' + id);
-    }
-    getTotalFat(id) {
-        return axios.get('http://localhost:8088/api/ingredients/totalFat?recipeId=' + id);
-    }
-    getTotalProteins(id) {
-        return axios.get('http://localhost:8088/api/ingredients/totalProteins?recipeId=' + id);
+    getNutrition(id) {
+        return axios.get('http://localhost:8088/api/ingredients/totalNutrition?recipeId=' + id);
     }
     getIngredientInfoForRecipe(id) {
         return axios.get('http://localhost:8088/api/ingredients/ingredientInfo?recipeId=' + id);

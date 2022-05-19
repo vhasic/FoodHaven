@@ -7,6 +7,7 @@ import CategoryService from '../services/CategoryService';
 import PictureService from '../services/PictureService';
 import CategoryCard from '../components/CategoryCard';
 import RecipeCard from '../components/RecipeCard';
+import LoginLogout from '../components/LoginLogout';
 
 const responsive = { 
   superLargeDesktop: {
@@ -62,7 +63,7 @@ class HomePage extends Component {
           <div>
             <div className='home-div'>
                 <h2 className='h2-style'>FoodHaven</h2>
-                <button className='button-login-signup'> <a className='a-home' href='./LogIn'>Log In</a> / <a className='a-home' href='./SignUp'>Sign Up</a></button>
+                <LoginLogout /> 
             </div>
             <div className="container">
             <Carousel
@@ -105,7 +106,7 @@ class HomePage extends Component {
                 <div className="cards">
                   {this.state.recipes.map(
                     recipe => (
-                        <RecipeCard key = {recipe.id}
+                          <RecipeCard key = {recipe.id}
                           img={this.state.pictureMap.get(recipe.recipePicture)}
                           name={recipe.name}
                           category = {this.state.categoryMap.get(recipe.recipeCategory)}

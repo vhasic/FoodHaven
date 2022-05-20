@@ -1,19 +1,35 @@
 import React from 'react';
 import '../style/RecipeInfo.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
+import AuthService from '../services/AuthService';
+import CategoryService from '../services/CategoryService';
 const defaultImageSrc = '/img/image-placeholder.png';
 
 class RecipeInfo extends React.Component {
 
     constructor(props) {
         super(props);
+        const userId = AuthService.getCurrentUser().userId;
         this.state = {
-            image: '',
-            imageSrc: defaultImageSrc
+            pictureId: '',
+            imageSrc: defaultImageSrc, 
+            name : '',
+            description : '',
+            preparationTime : '',
+            userID : userId,
+            recipeCategory : 'ebb0111e-c2b3-42e7-821b-3378192a20d8', 
+            categories : [],
+            categoryMap : new Map(),
+            categoryName : ''
         }
     }
       
     componentDidMount() {
+        CategoryService.getCategories().then((res) => {
+            this.setState({ categories : res.data });
+        });
+        
     }
 
     onChange = event => {
@@ -22,6 +38,18 @@ class RecipeInfo extends React.Component {
 
     showPreview = e => {
         if (e.target.files && e.target.files[0]) {
+            const formData = new FormData();
+            formData.append('file', e.target.files[0]);
+
+            axios.post(`http://localhost:8088/api/pictures/upload`,formData, {
+                headers: {
+                  'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
+                  'Content-Type': 'multipart/form-data'
+                }
+            }).then((res) => {
+                this.setState({ pictureId : res.data });
+            });
+
             let imageFiles = e.target.files[0];
             const reader = new FileReader();
             reader.onload = x => {
@@ -35,10 +63,40 @@ class RecipeInfo extends React.Component {
         else {
             this.setState({
               [e.target.name]: e.target.value,
-                imageSrc: '/img/image_placeholder.png'
+              imageSrc: '/img/image_placeholder.png'
             })
         }
     }
+
+    submitNew = e => {
+        e.preventDefault();
+        const formData = {
+            'name': this.state.name,
+            'description': this.state.description,
+            'preparationTime': this.state.preparationTime,
+            'userID': this.state.userID,
+            'recipePicture' : this.state.pictureId,
+            'recipeCategory': this.state.categoryMap.get(this.state.categoryName)
+        };
+        axios.post(`http://localhost:8088/api/recipes`, formData, {
+                headers: {
+                    'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
+                    'Content-Type': 'application/json'
+                }
+            }).then (r => {
+                if(r.status === 201){
+                    alert("Recipe saved!");
+                }
+                window.location.href = './Ingredients';
+            }).catch(function(error) {
+                console.log(error);
+                alert("Bad Request!")
+              });
+    }
+
+    handleChange = e => {
+        this.setState({ categoryName: e.target.value });
+      }
 
 
   render() {
@@ -47,24 +105,25 @@ class RecipeInfo extends React.Component {
                 <div>
                 <h2 style={{marginLeft:"40%"}} className='h2-style'>FoodHaven</h2>
                 <a className='a-back' href='./UserPage'> <i className="fas fa-angle-left"></i> Cancel</a>  
-                <a className='a-next-info' href='./Ingredients'> Next <i className="fas fa-angle-right"></i> </a>  
                 <h1 style={{marginLeft:"5%"}}>About</h1> 
                 </div>
-                <div>
+                <form onSubmit={this.submitNew}>    
                     <div className="column2-user-page" style={{width:"50%"}}>   
                         <div className='about'>
                             <div>
                                 <label >Name</label><br/>
                                 <input
-                                className='input-info'
-                                type='text'
-                                name='name'
-                                placeholder='Recipe name'
+                                    className='input-info'
+                                    type='text'
+                                    name='name'
+                                    placeholder='Recipe name'
+                                    onChange={this.onChange} 
+                                    value={this.state.name === null ? '' : this.state.name}
                                 />
                             </div>
                             <div>
                                 <label >Display photo</label><br/>
-                                <img  src={this.state.imageSrc} className="card-img-top  circle-image" />  
+                                <img  src={this.state.imageSrc} className="card-img-top  circle-image" alt=''/>  
                                 <input type="file" id="files"  accept="image/*" style={{display:"none"}} 
                                         onChange={this.showPreview}/>
                                 <label className='select-button'  htmlFor="files">
@@ -74,7 +133,14 @@ class RecipeInfo extends React.Component {
                             <div style={{marginTop:"5%"}}>
                                 <label>Preparation time</label><br/>
                                 <i style={{fontSize:"20px"}} className='fas fa-clock'> &nbsp; </i>
-                                <input  className='input-info' style={{width:"10%"}}/>
+                                <input  
+                                    className='input-info' 
+                                    type='text'
+                                    name='preparationTime'
+                                    style={{width:"10%"}}
+                                    onChange={this.onChange} 
+                                    value={this.state.preparationTime === null ? '' : this.state.preparationTime}
+                                />
                             </div>
                         </div> 
                     </div>
@@ -86,24 +152,31 @@ class RecipeInfo extends React.Component {
                                     className='textarea-style'
                                     type= 'text'
                                     name='description'
+                                    onChange={this.onChange} 
+                                    value={this.state.description === null ? '' : this.state.description}
                                 />
                         </div>
                         <div>
                             <label>National Cuisine</label> <br/>
-                                <select className='dropbtn'>
-                                    <option> &nbsp; English</option>
-                                    <option> &nbsp; American</option>
-                                    <option> &nbsp; Bosnian</option>
-                                    <option> &nbsp; French</option>
-                                    <option> &nbsp; Italian</option>
-                                    <option> &nbsp; Turkish</option>
-                                    <option> &nbsp; Indian</option>
-                                    <option> &nbsp; Japanese</option>
+                                <select 
+                                    className='dropbtn'
+                                    value={this.state.categoryName} 
+                                    onChange={this.handleChange}
+                                >
+                                {this.state.categories.map(
+                                    category => (
+                                        this.state.categoryMap.set(category.name, category.id),
+                                        <option key={category.id}>{category.name}</option>
+                                ))}
+                                   
                                 </select>
                         </div>
+                        <button type='submit'>
+                            <i className='fas fa-save'></i> Save recipe 
+                        </button>
                          </div>
                     </div>
-                </div>
+                </form>
             </div>
         );
     }

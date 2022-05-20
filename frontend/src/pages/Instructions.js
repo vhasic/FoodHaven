@@ -79,7 +79,7 @@ class Instructions extends Component {
                 <form style={{marginLeft:"5%"}} onSubmit={this.handleSubmit}>        
                     <button className='add-button' type='button' value='add more' onClick={this.addClick.bind(this)}><i className='fas fa-plus-circle'></i> Add step</button>
                     {this.createUI()} <br/> <br/>
-                    <button className='remove-button' type="submit" value="Submit" ><i className='fas fa-save'></i> Save recipe </button> 
+                    <button type="submit" value="Submit" ><i className='fas fa-save'></i> Save instructions </button> 
                 </form>
           </div>
         );

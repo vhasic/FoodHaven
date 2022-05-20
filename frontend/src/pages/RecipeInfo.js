@@ -70,28 +70,36 @@ class RecipeInfo extends React.Component {
 
     submitNew = e => {
         e.preventDefault();
-        const formData = {
-            'name': this.state.name,
-            'description': this.state.description,
-            'preparationTime': this.state.preparationTime,
-            'userID': this.state.userID,
-            'recipePicture' : this.state.pictureId,
-            'recipeCategory': this.state.categoryMap.get(this.state.categoryName)
-        };
-        axios.post(`http://localhost:8088/api/recipes`, formData, {
-                headers: {
-                    'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
-                    'Content-Type': 'application/json'
-                }
-            }).then (r => {
-                if(r.status === 201){
-                    alert("Recipe saved!");
-                }
-                window.location.href = './Ingredients';
-            }).catch(function(error) {
-                console.log(error);
-                alert("Bad Request!")
-              });
+        if(this.state.categoryName === '') {
+            alert("Please select category!")
+        }
+        else if(this.state.pictureId === '') {
+            alert("Please select recipe photo!")
+        }
+        else {
+            const formData = {
+                'name': this.state.name,
+                'description': this.state.description,
+                'preparationTime': this.state.preparationTime,
+                'userID': this.state.userID,
+                'recipePicture' : this.state.pictureId,
+                'recipeCategory': this.state.categoryMap.get(this.state.categoryName)
+            };
+            axios.post(`http://localhost:8088/api/recipes`, formData, {
+                    headers: {
+                        'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
+                        'Content-Type': 'application/json'
+                    }
+                }).then (r => {
+                    if(r.status === 201){
+                        alert("Recipe saved!");
+                    }
+                    window.location.href = './Ingredients';
+                }).catch(function(error) {
+                    console.log(error);
+                    alert("Bad Request!")
+                });
+        }
     }
 
     handleChange = e => {
@@ -117,6 +125,8 @@ class RecipeInfo extends React.Component {
                                     type='text'
                                     name='name'
                                     placeholder='Recipe name'
+                                    required="required"
+                                    maxLength="20"
                                     onChange={this.onChange} 
                                     value={this.state.name === null ? '' : this.state.name}
                                 />
@@ -134,8 +144,12 @@ class RecipeInfo extends React.Component {
                                 <label>Preparation time</label><br/>
                                 <i style={{fontSize:"20px"}} className='fas fa-clock'> &nbsp; </i>
                                 <input  
+                                    required="required"
                                     className='input-info' 
-                                    type='text'
+                                    type="text"
+                                    maxLength="6"
+                                    pattern='^[0-9\b]{1,6}$' 
+                                    title="Value must be integer!"
                                     name='preparationTime'
                                     style={{width:"10%"}}
                                     onChange={this.onChange} 
@@ -149,8 +163,10 @@ class RecipeInfo extends React.Component {
                         <div >
                             <label >Description</label><br/>
                                 <textarea 
+                                    required="required"
                                     className='textarea-style'
                                     type= 'text'
+                                    maxLength="255"
                                     name='description'
                                     onChange={this.onChange} 
                                     value={this.state.description === null ? '' : this.state.description}

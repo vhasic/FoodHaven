@@ -20,11 +20,17 @@
     width: 50%;
     height: 30px;
   }
+  .input-info:invalid{
+    border: 1px solid red;
+  }
   .textarea-style {
       width: 50%;
       margin-bottom: 5%;
       margin-top: 2%;
       height: 100px;
+  }
+  .textarea-style:invalid{
+    border: 1px solid red;
   }
   .dropbtn {
     background-color: #bbb;

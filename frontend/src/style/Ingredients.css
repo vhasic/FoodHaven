@@ -60,9 +60,13 @@
     cursor: pointer;
 }
 .quantity{
-    width: 5%;
+    width: 10%;
     padding: 15px;
     margin-right: 2%;
+    border: 1px solid black;
+}
+.quantity:invalid{
+  border: 1px solid red;
 }
 .a-back{
   text-decoration: none; 

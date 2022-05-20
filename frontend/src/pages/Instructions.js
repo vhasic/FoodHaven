@@ -19,6 +19,8 @@ class Instructions extends Component {
                  <h4>Step {i+1}</h4><br/>
                  <textarea 
                     key = {i+1}
+                    required="required"
+                    maxLength="255"
                     className='instruction-input' 
                     type="text" 
                     onChange={this.handleChange.bind(this, i)} />
@@ -47,23 +49,27 @@ class Instructions extends Component {
     
       handleSubmit(event) {
         let i = 1;
-        {this.state.steps.map(
-          step => (
-            axios.post(`http://localhost:8088/api/steps`, 
-              JSON.stringify({
-                description: step,
-                stepRecipe : "04b03880-5b56-4464-a466-a150958c32f7",
-                onumber : i
-              }), {
-                headers: {
-                  'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
-                  'Content-Type': 'application/json'
-                }
-            }),
-            i+=1
-          ));
+        if(this.state.steps.length <= 0) {
+          alert("Please, add at least one step!");
+        }else{
+          {this.state.steps.map(
+            step => (
+              axios.post(`http://localhost:8088/api/steps`, 
+                JSON.stringify({
+                  description: step,
+                  stepRecipe : "04b03880-5b56-4464-a466-a150958c32f7",
+                  onumber : i
+                }), {
+                  headers: {
+                    'Authorization': 'Bearer '+ AuthService.getCurrentUser().token,
+                    'Content-Type': 'application/json'
+                  }
+              }),
+              i+=1
+            ));
+          }
+          alert("Saved!")
         }
-        alert("Saved!")
         event.preventDefault();
       }
     

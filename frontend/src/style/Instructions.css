@@ -18,6 +18,9 @@
     width: 70%;
     height: 80px;
 }
+.instruction-input:invalid {
+    border : 1px solid red;
+}
 .minutes-input{
     width:7%;
     height: 60px;

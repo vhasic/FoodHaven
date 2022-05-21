@@ -31,3 +31,8 @@
     width: 50%;
     margin-top:5%;
   }
+  .review-textarea{
+      width: 30%;
+      border: none;
+      border-bottom: 1px solid #ff6127;
+  }

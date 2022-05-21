@@ -7,6 +7,7 @@ import PictureService from '../services/PictureService';
 import IngredientService from "../services/IngredientService";
 import RecipeCard from "../components/RecipeCard";
 import StepService from "../services/StepService";
+import StarRating from '../components/StarRating';
 
 class Recipe extends React.Component {
  constructor(props) {
@@ -101,8 +102,7 @@ class Recipe extends React.Component {
                                 );
                             })}
                         </ul>
-                        <button style={{fontSize:"30px"}} className="add-button" type='button' ><i className='fas fa-user-circle'></i></button>     
-                        <input style={{fontSize:"20px", border:"none", padding:"10px", width:"40%"}} type="text" placeholder='Write your review or comment here'/>   
+                        <StarRating/>
                     </div>
                </div>
             </div>

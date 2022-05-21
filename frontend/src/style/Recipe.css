@@ -36,3 +36,6 @@
       border: none;
       border-bottom: 1px solid #ff6127;
   }
+  .review-textarea:focus{
+      outline: none;
+  }

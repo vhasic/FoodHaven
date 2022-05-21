@@ -8,16 +8,16 @@ class LogIn extends React.Component {
         super(props);
         this.state = {
             username: "",
-            password:""
+            password: ""
         };
     }
 
     handleUsernameChange = event => {
-        this.setState({username:event.target.value, password:this.state.password});
+        this.setState({ username: event.target.value, password: this.state.password });
     }
 
-    handlePasswordChange = event =>{
-        this.setState({username:this.state.username, password:event.target.value});
+    handlePasswordChange = event => {
+        this.setState({ username: this.state.username, password: event.target.value });
     }
 
     onSubmit = async event => {
@@ -64,8 +64,8 @@ class LogIn extends React.Component {
                             Log In
                         </button>
                         <span className='form-input-login'>
-            Don't have an account? Sign up <a href='./SignUp'>here</a>
-          </span>
+                            Don't have an account? Sign up <a href='./SignUp'>here</a>
+                        </span>
                     </form>
                 </div>
             </div>

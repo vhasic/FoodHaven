@@ -11,12 +11,12 @@ const Table = props => {
     const { firstName, lastName, username, email } = item; //destructuring
     return (
       <tr key={index}>
-        <td className="cell"><input type="checkbox"/></td>
+        <td className="cell"><input type="checkbox" /></td>
         <td className="cell">{firstName}</td>
         <td className="cell">{lastName}</td>
         <td className="cell">{username}</td>
         <td className="cell">{email}</td>
-        <td className="cell"><i style={{textIndent:"80%"}} className="fas fa-trash"></i></td>
+        <td className="cell"><i style={{ textIndent: "80%" }} className="fas fa-trash"></i></td>
       </tr>
     );
   });

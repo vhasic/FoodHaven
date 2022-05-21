@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default class RecipeCard extends Component {
   render() {
     return (
-      <Link to ={{
-        pathname: "/Recipe", 
-        state: { 
-            id : "1"
+      <Link to={{
+        pathname: "/Recipe",
+        state: {
+          id: "1"
         }
-       }} 
+      }}
         className="card">
         <h2>{this.props.name}</h2>
         <h5>{this.props.category}</h5>

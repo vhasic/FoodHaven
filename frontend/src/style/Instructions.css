@@ -4,6 +4,7 @@
     color: #ff6127;
     font-size: 30px;
 }
+
 .add-button {
     border: none;
     color: black;
@@ -14,15 +15,18 @@
     font-weight: 900;
     margin-bottom: 3%;
 }
+
 .instruction-input {
     width: 70%;
     height: 80px;
 }
+
 .instruction-input:invalid {
-    border : 1px solid red;
+    border: 1px solid red;
 }
-.minutes-input{
-    width:7%;
+
+.minutes-input {
+    width: 7%;
     height: 60px;
-    font-size:30px;
+    font-size: 30px;
 }

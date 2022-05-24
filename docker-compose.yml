@@ -1,0 +1,306 @@
+version: '3.3'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    build:
+      context: ./rabbitmq/
+      dockerfile: Dockerfile
+    image: rabbitmq:latest
+    expose:
+      - 5672
+      - 15672
+    networks:
+      foodhaven:
+        aliases:
+          - rabbitmq
+
+  user-service-db:
+    container_name: user-service-db
+    hostname: user-service-db
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: userServiceDB
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    expose:
+      - 3306
+    ports:
+      - 3306
+    networks:
+      foodhaven:
+        aliases:
+          - user-service-db
+
+  recipe-service-db:
+    container_name: recipe-service-db
+    hostname: recipe-service-db
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: recipeServiceDB
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    expose:
+      - 3306
+    ports:
+      - 3306
+    networks:
+      foodhaven:
+        aliases:
+          - recipe-service-db
+
+  rating-service-db:
+    container_name: rating-service-db
+    hostname: rating-service-db
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: reviewServiceDB
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    expose:
+      - 3306
+    ports:
+      - 3306
+    networks:
+      foodhaven:
+        aliases:
+          - rating-service-db
+
+  ingredient-service-db:
+    container_name: ingredient-service-db
+    hostname: ingredient-service-db
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ingredientServiceDB
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    expose:
+      - 3306
+    ports:
+      - 3306
+    networks:
+      foodhaven:
+        aliases:
+          - ingredient-service-db
+
+  system-events-service-db:
+    container_name: system-events-service-db
+    hostname: system-events-service-db
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: systemEventsServiceDB
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    expose:
+      - 3306
+    ports:
+      - 3306
+    networks:
+      foodhaven:
+        aliases:
+          - system-events-service-db
+
+
+  configuration-service:
+    container_name: configuration-service
+    hostname: config-service
+    build:
+      context: ./configuration-service/
+      dockerfile: Dockerfile
+    image: configuration-service:latest
+    restart: always
+    environment:
+      - FOODHAVEN_GIT_USERNAME=aalialzaya1
+      - FOODHAVEN_GIT_PASSWORD=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
+    expose:
+      - 8888
+    depends_on:
+      - eureka-service
+    networks:
+      projecthub:
+        aliases:
+          - config-service
+
+  eureka-service:
+    container_name: eureka-service
+    hostname: discovery-server
+    build:
+      context: ./eureka-server/
+      dockerfile: Dockerfile
+    image: eureka-service:latest
+    restart: always
+    environment:
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      - HOSTNAME=discovery-server
+    expose:
+      - 8761
+    networks:
+      projecthub:
+        aliases:
+          - discovery-server
+
+  user-service:
+    container_name: user-service
+    build:
+      context: ./user-service/
+      dockerfile: Dockerfile
+    image: user-service:latest
+    restart: always
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      - #ovo ako ne bude radilo probati sa localhost umjesto user-service-db
+      - US_DATABASE_URL=jdbc:mysql://user-service-db:3306/userServiceDB
+    expose:
+      - 8083
+    depends_on:
+      - configuration-service
+      - eureka-service
+      - user-service-db
+    networks:
+      - foodhaven
+
+  recipe-service:
+    container_name: recipe-service
+    build:
+      context: ./recipe-service/
+      dockerfile: Dockerfile
+    image: recipe-service:latest
+    restart: always
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      - RS_DATABASE_URL=jdbc:mysql://recipe-service-db:3306/recipeServiceDB
+      - RABBITMQ_HOST=rabbitmq
+    expose:
+      - 8082
+    depends_on:
+      - rabbitmq
+      - configuration-service
+      - eureka-service
+      - recipe-service-db
+    networks:
+      - foodhaven
+
+  rating-service:
+    container_name: rating-service
+    build:
+      context: ./rating-service/
+      dockerfile: Dockerfile
+    image: rating-service:latest
+    restart: always
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      - RRS_DATABASE_URL=jdbc:mysql://rating-service-db:3306/reviewServiceDB
+      - RABBITMQ_HOST=rabbitmq
+    expose:
+      - 8081
+    depends_on:
+      - rabbitmq
+      - configuration-service
+      - eureka-service
+      - rating-service-db
+    networks:
+      - foodhaven
+
+  ingredient-service:
+    container_name: ingredient-service
+    build:
+      context: ./ingredient-service/
+      dockerfile: Dockerfile
+    image: ingredient-service:latest
+    restart: always
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      - IS_DATABASE_URL=jdbc:mysql://rating-service-db:3306/ingredientServiceDB
+    expose:
+      - 8084
+    depends_on:
+      - configuration-service
+      - eureka-service
+      - ingredient-service-db
+    networks:
+      - foodhaven
+
+  system-events-service:
+    container_name: system-events-service
+    build:
+      context: ./system-events-service/
+      dockerfile: Dockerfile
+    image: system-events-service:latest
+    restart: always
+    environment:
+      - CONFIG_SERVER_URL=http://config-service:8888
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      - SS_DATABASE_URL=jdbc:mysql://system-events-service-db:3306/systemEventsServiceDB
+    expose:
+      - 8086
+      - 9090
+    depends_on:
+      - configuration-service
+      - eureka-service
+      - system-events-service-db
+    networks:
+      - foodhaven
+
+  gateway-service:
+    container_name: api-gateway
+    hostname: api-gateway
+    build:
+      context: ./api-gateway/
+      dockerfile: Dockerfile
+    image: api-gateway:latest
+    restart: always
+    environment:
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+    expose:
+      - 8088
+    ports:
+      - 8088:8088
+    depends_on:
+      - user-service
+      - recipe-service
+      - rating-service
+      - ingredient-service
+    networks:
+      foodhaven:
+        aliases:
+          - api-gateway
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend:latest
+    restart: always
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - api-gateway
+    networks:
+      - foodhaven
+
+networks:
+  foodhaven:
+    driver: bridge

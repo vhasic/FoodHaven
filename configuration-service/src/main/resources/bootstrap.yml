@@ -17,4 +17,7 @@ spring:
       name: root
       password: secret
 server:
+  tomcat:
+    threads:
+      max: 100
   port: 8888

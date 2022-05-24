@@ -17,4 +17,4 @@ eureka:
     defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 #    defaultZone: ${EUREKA_SERVER_URL}
   server:
-    waitTimeInMsWhenSyncEmpty: 0
+    waitTimeInMsWhenSyncEmpty: 5

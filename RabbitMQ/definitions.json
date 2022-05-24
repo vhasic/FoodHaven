@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "name": "foodhaven",
+      "password": "password",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "foodhaven",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "delete-recipe-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "revert-recipe-delete-exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "delete-recipe-queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "revert-recipe-delete-queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "delete-recipe-exchange",
+      "vhost": "/",
+      "destination": "delete-recipe-queue",
+      "destination_type": "queue",
+      "routing_key": "delete-recipe-routing-key",
+      "arguments": {}
+    },
+    {
+      "source": "revert-recipe-delete-exchange",
+      "vhost": "/",
+      "destination": "revert-recipe-delete-queue",
+      "destination_type": "queue",
+      "routing_key": "revert-recipe-delete-routing-key",
+      "arguments": {}
+    }
+  ]
+}

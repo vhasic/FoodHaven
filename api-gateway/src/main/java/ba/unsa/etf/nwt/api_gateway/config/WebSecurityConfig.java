@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                     // user-serice
                     .pathMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll() //login
                     .pathMatchers(HttpMethod.POST, "/api/users").permitAll() //signUp
-                    .pathMatchers(HttpMethod.GET,"/api/users/**").hasRole("Admin") //korisnike može samo admin vidjeti
+                    .pathMatchers(HttpMethod.GET,"/api/users/**").permitAll()//korisnike može samo admin vidjeti
                     .pathMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("Admin") //korisnike može samo admin brisati
                     .pathMatchers("/api/roles/**").hasRole("Admin") // samo admin može pristupiti rolama
                     // recipe-service

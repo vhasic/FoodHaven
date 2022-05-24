@@ -89,8 +89,8 @@ class Recipe extends React.Component {
 
                         {this.state.steps.map(step => {
                             return (
-                                <div>
-                                    <h2>Step {step.onumber}</h2>
+                                <div key={step.id + 1}>
+                                    <h2 key={step.id + 2}>Step {step.onumber}</h2>
                                     <p style={{
                                         fontSize: "20px"
                                     }} key={step.id}>
@@ -105,21 +105,20 @@ class Recipe extends React.Component {
                         <StarRating />
                         {this.state.ratings.map(rating => {
                             return (
-                                <div style={{ marginBottom: "3%" }}>
-                                    <span className='rating-span' ><i className='fas fa-user-circle'></i> </span>
-                                    <Rating
+                                <div key={rating.id + 1} style={{ marginBottom: "3%" }}>
+                                    <span key={rating.id + 2} className='rating-span' ><i className='fas fa-user-circle'></i> </span>
+                                    <Rating key={rating.id + 3} 
                                         size="25"
                                         emptyColor='#ff6127'
                                         fillColor='#ff6127'
                                         required="required"
                                         iconsCount={rating.rating}
-                                    /><br />
-                                    <span
-                                        key={rating.id}
+                                    /><br key={rating.id + 4} />
+                                    <span key={rating.id + 5} 
                                         className='rating-span'
                                         style={{ marginLeft: '1%' }}>
                                         {rating.comment}
-                                    </span><br />
+                                    </span><br  key={rating.id + 6} />
                                 </div>
                             );
                         })}

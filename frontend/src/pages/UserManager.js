@@ -112,19 +112,8 @@ class UserManager extends Component {
 
     return (
       <div>
-        <div className="column1">
-          <h2 className="h2-user-manager"><i className="fas fa-user-circle"></i></h2>
-          <h2 style={{ textAlign: "center" }}>Admin</h2>
-          <div style={{ marginTop: "25%" }}>
-            <h3 className='h3-admin'><i className="fa fa-user-group"></i><a className="h3-admin" href="./UserManager">User manager</a></h3>
-            <h3 className='h3-admin'><i className="fas fa-star"></i><a className="h3-admin" href="./UserManager">All reviews</a></h3>
-            <h3 className='h3-admin'><i className="fa fa-book"></i><a className="h3-admin" href="./UserManager"> Recipes</a></h3>
-
-          </div>
-        </div>
         <div className="column2">
           <React.Fragment>
-            <h2 style={{ marginLeft: "40%" }} className='h2-style'>FoodHaven</h2>
             <h1>User maneger</h1>
             <label className="span-style"><i className="fas fa-search"></i> </label>
             <input

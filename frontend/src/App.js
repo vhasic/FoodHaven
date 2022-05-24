@@ -7,7 +7,7 @@ import RecipeInfo from './pages/RecipeInfo.js';
 import Instructions from './pages/Instructions.js';
 import Ingredients from './pages/Ingredients.js';
 import Recipe from './pages/Recipe.js';
-import UserManager from './pages/UserManager.js';
+import AdminPage from './pages/AdminPage.js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 class App extends Component {    
@@ -24,7 +24,7 @@ class App extends Component {
           <Route path='/Instructions' element={<Instructions/>} />
           <Route path='/Ingredients' element={<Ingredients/>} />
           <Route path='/Recipe' element={<Recipe/>} />
-          <Route path='/UserManager' element={<UserManager/>}/>
+          <Route path='/AdminPage' element={<AdminPage/>}/>
       </Routes>
   </Router>
   }

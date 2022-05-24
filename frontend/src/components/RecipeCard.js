@@ -22,7 +22,6 @@ export default class RecipeCard extends Component {
           <p>
             {this.props.description}
           </p>
-          <h2>{this.props.rating} <i className="fas fa-star recipe-i"></i></h2>
         </div>
       </Link>
     );

@@ -9,33 +9,44 @@
     background-color: #ffc8b8;
     margin-left: 0.5%;
 }
-.recipe-img{
-    margin-top:3%;
-    height:50%;
-    width:60%;
+
+.recipe-img {
+    margin-top: 3%;
+    height: 50%;
+    width: 60%;
 }
-.recipe-i{
-    font-size:25px;
-    color:yellow;
+
+.recipe-i {
+    font-size: 25px;
+    color: yellow;
 }
+
 .column1-recipe {
     float: left;
     width: 50%;
     height: 1000px;
     width: 50%;
-  }
+}
+
 .column2-recipe {
     float: left;
     width: 50%;
     height: 1000px;
     width: 50%;
-    margin-top:5%;
-  }
-  .review-textarea{
-      width: 30%;
-      border: none;
-      border-bottom: 1px solid #ff6127;
-  }
-  .review-textarea:focus{
-      outline: none;
-  }
+    margin-top: 5%;
+}
+
+.review-textarea {
+    width: 30%;
+    border: none;
+    border-bottom: 1px solid #ff6127;
+}
+
+.review-textarea:focus {
+    outline: none;
+}
+
+.rating-span {
+    font-size: 20px;
+    width: 70%;
+}

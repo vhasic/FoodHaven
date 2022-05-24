@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 export default class RecipeCard extends Component {
+  handleClick = event => {
+    localStorage.setItem('recipeId', this.props.recipeId)
+  }
   render() {
     return (
-      <Link to={{
+      <Link onClick={this.handleClick.bind(this)} to={{
         pathname: "/Recipe",
         state: {
           id: "1"

@@ -11,7 +11,7 @@ class StarRating extends React.Component {
     this.state = {
       rating: 0,
       comment: '',
-      recipeId: "a763442e-fdb7-4ffd-834e-56bc135aa825",
+      recipeId: localStorage.getItem('recipeId'),
       userId: '',
       isLoggedIn: false
     };
@@ -44,6 +44,7 @@ class StarRating extends React.Component {
     }).then(r => {
       if (r.status === 201) {
         alert("Saved!!");
+        window.location.reload()
       }
     }).catch(function (error) {
       console.log(error);
@@ -58,7 +59,7 @@ class StarRating extends React.Component {
   render() {
     {
       if (this.state.isLoggedIn) {
-        return <form onSubmit={this.submitNew}>
+        return <form style={{marginBottom:"5%"}} onSubmit={this.submitNew}>
           <label>Your Rating</label><br />
           <Rating
             size="25"

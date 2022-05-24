@@ -93,8 +93,9 @@ class RecipeInfo extends React.Component {
             }).then(r => {
                 if (r.status === 201) {
                     alert("Recipe saved!");
+                    localStorage.setItem('recipeId',  r.data);
+                    window.location.href = './Ingredients';
                 }
-                window.location.href = './Ingredients';
             }).catch(function (error) {
                 console.log(error);
                 alert("Bad Request!")

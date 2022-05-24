@@ -119,6 +119,7 @@ class HomePage extends Component {
           {this.state.recipes.map(
             recipe => (
               <RecipeCard key={recipe.id}
+                recipeId={recipe.id}
                 img={this.state.pictureMap.get(recipe.recipePicture)}
                 name={recipe.name}
                 category={this.state.categoryMap.get(recipe.recipeCategory)}

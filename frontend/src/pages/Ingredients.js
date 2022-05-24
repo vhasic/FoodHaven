@@ -18,7 +18,7 @@ class Ingredients extends Component {
       ingredientIdMap: new Map(),
       quantity: [],
       ingredient: [],
-      recipeID: "a763442e-fdb7-4ffd-834e-56bc135aa825"
+      recipeID: localStorage.getItem('recipeId')
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.labela = []
@@ -113,6 +113,7 @@ class Ingredients extends Component {
         });
       }
       alert("Ingredients saved!")
+      window.location.href = './Instructions';
     }
     event.preventDefault();
   }

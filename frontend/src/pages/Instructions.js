@@ -58,7 +58,7 @@ class Instructions extends Component {
             axios.post(`http://localhost:8088/api/steps`,
               JSON.stringify({
                 description: step,
-                stepRecipe: "04b03880-5b56-4464-a466-a150958c32f7",
+                stepRecipe: localStorage.getItem('recipeId'),
                 onumber: i
               }), {
               headers: {
@@ -69,7 +69,8 @@ class Instructions extends Component {
             i += 1
           ));
       }
-      alert("Saved!")
+      alert("Instructions saved!");
+      window.location.href = './Home';
     }
     event.preventDefault();
   }

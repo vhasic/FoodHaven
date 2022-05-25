@@ -5,7 +5,7 @@ services:
     container_name: rabbitmq
     hostname: rabbitmq
     build:
-      context: ./rabbitmq/
+      context: ./RabbitMQ/
       dockerfile: Dockerfile
     image: rabbitmq:latest
     expose:
@@ -19,10 +19,10 @@ services:
   user-service-db:
     container_name: user-service-db
     hostname: user-service-db
-    build:
-      context: ./MySQL
-      dockerfile: Dockerfile
     image: mysql:8.0
+#    build:
+#      context: ./MySQL
+#      dockerfile: Dockerfile
     environment:
       MYSQL_DATABASE: userServiceDB
       MYSQL_USER: springuser
@@ -39,9 +39,6 @@ services:
   recipe-service-db:
     container_name: recipe-service-db
     hostname: recipe-service-db
-    build:
-      context: ./MySQL
-      dockerfile: Dockerfile
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: recipeServiceDB
@@ -59,9 +56,6 @@ services:
   rating-service-db:
     container_name: rating-service-db
     hostname: rating-service-db
-    build:
-      context: ./MySQL
-      dockerfile: Dockerfile
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: reviewServiceDB
@@ -79,9 +73,6 @@ services:
   ingredient-service-db:
     container_name: ingredient-service-db
     hostname: ingredient-service-db
-    build:
-      context: ./MySQL
-      dockerfile: Dockerfile
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: ingredientServiceDB
@@ -99,9 +90,6 @@ services:
   system-events-service-db:
     container_name: system-events-service-db
     hostname: system-events-service-db
-    build:
-      context: ./MySQL
-      dockerfile: Dockerfile
     image: mysql:8.0
     environment:
       MYSQL_DATABASE: systemEventsServiceDB
@@ -133,7 +121,7 @@ services:
     depends_on:
       - eureka-service
     networks:
-      projecthub:
+      foodhaven:
         aliases:
           - config-service
 
@@ -151,7 +139,7 @@ services:
     expose:
       - 8761
     networks:
-      projecthub:
+      foodhaven:
         aliases:
           - discovery-server
 
@@ -165,7 +153,7 @@ services:
     environment:
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
-      - #ovo ako ne bude radilo probati sa localhost umjesto user-service-db
+#ovo ako ne bude radilo probati sa localhost umjesto user-service-db
       - US_DATABASE_URL=jdbc:mysql://user-service-db:3306/userServiceDB
     expose:
       - 8083
@@ -297,7 +285,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - api-gateway
+      - gateway-service
     networks:
       - foodhaven
 

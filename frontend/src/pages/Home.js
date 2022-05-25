@@ -38,7 +38,8 @@ class HomePage extends Component {
       categories: [],
       pictures: [],
       categoryMap: new Map(),
-      pictureMap: new Map()
+      pictureMap: new Map(),
+      categoryId: ''
     };
   }
 
@@ -63,6 +64,16 @@ class HomePage extends Component {
     else {
       this.setState({ recipes: this.state.allrecipes })
     }
+  }
+  searchByCategory = (id) => {
+    let list = []
+    RecipeService.getRecipes().then((res) => {
+      this.setState({
+        list: res.data
+      })
+    })
+    list = this.state.list.filter((item) => (item.recipeCategory.includes(id)));
+    this.setState({ recipes: list })
   }
 
   render() {
@@ -98,7 +109,7 @@ class HomePage extends Component {
             {this.state.categories.map(
               category => (
                 this.state.categoryMap.set(category.id, category.name),
-                <CategoryCard key={category.id} img={this.state.pictureMap.get(category.categoryPicture)} name={category.name.toUpperCase()} />
+                <button style={{ border: 'none', backgroundColor: 'white' }} onClick={() => this.searchByCategory(category.id)}><CategoryCard key={category.id} img={this.state.pictureMap.get(category.categoryPicture)} name={category.name.toUpperCase()} /></button>
               ))}
 
           </Carousel>

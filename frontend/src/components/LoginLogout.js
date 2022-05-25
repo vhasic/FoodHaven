@@ -1,6 +1,7 @@
 import React from 'react';
 import AuthService from '../services/AuthService';
 import axios from 'axios';
+import UserService from "../services/UserService";
 
 class LoginLogout extends React.Component {
 
@@ -8,24 +9,15 @@ class LoginLogout extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      name: ''
+      user: null
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     if (AuthService.getCurrentUser() != null) {
-      this.setState({ isLoggedIn: true });
-
-      axios.get("http://localhost:8088/api/users/" + AuthService.getCurrentUser().userId, {
-        headers: {
-          'Authorization': 'Bearer ' + AuthService.getCurrentUser().token
-        }
-      }).then(res => {
-        this.setState({
-          name: res.data.username
-        });
-      }).catch(err => {
-        console.warn(err);
-        return false;
+      const user = await UserService.getUser();
+      this.setState({
+        isLoggedIn: true,
+        user: user
       });
     }
   }
@@ -33,7 +25,15 @@ class LoginLogout extends React.Component {
     {
       if (this.state.isLoggedIn) {
         return <div>
-          <button className='button-login-signup'><a className='a-home' href='./UserPage'><i className='fas fa-user a-home'></i> Hi {this.state.name}</a> </button>
+          <button className='button-login-signup' onClick={event => {
+            event.preventDefault();
+            if (this.state.user.role.roleName === "Administrator") {
+              window.location.href = './AdminPage';
+            } else {
+              window.location.href = './UserPage';
+            }
+          }
+          }> <i className='fas fa-user a-home'></i> Hello {this.state.user.firstName} </button>
         </div>
       } else {
         return <button className='button-login-signup'> <a className='a-home' href='./LogIn'>Log In</a> / <a className='a-home' href='./SignUp'>Sign Up</a></button>

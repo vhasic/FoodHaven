@@ -47,7 +47,10 @@ class UserPage extends React.Component {
         return (
             <div>
                 <div className="column1-user-page">
-                    <h2 className='userPage-h2'><i className="fas fa-user-circle"></i></h2>
+                    <h2 className='userPage-h2' onClick={event => {
+                        event.preventDefault();
+                        window.location.href = './ManageAccount';
+                    }}><i className="fas fa-user-circle"></i></h2>
                     <h2 style={{ textAlign: "center" }}>{"Hello " + this.state.firstName}</h2>
                     <button className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
                     <div style={{ marginTop: "25%" }}>

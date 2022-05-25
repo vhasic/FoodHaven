@@ -32,7 +32,10 @@ class AdminPage extends Component {
         return (
             <div>
                 <div className="column1">
-                    <h2 className="h2-user-manager"><i className="fas fa-user-circle"></i></h2>
+                    <h2 className="h2-user-manager" onClick={event => {
+                        event.preventDefault();
+                        window.location.href = './ManageAccount';
+                    }}><i className="fas fa-user-circle"></i></h2>
                     <h2 style={{ textAlign: "center" }}>Admin</h2>
                     <div style={{ marginTop: "25%" }}>
                         <button onClick={() => this.setComponent('UserManager')} className='h3-admin'><i className="fa fa-user-group"></i> User manager</button><br />

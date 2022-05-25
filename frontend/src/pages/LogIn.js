@@ -2,6 +2,7 @@ import React from 'react';
 import '../style/AccessForms.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import AuthService from "../services/AuthService";
+import UserService from "../services/UserService";
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -26,7 +27,13 @@ class LogIn extends React.Component {
         const authenticated = await AuthService.login(this.state.username, this.state.password);
         // const currentUser=AuthService.getCurrentUser(); const userId=currentUser.userId; const token=currentUser.token; // dobavljanje userId-a i tokena
         if (authenticated === true) {
-            window.location.href = './UserPage';
+            const user = await UserService.getUser();
+            if (user.role.roleName === "Administrator"){
+                window.location.href = './AdminPage';
+            }
+            else {
+                window.location.href = './UserPage';
+            }
         } else {
             alert("Your login credentials could not be verified, please try again");
         }

@@ -98,7 +98,7 @@ class HomePage extends Component {
             {this.state.categories.map(
               category => (
                 this.state.categoryMap.set(category.id, category.name),
-                <CategoryCard key={category.id} img={this.state.pictureMap.get(category.categoryPicture)} name={category.name} />
+                <CategoryCard key={category.id} img={this.state.pictureMap.get(category.categoryPicture)} name={category.name.toUpperCase()} />
               ))}
 
           </Carousel>

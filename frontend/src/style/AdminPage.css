@@ -74,7 +74,6 @@ code {
 .column1 {
   float: left;
   width: 50%;
-  height: 1000px;
   width: 20%;
   background-color: black;
   color: white;
@@ -83,7 +82,6 @@ code {
 .column2 {
   float: left;
   width: 50%;
-  height: 1000px;
   margin-left: 5%;
   width: 70%;
   margin-right: 5%;

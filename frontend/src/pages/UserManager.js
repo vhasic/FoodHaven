@@ -50,7 +50,6 @@ class UserManager extends Component {
   }
 
   getSearchResults = query => {
-    debugger;
     const allData = this.state.results;
     const dataToShow = [];
     allData.forEach(item => {

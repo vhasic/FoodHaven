@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import '../style/AdminPage.css';
 import UserManager from "./UserManager";
 import AuthService from "../services/AuthService";
+import ReviewManager from "./ReviewManager";
+import RecipeManager from "./RecipeManager";
 
 class AdminPage extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            component: 'a'
+            component: ''
         };
     }
 
@@ -17,12 +19,12 @@ class AdminPage extends Component {
             if (this.state.component === 'UserManager') {
                 return <UserManager />
             }
-            /*else if(this.state.component === 'ReviewManager'){
+            else if(this.state.component === 'ReviewManager'){
                 return <ReviewManager />
             }
             else if(this.state.component === 'RecipeManager'){
-                return <RecipeMaager />
-            }*/
+                return <RecipeManager />
+            }
         }
     }
     setComponent = (name) => {
@@ -32,14 +34,14 @@ class AdminPage extends Component {
     render() {
         return (
             <div>
-                <div className="column1">
+                <div style={{height:'1000px'}} className="column1">
                     <h2 className="h2-user-manager" onClick={event => {
                         event.preventDefault();
                         window.location.href = './ManageAccount';
                     }}><i className="fas fa-user-circle"></i></h2>
                     <h2 style={{ textAlign: "center" }}>Admin</h2>
                     <div>
-                        <button className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
+                        <button style={{marginBottom:'10%'}} className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
                         <button onClick={() => this.setComponent('UserManager')} className='h3-admin'><i className="fa fa-user-group"></i> Manage users</button><br />
                         <button onClick={() => this.setComponent('ReviewManager')} className='h3-admin'><i className="fas fa-star"></i> Manage reviews</button><br />
                         <button onClick={() => this.setComponent('RecipeManager')} className='h3-admin'><i className="fa fa-book"></i> Manage recipes</button><br />

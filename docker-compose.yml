@@ -20,10 +20,8 @@ services:
     container_name: user-service-db
     hostname: user-service-db
     image: mysql:8.0
-#    build:
-#      context: ./MySQL
-#      dockerfile: Dockerfile
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: userServiceDB
       MYSQL_USER: springuser
       MYSQL_PASSWORD: ThePassword
@@ -41,6 +39,7 @@ services:
     hostname: recipe-service-db
     image: mysql:8.0
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: recipeServiceDB
       MYSQL_USER: springuser
       MYSQL_PASSWORD: ThePassword
@@ -58,6 +57,7 @@ services:
     hostname: rating-service-db
     image: mysql:8.0
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: reviewServiceDB
       MYSQL_USER: springuser
       MYSQL_PASSWORD: ThePassword
@@ -75,6 +75,7 @@ services:
     hostname: ingredient-service-db
     image: mysql:8.0
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ingredientServiceDB
       MYSQL_USER: springuser
       MYSQL_PASSWORD: ThePassword
@@ -92,6 +93,7 @@ services:
     hostname: system-events-service-db
     image: mysql:8.0
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: systemEventsServiceDB
       MYSQL_USER: springuser
       MYSQL_PASSWORD: ThePassword
@@ -143,26 +145,25 @@ services:
         aliases:
           - discovery-server
 
-  user-service:
-    container_name: user-service
-    build:
-      context: ./user-service/
-      dockerfile: Dockerfile
-    image: user-service:latest
-    restart: always
-    environment:
-      - CONFIG_SERVER_URL=http://config-service:8888
-      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
-#ovo ako ne bude radilo probati sa localhost umjesto user-service-db
-      - US_DATABASE_URL=jdbc:mysql://user-service-db:3306/userServiceDB
-    expose:
-      - 8083
-    depends_on:
-      - configuration-service
-      - eureka-service
-      - user-service-db
-    networks:
-      - foodhaven
+#  user-service:
+#    container_name: user-service
+#    build:
+#      context: ./user-service/
+#      dockerfile: Dockerfile
+#    image: user-service:latest
+#    restart: always
+#    environment:
+#      - CONFIG_SERVER_URL=http://config-service:8888
+#      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+#      - US_DATABASE_URL=jdbc:mysql://user-service-db:3306/userServiceDB
+#    expose:
+#      - 8083
+#    depends_on:
+#      - configuration-service
+#      - eureka-service
+#      - user-service-db
+#    networks:
+#      - foodhaven
 
   recipe-service:
     container_name: recipe-service
@@ -249,7 +250,7 @@ services:
     networks:
       - foodhaven
 
-  gateway-service:
+  api-gateway:
     container_name: api-gateway
     hostname: api-gateway
     build:
@@ -285,7 +286,7 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - gateway-service
+      - api-gateway
     networks:
       - foodhaven
 

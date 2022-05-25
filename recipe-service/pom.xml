@@ -140,5 +140,6 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>recipe-service</finalName>
     </build>
 </project>

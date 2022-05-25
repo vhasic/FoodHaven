@@ -110,5 +110,6 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>api-gateway</finalName>
     </build>
 </project>

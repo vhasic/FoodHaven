@@ -140,5 +140,6 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>ingredient-service</finalName>
     </build>
 </project>

@@ -136,6 +136,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>rating-service</finalName>
     </build>
 
 </project>

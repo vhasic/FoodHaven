@@ -53,13 +53,16 @@ class UserPage extends React.Component {
                     }}><i className="fas fa-user-circle"></i></h2>
                     <h2 style={{ textAlign: "center" }}>{"Hello " + this.state.firstName}</h2>
                     <button className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
-                    <div style={{ marginTop: "25%" }}>
-                        <h3 className='h3-user'><i className="fa fa-cog"></i> Manage your account</h3>
+                    <div>
+                        {/*<h3 className='h3-user'><i className="fa fa-cog"></i> Manage your account</h3>*/}
                         {/*<h3 className='h3-user'><i className="fas fa-bell"></i>  Notifications</h3>*/}
                     </div>
                 </div>
                 <div className="column2-user-page">
-                    <h2 style={{ marginLeft: "30%" }} className='h2-style'>FoodHaven</h2>
+                    <h2 style={{ marginLeft: "30%" }} className='h2-style' onClick={event => {
+                        event.preventDefault();
+                        window.location.href = './Home';
+                    }}>FoodHaven</h2>
                     <a href="/RecipeInfo" className="button"><i className="fa fa-plus"></i>&nbsp; Add recipe</a>
                     <a href="" className="button"><i className="fas fa-book"></i>&nbsp; My recipes</a>
                     <a href="" className="button"><i className="fas fa-search"></i>&nbsp; Search</a>

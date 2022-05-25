@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import '../style/AdminPage.css';
 import UserManager from "./UserManager";
+import AuthService from "../services/AuthService";
 
 class AdminPage extends Component {
 
@@ -37,14 +38,18 @@ class AdminPage extends Component {
                         window.location.href = './ManageAccount';
                     }}><i className="fas fa-user-circle"></i></h2>
                     <h2 style={{ textAlign: "center" }}>Admin</h2>
-                    <div style={{ marginTop: "25%" }}>
+                    <div>
+                        <button className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
                         <button onClick={() => this.setComponent('UserManager')} className='h3-admin'><i className="fa fa-user-group"></i> User manager</button><br />
                         <button onClick={() => this.setComponent('ReviewManager')} className='h3-admin'><i className="fas fa-star"></i> All reviews</button><br />
                         <button onClick={() => this.setComponent('RecipeManager')} className='h3-admin'><i className="fa fa-book"></i> Recipes</button><br />
                     </div>
                 </div>
                 <div className="column2">
-                    <h2 style={{ marginLeft: "40%" }} className='h2-style'>FoodHaven</h2>
+                    <h2 style={{ marginLeft: "40%" }} className='h2-style' onClick={event => {
+                        event.preventDefault();
+                        window.location.href = './Home';
+                    }}>FoodHaven</h2>
                     {this.createUI()}
                 </div>
             </div>

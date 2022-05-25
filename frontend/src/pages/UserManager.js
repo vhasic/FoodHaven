@@ -32,14 +32,21 @@ class UserManager extends Component {
 
   }
 
-  delete = (id) => {
-    axios.delete('http://localhost:8088/api/users/' + id, {
+  delete = async (id) => {
+    await axios.delete('http://localhost:8088/api/users/' + id, {
       headers: {
         'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
         'Content-Type': 'application/json'
       }
+    }).then(async r => {
+      await UserService.getUsers().then((res) => {
+        this.setState({
+          results: res.data,
+          displayData: res.data
+        })
+      })
     });
-    window.location.reload(false);
+    window.location.preventDefault();
   }
 
   getSearchResults = query => {

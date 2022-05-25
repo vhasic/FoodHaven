@@ -9,6 +9,7 @@ class ManageAccount extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            userId:'',
             firstName : '',
             lastName : '',
             username : '',
@@ -27,6 +28,7 @@ class ManageAccount extends React.Component {
         if (AuthService.getCurrentUser() != null) {
             const user = await UserService.getUser();
             this.setState({
+                userId:user.userId,
                 firstName : user.firstName,
                 lastName : user.lastName,
                 username : user.username,
@@ -43,7 +45,7 @@ class ManageAccount extends React.Component {
                 'username': this.state.username,
                 'email': this.state.email,
                 'password': this.state.password};
-                axios.put(`http://localhost:8088/api/users`, formData, {
+                axios.put(`http://localhost:8088/api/users/`+this.state.userId, formData, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer '+ AuthService.getCurrentUser().token

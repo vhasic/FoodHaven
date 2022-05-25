@@ -40,9 +40,9 @@ class AdminPage extends Component {
                     <h2 style={{ textAlign: "center" }}>Admin</h2>
                     <div>
                         <button className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
-                        <button onClick={() => this.setComponent('UserManager')} className='h3-admin'><i className="fa fa-user-group"></i> User manager</button><br />
-                        <button onClick={() => this.setComponent('ReviewManager')} className='h3-admin'><i className="fas fa-star"></i> All reviews</button><br />
-                        <button onClick={() => this.setComponent('RecipeManager')} className='h3-admin'><i className="fa fa-book"></i> Recipes</button><br />
+                        <button onClick={() => this.setComponent('UserManager')} className='h3-admin'><i className="fa fa-user-group"></i> Manage users</button><br />
+                        <button onClick={() => this.setComponent('ReviewManager')} className='h3-admin'><i className="fas fa-star"></i> Manage reviews</button><br />
+                        <button onClick={() => this.setComponent('RecipeManager')} className='h3-admin'><i className="fa fa-book"></i> Manage recipes</button><br />
                     </div>
                 </div>
                 <div className="column2">

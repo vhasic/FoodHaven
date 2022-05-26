@@ -1,16 +1,15 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import '../style/AdminPage.css';
 import UserService from "../services/UserService";
 import axios from "axios";
 import AuthService from "../services/AuthService";
-import { Rating } from 'react-simple-star-rating'
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import {Rating} from 'react-simple-star-rating'
+import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import RatingService from "../services/RatingService";
 import RecipeService from "../services/RecipeService";
 
 class ReviewManager extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +21,7 @@ class ReviewManager extends Component {
             itemsPerPage: 10,
             currentPage: 1,
             createdFor: new Map(),
-            createdBy : new Map()
+            createdBy: new Map()
         };
     }
 
@@ -40,10 +39,10 @@ class ReviewManager extends Component {
         })
         UserService.getUsers().then((res) => {
             this.setState({
-                users : res.data
+                users: res.data
             })
         })
-        
+
     }
 
     handleDeleteCrumb = () => {
@@ -52,17 +51,17 @@ class ReviewManager extends Component {
 
     delete = async (id) => {
         await axios.delete('http://localhost:8088/api/ratings/' + id, {
-          headers: {
-            'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-            'Content-Type': 'application/json'
-          }
+            headers: {
+                'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                'Content-Type': 'application/json'
+            }
         }).then(async r => {
-          await RatingService.getRatings().then((res) => {
-            this.setState({
-              results: res.data,
-              displayData: res.data
+            await RatingService.getRatings().then((res) => {
+                this.setState({
+                    results: res.data,
+                    displayData: res.data
+                })
             })
-          })
         });
         window.location.preventDefault();
     }
@@ -151,12 +150,12 @@ class ReviewManager extends Component {
                         <h1>Review and rating management</h1>
                         <label className="span-style"><i className="fas fa-search"></i> </label>
                         <input type={'number'}
-                            className="search-field"
-                            max={5}
-                            min={1}
-                            placeholder="Search by rating ..."
-                            ref={input => (this.search = input)}
-                            onChange={this.handleInputChange}
+                               className="search-field"
+                               max={5}
+                               min={1}
+                               placeholder="Search by rating ..."
+                               ref={input => (this.search = input)}
+                               onChange={this.handleInputChange}
                         />
                         <tr>
                             <td className="header"></td>
@@ -164,11 +163,11 @@ class ReviewManager extends Component {
                             <td className="header">Cretaed for</td>
                             <td className="header">Rating</td>
                             <td className="header">Review</td>
-                            <td className="header">Delete  </td>
+                            <td className="header">Delete</td>
                         </tr>
                         {this.state.displayData.slice((this.state.currentPage - 1) * this.state.itemsPerPage, (this.state.currentPage - 1) * this.state.itemsPerPage + this.state.itemsPerPage).map((item, index) => {
                             return <tr key={index}>
-                                <td className="cell"><input type="checkbox" /></td>
+                                <td className="cell"><input type="checkbox"/></td>
                                 <td className="cell">{this.state.createdBy.get(item.userId)}</td>
                                 <td className="cell">{this.state.createdFor.get(item.recipeId)}</td>
                                 <td className="cell"><Rating
@@ -177,26 +176,34 @@ class ReviewManager extends Component {
                                     fillColor='#ff6127'
                                     required="required"
                                     iconsCount={item.rating}
-                                /><br /></td>
+                                /><br/></td>
                                 <td className="cell">{item.comment}</td>
-                                <td className="cell"><button
-                                    onClick={() => {
-                                        confirmAlert({
-                                            title: 'WARNING',
-                                            message: 'Are you sure you want to delete this user?',
-                                            buttons: [
-                                                {
-                                                    label: 'DELETE',
-                                                    onClick: () => this.delete(item.id)
-                                                },
-                                                {
-                                                    label: 'CANCEL',
-                                                    onClick: () => this.handleDeleteCrumb()
-                                                }
-                                            ]
-                                        })
-                                    }}
-                                    style={{ width: '80%', border: 'none', backgroundColor: 'white', color: '#ff6127', fontSize: '20px' }}><i style={{ textIndent: "80%" }} className="fas fa-trash"></i></button></td>
+                                <td className="cell">
+                                    <button
+                                        onClick={() => {
+                                            confirmAlert({
+                                                title: 'WARNING',
+                                                message: 'Are you sure you want to delete this user?',
+                                                buttons: [
+                                                    {
+                                                        label: 'DELETE',
+                                                        onClick: () => this.delete(item.id)
+                                                    },
+                                                    {
+                                                        label: 'CANCEL',
+                                                        onClick: () => this.handleDeleteCrumb()
+                                                    }
+                                                ]
+                                            })
+                                        }}
+                                        style={{
+                                            width: '80%',
+                                            border: 'none',
+                                            backgroundColor: 'white',
+                                            color: '#ff6127',
+                                            fontSize: '20px'
+                                        }}><i style={{textIndent: "80%"}} className="fas fa-trash"></i></button>
+                                </td>
                             </tr>
                         })
                         }

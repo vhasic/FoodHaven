@@ -7,13 +7,11 @@ import PictureService from '../services/PictureService';
 import IngredientService from "../services/IngredientService";
 import StepService from "../services/StepService";
 import StarRating from '../components/StarRating';
-import { Rating } from 'react-simple-star-rating'
+import {Rating} from 'react-simple-star-rating'
 
 class Recipe extends React.Component {
     constructor(props) {
         super(props);
-        this.recipeCategoryName = new Map();
-        this.recipePhoto = new Map();
         this.state = {
             recipe: Object(),
             pic: "",
@@ -29,43 +27,45 @@ class Recipe extends React.Component {
 
     componentDidMount() {
         RecipeService.getRecipeByID(this.state.recipeId).then((res) => {
-            this.setState({ recipe: res.data, recipePicture: res.data.recipePicture });
+            this.setState({recipe: res.data, recipePicture: res.data.recipePicture});
         });
         RatingService.getAverageRatingForRecipe(this.state.recipeId).then((res) => {
-            this.setState({ averageRating: res.data });
+            this.setState({averageRating: res.data});
         });
         IngredientService.getTotalCalories(this.state.recipeId).then((res) => {
-            this.setState({ calories: res.data });
+            this.setState({calories: res.data});
         });
         IngredientService.getNutrition(this.state.recipeId).then((res) => {
-            this.setState({ nutrition: res.data });
+            this.setState({nutrition: res.data});
         });
         IngredientService.getIngredientInfoForRecipe(this.state.recipeId).then((res) => {
-            this.setState({ ingredients: res.data });
+            this.setState({ingredients: res.data});
         });
         StepService.getRecipeSteps(this.state.recipeId).then((res) => {
-            this.setState({ steps: res.data });
+            this.setState({steps: res.data});
         });
         RatingService.getRatingForRecipe(this.state.recipeId).then((res) => {
-            this.setState({ ratings: res.data });
+            this.setState({ratings: res.data});
         });
 
     }
+
     componentDidUpdate() {
         PictureService.getRecipePictureById(this.state.recipe.recipePicture).then((res) => {
-            this.setState({ pic: res.data })
+            this.setState({pic: res.data})
         });
     }
 
     render() {
         return (
             <div>
-                <a href='./Home'><h2 style={{ marginLeft: "5%" }} className='h2-style'>FoodHaven</h2></a>
-                <div style={{ marginLeft: "5%" }}>
-                    <div className="column1-recipe" >
+                <a href='./Home'><h2 style={{marginLeft: "5%"}} className='h2-style'>FoodHaven</h2></a>
+                <div style={{marginLeft: "5%"}}>
+                    <div className="column1-recipe">
                         <h1>{this.state.recipe.name}</h1>
-                        <h4>Average rating: <i className='fas fa-star recipe-i'></i> {this.state.averageRating.averageRating}</h4>
-                        <img className='recipe-img' src={'data:image/jpeg;base64,' + this.state.pic.picByte} alt='' />
+                        <h4>Average rating: <i
+                            className='fas fa-star recipe-i'></i> {this.state.averageRating.averageRating}</h4>
+                        <img className='recipe-img' src={'data:image/jpeg;base64,' + this.state.pic.picByte} alt=''/>
                         <p>{this.state.recipe.description}</p>
                         <div className="numberCircle">calories: <b>{this.state.calories.totalCalories}</b></div>
                         <div className="numberCircle">vitamins: <b>{this.state.nutrition.totalVitamins}</b></div>
@@ -100,25 +100,26 @@ class Recipe extends React.Component {
                         })}
 
                     </div>
-                    <div >
+                    <div>
                         <h1>Reviews:</h1>
-                        <StarRating />
+                        <StarRating/>
                         {this.state.ratings.map(rating => {
                             return (
-                                <div key={rating.id + 1} style={{ marginBottom: "3%" }}>
-                                    <span key={rating.id + 2} className='rating-span' ><i className='fas fa-user-circle'></i> </span>
-                                    <Rating key={rating.id + 3} 
-                                        size="25"
-                                        emptyColor='#ff6127'
-                                        fillColor='#ff6127'
-                                        required="required"
-                                        iconsCount={rating.rating}
-                                    /><br key={rating.id + 4} />
-                                    <span key={rating.id + 5} 
-                                        className='rating-span'
-                                        style={{ marginLeft: '1%' }}>
+                                <div key={rating.id + 1} style={{marginBottom: "3%"}}>
+                                    <span key={rating.id + 2} className='rating-span'><i
+                                        className='fas fa-user-circle'></i> </span>
+                                    <Rating key={rating.id + 3}
+                                            size="25"
+                                            emptyColor='#ff6127'
+                                            fillColor='#ff6127'
+                                            required="required"
+                                            iconsCount={rating.rating}
+                                    /><br key={rating.id + 4}/>
+                                    <span key={rating.id + 5}
+                                          className='rating-span'
+                                          style={{marginLeft: '1%'}}>
                                         {rating.comment}
-                                    </span><br  key={rating.id + 6} />
+                                    </span><br key={rating.id + 6}/>
                                 </div>
                             );
                         })}
@@ -128,4 +129,5 @@ class Recipe extends React.Component {
         );
     }
 }
+
 export default Recipe;

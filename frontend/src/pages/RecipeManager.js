@@ -1,16 +1,15 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import '../style/AdminPage.css';
 import UserService from "../services/UserService";
 import axios from "axios";
 import AuthService from "../services/AuthService";
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import RatingService from "../services/RatingService";
 import RecipeService from "../services/RecipeService";
 import CategoryService from "../services/CategoryService";
 
 class RecipeManager extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -50,9 +49,6 @@ class RecipeManager extends Component {
                 categories: res.data
             })
         })
-
-    }
-    componentDidUpdate() {
 
     }
 
@@ -179,33 +175,42 @@ class RecipeManager extends Component {
                             <td className="header">Name</td>
                             <td className="header">Category</td>
                             <td className="header">Created by</td>
-                            <td className="header">Delete  </td>
+                            <td className="header">Delete</td>
                         </tr>
                         {this.state.displayData.slice((this.state.currentPage - 1) * this.state.itemsPerPage, (this.state.currentPage - 1) * this.state.itemsPerPage + this.state.itemsPerPage).map((item, index) => {
                             return <tr key={index}>
-                                <td className="cell"><input type="checkbox" /></td>
-                                <td className="cell"><i className='fas fa-star recipe-i'></i> {this.state.ratingFor.get(item.id)}</td>
+                                <td className="cell"><input type="checkbox"/></td>
+                                <td className="cell"><i
+                                    className='fas fa-star recipe-i'></i> {this.state.ratingFor.get(item.id)}</td>
                                 <td className="cell">{item.name}</td>
                                 <td className="cell">{this.state.categoryFor.get(item.recipeCategory).toUpperCase()}</td>
                                 <td className="cell">{this.state.createdBy.get(item.userID)}</td>
-                                <td className="cell"><button
-                                    onClick={() => {
-                                        confirmAlert({
-                                            title: 'WARNING',
-                                            message: 'Are you sure you want to delete this user?',
-                                            buttons: [
-                                                {
-                                                    label: 'DELETE',
-                                                    onClick: () => this.delete(item.id)
-                                                },
-                                                {
-                                                    label: 'CANCEL',
-                                                    onClick: () => this.handleDeleteCrumb()
-                                                }
-                                            ]
-                                        })
-                                    }}
-                                    style={{ width: '80%', border: 'none', backgroundColor: 'white', color: '#ff6127', fontSize: '20px' }}><i style={{ textIndent: "80%" }} className="fas fa-trash"></i></button></td>
+                                <td className="cell">
+                                    <button
+                                        onClick={() => {
+                                            confirmAlert({
+                                                title: 'WARNING',
+                                                message: 'Are you sure you want to delete this user?',
+                                                buttons: [
+                                                    {
+                                                        label: 'DELETE',
+                                                        onClick: () => this.delete(item.id)
+                                                    },
+                                                    {
+                                                        label: 'CANCEL',
+                                                        onClick: () => this.handleDeleteCrumb()
+                                                    }
+                                                ]
+                                            })
+                                        }}
+                                        style={{
+                                            width: '80%',
+                                            border: 'none',
+                                            backgroundColor: 'white',
+                                            color: '#ff6127',
+                                            fontSize: '20px'
+                                        }}><i style={{textIndent: "80%"}} className="fas fa-trash"></i></button>
+                                </td>
                             </tr>
                         })
                         }

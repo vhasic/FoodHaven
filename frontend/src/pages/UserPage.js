@@ -3,7 +3,6 @@ import '../style/UserPage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import AuthService from "../services/AuthService";
 import axios from "axios";
-import jwt from "jwt-decode";
 
 const API_URL = "http://localhost:8088/";
 
@@ -51,15 +50,12 @@ class UserPage extends React.Component {
                         event.preventDefault();
                         window.location.href = './ManageAccount';
                     }}><i className="fas fa-user-circle"></i></h2>
-                    <h2 style={{ textAlign: "center" }}>{"Hello " + this.state.firstName}</h2>
-                    <button className='button-logout' onClick={AuthService.logout}><a style={{ color: "white" }}>Log Out</a></button>
-                    <div>
-                        {/*<h3 className='h3-user'><i className="fa fa-cog"></i> Manage your account</h3>*/}
-                        {/*<h3 className='h3-user'><i className="fas fa-bell"></i>  Notifications</h3>*/}
-                    </div>
+                    <h2 style={{textAlign: "center"}}>{"Hello " + this.state.firstName}</h2>
+                    <button className='button-logout' onClick={AuthService.logout}><a style={{color: "white"}}>Log
+                        Out</a></button>
                 </div>
                 <div className="column2-user-page">
-                    <h2 style={{ marginLeft: "30%" }} className='h2-style' onClick={event => {
+                    <h2 style={{marginLeft: "30%"}} className='h2-style' onClick={event => {
                         event.preventDefault();
                         window.location.href = './Home';
                     }}>FoodHaven</h2>

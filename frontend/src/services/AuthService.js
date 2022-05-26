@@ -19,7 +19,7 @@ class AuthService {
             }
             return true;
         }).catch(err => {
-            console.warn( err);
+            console.warn(err);
             return false;
         });
     }

@@ -22,9 +22,11 @@ class SignUp extends React.Component {
             passwordConfirmationValidationMessage: ''
         }
     }
+
     componentDidMount() {
 
     }
+
     submitNew = e => {
         e.preventDefault();
         if (this.validateUser()) {
@@ -62,7 +64,8 @@ class SignUp extends React.Component {
                     buttons: [
                         {
                             label: 'OK',
-                            onClick: () => {}
+                            onClick: () => {
+                            }
                         }
                     ]
                 });
@@ -71,75 +74,79 @@ class SignUp extends React.Component {
     }
 
     onChange = event => {
-        this.setState({ [event.target.name]: event.target.value })
+        this.setState({[event.target.name]: event.target.value})
     }
+
     validateUser() {
         let isValid = true;
 
         if (!this.state.firstName.trim()) {
             isValid = false;
-            this.setState({ firstNameValidationMessage: "First name is required!" });
+            this.setState({firstNameValidationMessage: "First name is required!"});
         } else if (this.state.firstName.length > 20) {
-            this.setState({ firstNameValidationMessage: "First name can't be longer than twenty characters!" });
+            this.setState({firstNameValidationMessage: "First name can't be longer than twenty characters!"});
         } else {
-            this.setState({ firstNameValidationMessage: "" });
+            this.setState({firstNameValidationMessage: ""});
         }
         if (!this.state.lastName.trim()) {
             isValid = false;
-            this.setState({ lastNameValidationMessage: "Last name is required!" });
+            this.setState({lastNameValidationMessage: "Last name is required!"});
         } else if (this.state.lastName.length > 20) {
-            this.setState({ lastNameValidationMessage: "Last name can't be longer than twenty characters!" });
+            this.setState({lastNameValidationMessage: "Last name can't be longer than twenty characters!"});
         } else {
-            this.setState({ lastNameValidationMessage: "" });
+            this.setState({lastNameValidationMessage: ""});
         }
 
         if (!this.state.username.trim()) {
             isValid = false;
-            this.setState({ usernameValidationMessage: "Username is required!" });
+            this.setState({usernameValidationMessage: "Username is required!"});
         } else {
-            this.setState({ usernameValidationMessage: "" });
+            this.setState({usernameValidationMessage: ""});
         }
 
         if (!this.state.email.trim()) {
             isValid = false;
-            this.setState({ emailValidationMessage: "Email address is required!" });
+            this.setState({emailValidationMessage: "Email address is required!"});
         } else if (!/\S+@\S+\.\S+/.test(this.state.email)) {
             isValid = false;
-            this.setState({ emailValidationMessage: 'Email address format is invalid!' });
+            this.setState({emailValidationMessage: 'Email address format is invalid!'});
         } else {
-            this.setState({ emailValidationMessage: '' });
+            this.setState({emailValidationMessage: ''});
         }
 
         if (!this.state.password) {
             isValid = false;
-            this.setState({ passwordValidationMessage: 'Password is required!' });
+            this.setState({passwordValidationMessage: 'Password is required!'});
         } else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=()!?."]).{8,}/.test(this.state.password)) {
             isValid = false;
-            this.setState({ passwordValidationMessage: 'The password must contain minimum of eight characters, at least one uppercase letter, one lowercase letter and one number!' });
+            this.setState({passwordValidationMessage: 'The password must contain minimum of eight characters, at least one uppercase letter, one lowercase letter and one number!'});
         } else {
-            this.setState({ passwordValidationMessage: '' });
+            this.setState({passwordValidationMessage: ''});
         }
 
         if (!this.state.passwordConfirmation) {
             isValid = false;
-            this.setState({ passwordConfirmationValidationMessage: 'Confirm your password!' });
+            this.setState({passwordConfirmationValidationMessage: 'Confirm your password!'});
         } else if (this.state.passwordConfirmation !== this.state.password) {
             isValid = false;
-            this.setState({ passwordConfirmationValidationMessage: 'Passwords do not match!' });
-        }
-        else {
-            this.setState({ passwordConfirmationValidationMessage: '' });
+            this.setState({passwordConfirmationValidationMessage: 'Passwords do not match!'});
+        } else {
+            this.setState({passwordConfirmationValidationMessage: ''});
         }
         return isValid;
     }
 
     render() {
         return <div>
-            <h2 className='h2-style'>FoodHaven</h2>
+            <h2 className='h2-style' onClick={event => {
+                event.preventDefault();
+                window.location.href = './Home';
+            }}>FoodHaven</h2>
             <div className='form-container-register'>
                 <div className='form-content-left'>
-                    <form onSubmit={this.submitNew} className='form' noValidate></form><form onSubmit={this.submitNew} className='form' noValidate>
-                        <h2 ><i className="fas fa-user-circle i-login"></i></h2>
+                    <form onSubmit={this.submitNew} className='form' noValidate></form>
+                    <form onSubmit={this.submitNew} className='form' noValidate>
+                        <h2><i className="fas fa-user-circle i-login"></i></h2>
                         <h3>Please Sign Up</h3>
 
                         <div className='form-inputs'>
@@ -152,7 +159,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.firstName === null ? '' : this.state.firstName}
                             />
-                            <span style={{ color: "#eee00f"}}>{this.state.firstNameValidationMessage}</span>
+                            <span style={{color: "#eee00f"}}>{this.state.firstNameValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Last name</label>
@@ -164,7 +171,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.lastName === null ? '' : this.state.lastName}
                             />
-                            <span style={{ color: "#eee00f"}}>{this.state.lastNameValidationMessage}</span>
+                            <span style={{color: "#eee00f"}}>{this.state.lastNameValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Username</label>
@@ -176,7 +183,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.username === null ? '' : this.state.username}
                             />
-                            <span style={{ color: "#eee00f"}}>{this.state.usernameValidationMessage}</span>
+                            <span style={{color: "#eee00f"}}>{this.state.usernameValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Email</label>
@@ -188,7 +195,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.email === null ? '' : this.state.email}
                             />
-                            <span style={{ color: "#eee00f"}}>{this.state.emailValidationMessage}</span>
+                            <span style={{color: "#eee00f"}}>{this.state.emailValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Password</label>
@@ -200,7 +207,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.password === null ? '' : this.state.password}
                             />
-                            <span style={{ color: "#eee00f" }}>{this.state.passwordValidationMessage}</span>
+                            <span style={{color: "#eee00f"}}>{this.state.passwordValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Confirm password</label>
@@ -212,12 +219,12 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.passwordConfirmation === null ? '' : this.state.passwordConfirmation}
                             />
-                            <span style={{ color: "#eee00f" }}>{this.state.passwordConfirmationValidationMessage}</span>
+                            <span style={{color: "#eee00f"}}>{this.state.passwordConfirmationValidationMessage}</span>
                         </div>
                         <button className="button-login" type='submit'>
                             Sign Up
                         </button>
-                        <span style={{ marginBottom: "10%" }} className='form-input-login'>
+                        <span style={{marginBottom: "10%"}} className='form-input-login'>
                             Already have created account? Login <a href='./LogIn'>here</a>
                         </span>
                     </form>
@@ -226,4 +233,5 @@ class SignUp extends React.Component {
         </div>;
     }
 }
+
 export default SignUp;

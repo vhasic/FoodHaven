@@ -5,10 +5,10 @@ import axios from 'axios';
 import AuthService from '../services/AuthService';
 import CategoryService from '../services/CategoryService';
 import {confirmAlert} from "react-confirm-alert";
+
 const defaultImageSrc = '/img/image-placeholder.png';
 
 class RecipeInfo extends React.Component {
-
     constructor(props) {
         super(props);
         const userId = AuthService.getCurrentUser().userId;
@@ -28,13 +28,13 @@ class RecipeInfo extends React.Component {
 
     componentDidMount() {
         CategoryService.getCategories().then((res) => {
-            this.setState({ categories: res.data });
+            this.setState({categories: res.data});
         });
 
     }
 
     onChange = event => {
-        this.setState({ [event.target.name]: event.target.value })
+        this.setState({[event.target.name]: event.target.value})
     }
 
     showPreview = e => {
@@ -48,7 +48,7 @@ class RecipeInfo extends React.Component {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then((res) => {
-                this.setState({ pictureId: res.data });
+                this.setState({pictureId: res.data});
             });
 
             let imageFiles = e.target.files[0];
@@ -60,8 +60,7 @@ class RecipeInfo extends React.Component {
                 })
             }
             reader.readAsDataURL(imageFiles)
-        }
-        else {
+        } else {
             this.setState({
                 [e.target.name]: e.target.value,
                 imageSrc: '/img/image_placeholder.png'
@@ -78,24 +77,24 @@ class RecipeInfo extends React.Component {
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => {}
+                        onClick: () => {
+                        }
                     }
                 ]
             });
-        }
-        else if (this.state.pictureId === '') {
+        } else if (this.state.pictureId === '') {
             confirmAlert({
                 title: 'NOTIFICATION',
                 message: "Please select recipe photo!",
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => {}
+                        onClick: () => {
+                        }
                     }
                 ]
             });
-        }
-        else {
+        } else {
             const formData = {
                 'name': this.state.name,
                 'description': this.state.description,
@@ -117,11 +116,12 @@ class RecipeInfo extends React.Component {
                         buttons: [
                             {
                                 label: 'OK',
-                                onClick: () => {}
+                                onClick: () => {
+                                }
                             }
                         ]
                     });
-                    localStorage.setItem('recipeId',  r.data);
+                    localStorage.setItem('recipeId', r.data);
                     window.location.href = './Ingredients';
                 }
             }).catch(function (error) {
@@ -132,7 +132,8 @@ class RecipeInfo extends React.Component {
                     buttons: [
                         {
                             label: 'OK',
-                            onClick: () => {}
+                            onClick: () => {
+                            }
                         }
                     ]
                 });
@@ -141,7 +142,7 @@ class RecipeInfo extends React.Component {
     }
 
     handleChange = e => {
-        this.setState({ categoryName: e.target.value });
+        this.setState({categoryName: e.target.value});
     }
 
 
@@ -149,15 +150,15 @@ class RecipeInfo extends React.Component {
         return (
             <div>
                 <div>
-                    <h2 style={{ marginLeft: "40%" }} className='h2-style'>FoodHaven</h2>
+                    <h2 style={{marginLeft: "40%"}} className='h2-style'>FoodHaven</h2>
                     <a className='a-back' href='./UserPage'> <i className="fas fa-angle-left"></i> Cancel</a>
-                    <h1 style={{ marginLeft: "5%" }}>About</h1>
+                    <h1 style={{marginLeft: "5%"}}>About</h1>
                 </div>
                 <form onSubmit={this.submitNew}>
-                    <div className="column2-user-page" style={{ width: "50%" }}>
+                    <div className="column2-user-page" style={{width: "50%"}}>
                         <div className='about'>
                             <div>
-                                <label >Name</label><br />
+                                <label>Name</label><br/>
                                 <input
                                     className='input-info'
                                     type='text'
@@ -170,17 +171,17 @@ class RecipeInfo extends React.Component {
                                 />
                             </div>
                             <div>
-                                <label >Display photo</label><br />
-                                <img src={this.state.imageSrc} className="card-img-top  circle-image" alt='' />
-                                <input type="file" id="files" accept="image/*" style={{ display: "none" }}
-                                    onChange={this.showPreview} />
+                                <label>Display photo</label><br/>
+                                <img src={this.state.imageSrc} className="card-img-top  circle-image" alt=''/>
+                                <input type="file" id="files" accept="image/*" style={{display: "none"}}
+                                       onChange={this.showPreview}/>
                                 <label className='select-button' htmlFor="files">
                                     &nbsp;  <i className="fas fa-file-image"></i> Select photo &nbsp;
                                 </label>
                             </div>
-                            <div style={{ marginTop: "5%" }}>
-                                <label>Preparation time</label><br />
-                                <i style={{ fontSize: "20px" }} className='fas fa-clock'> &nbsp; </i>
+                            <div style={{marginTop: "5%"}}>
+                                <label>Preparation time</label><br/>
+                                <i style={{fontSize: "20px"}} className='fas fa-clock'> &nbsp; </i>
                                 <input
                                     required="required"
                                     className='input-info'
@@ -189,17 +190,17 @@ class RecipeInfo extends React.Component {
                                     pattern='^[0-9\b]{1,6}$'
                                     title="Value must be integer!"
                                     name='preparationTime'
-                                    style={{ width: "10%" }}
+                                    style={{width: "10%"}}
                                     onChange={this.onChange}
                                     value={this.state.preparationTime === null ? '' : this.state.preparationTime}
                                 />
                             </div>
                         </div>
                     </div>
-                    <div className="column2-user-page" style={{ width: "50%" }}>
+                    <div className="column2-user-page" style={{width: "50%"}}>
                         <div className='about'>
-                            <div >
-                                <label >Description</label><br />
+                            <div>
+                                <label>Description</label><br/>
                                 <textarea
                                     required="required"
                                     className='textarea-style'
@@ -211,7 +212,7 @@ class RecipeInfo extends React.Component {
                                 />
                             </div>
                             <div>
-                                <label>National Cuisine</label> <br />
+                                <label>National Cuisine</label> <br/>
                                 <select
                                     className='dropbtn'
                                     value={this.state.categoryName}
@@ -220,7 +221,7 @@ class RecipeInfo extends React.Component {
                                     {this.state.categories.map(
                                         category => (
                                             this.state.categoryMap.set(category.name, category.id),
-                                            <option key={category.id}>{category.name}</option>
+                                                <option key={category.id}>{category.name}</option>
                                         ))}
 
                                 </select>
@@ -235,4 +236,5 @@ class RecipeInfo extends React.Component {
         );
     }
 }
+
 export default RecipeInfo;

@@ -15,11 +15,11 @@ class LogIn extends React.Component {
     }
 
     handleUsernameChange = event => {
-        this.setState({ username: event.target.value, password: this.state.password });
+        this.setState({username: event.target.value, password: this.state.password});
     }
 
     handlePasswordChange = event => {
-        this.setState({ username: this.state.username, password: event.target.value });
+        this.setState({username: this.state.username, password: event.target.value});
     }
 
     onSubmit = async event => {
@@ -29,10 +29,9 @@ class LogIn extends React.Component {
         // const currentUser=AuthService.getCurrentUser(); const userId=currentUser.userId; const token=currentUser.token; // dobavljanje userId-a i tokena
         if (authenticated === true) {
             const user = await UserService.getUser();
-            if (user.role.roleName === "Administrator"){
+            if (user.role.roleName === "Administrator") {
                 window.location.href = './AdminPage';
-            }
-            else {
+            } else {
                 window.location.href = './UserPage';
             }
         } else {
@@ -42,7 +41,8 @@ class LogIn extends React.Component {
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => {}
+                        onClick: () => {
+                        }
                     }
                 ]
             });
@@ -51,7 +51,10 @@ class LogIn extends React.Component {
 
     render() {
         return <div>
-            <h2 className='h2-style'>FoodHaven</h2>
+            <h2 className='h2-style' onClick={event => {
+                event.preventDefault();
+                window.location.href = './Home';
+            }}>FoodHaven</h2>
             <div className='form-container'>
                 <div className='form-content-left'>
                     <form onSubmit={this.onSubmit} className='form' noValidate>

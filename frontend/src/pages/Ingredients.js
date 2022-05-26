@@ -4,8 +4,9 @@ import IngredientService from '../services/IngredientService';
 import PictureService from '../services/PictureService';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
+import {confirmAlert} from "react-confirm-alert";
 
-var map;
+
 class Ingredients extends Component {
   constructor(props) {
     super(props);
@@ -96,7 +97,16 @@ class Ingredients extends Component {
 
   handleSubmit(event) {
     if (this.state.values.length <= 0) {
-      alert("Please add at least one ingredient!");
+      confirmAlert({
+        title: 'NOTIFICATION',
+        message: "Please add at least one ingredient!",
+        buttons: [
+          {
+            label: 'OK',
+            onClick: () => {}
+          }
+        ]
+      });
     }
     else {
       for (let i = 0; i < this.state.values.length; i++) {
@@ -112,8 +122,18 @@ class Ingredients extends Component {
           }
         });
       }
-      alert("Ingredients saved!")
-      window.location.href = './Instructions';
+      confirmAlert({
+        title: 'NOTIFICATION',
+        message: "Ingredients saved!",
+        buttons: [
+          {
+            label: 'OK',
+            onClick: () => {
+              window.location.href = './Instructions';
+            }
+          }
+        ]
+      });
     }
     event.preventDefault();
   }

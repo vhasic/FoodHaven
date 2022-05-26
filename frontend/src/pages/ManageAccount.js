@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
 import AuthService from "../services/AuthService";
 import UserService from "../services/UserService";
+import {confirmAlert} from "react-confirm-alert";
 
 class ManageAccount extends React.Component {
     constructor(props) {
@@ -52,12 +53,31 @@ class ManageAccount extends React.Component {
                     }
                 }).then (r => {
                     if(r.status === 200){
-                        alert("Success!");
-                        window.location.href = './UserPage';
+                        confirmAlert({
+                            title: 'NOTIFICATION',
+                            message: "Success!",
+                            buttons: [
+                                {
+                                    label: 'OK',
+                                    onClick: () => {
+                                        window.location.href = './UserPage';
+                                    }
+                                }
+                            ]
+                        });
                     }
                 }).catch(function(error) {
                     console.log(error);
-                    alert("User with the same username and email already exists!")
+                    confirmAlert({
+                        title: 'NOTIFICATION',
+                        message: "User with the same username and email already exists!",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => {}
+                            }
+                        ]
+                    });
                 });
         }
     }
@@ -149,7 +169,7 @@ class ManageAccount extends React.Component {
                             onChange={this.onChange}
                             value={this.state.firstName === null ? '' : this.state.firstName}
                         />
-                        <p style={{color:"#731417"}}>{this.state.firstNameValidationMessage}</p>
+                        <p style={{color:"#eee00f"}}>{this.state.firstNameValidationMessage}</p>
                     </div>
                     <div className='form-inputs'>
                         <label className='form-label'>Last name</label>
@@ -161,7 +181,7 @@ class ManageAccount extends React.Component {
                             onChange={this.onChange}
                             value={this.state.lastName === null ? '' : this.state.lastName}
                         />
-                        <p style={{color:"#731417"}}>{this.state.lastNameValidationMessage}</p>
+                        <p style={{color:"#eee00f"}}>{this.state.lastNameValidationMessage}</p>
                     </div>
                     <div className='form-inputs'>
                         <label className='form-label'>Username</label>
@@ -173,7 +193,7 @@ class ManageAccount extends React.Component {
                             onChange={this.onChange}
                             value={this.state.username === null ? '' : this.state.username}
                         />
-                        <p style={{color:"#731417"}}>{this.state.usernameValidationMessage}</p>
+                        <p style={{color:"#eee00f"}}>{this.state.usernameValidationMessage}</p>
                     </div>
                     <div className='form-inputs'>
                         <label className='form-label'>Email</label>
@@ -185,7 +205,7 @@ class ManageAccount extends React.Component {
                             onChange={this.onChange}
                             value={this.state.email === null ? '' : this.state.email}
                         />
-                        <p style={{color:"#731417"}}>{this.state.emailValidationMessage}</p>
+                        <p style={{color:"#eee00f"}}>{this.state.emailValidationMessage}</p>
                     </div>
                     <div className='form-inputs'>
                         <label className='form-label'>Password</label>
@@ -197,7 +217,7 @@ class ManageAccount extends React.Component {
                             onChange={this.onChange}
                             value={this.state.password === null ? '' : this.state.password}
                         />
-                        <p style={{color:"#731417"}}>{this.state.passwordValidationMessage}</p>
+                        <p style={{color:"#eee00f"}}>{this.state.passwordValidationMessage}</p>
                     </div>
                     <div className='form-inputs'>
                         <label className='form-label'>Confirm password</label>
@@ -209,7 +229,7 @@ class ManageAccount extends React.Component {
                             onChange={this.onChange}
                             value={this.state.passwordConfirmation === null ? '' : this.state.passwordConfirmation }
                         />
-                        <p style={{color:"#731417"}}>{this.state.passwordConfirmationValidationMessage}</p>
+                        <p style={{color:"#eee00f"}}>{this.state.passwordConfirmationValidationMessage}</p>
                     </div>
                     <button className="button-login" type='submit'>
                         Apply

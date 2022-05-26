@@ -3,6 +3,7 @@ import { Rating } from 'react-simple-star-rating'
 import AuthService from '../services/AuthService';
 import '../style/Recipe.css';
 import axios from 'axios';
+import {confirmAlert} from "react-confirm-alert";
 
 class StarRating extends React.Component {
 
@@ -43,12 +44,31 @@ class StarRating extends React.Component {
       }
     }).then(r => {
       if (r.status === 201) {
-        alert("Saved!!");
-        window.location.reload()
+        confirmAlert({
+          title: 'NOTIFICATION',
+          message: "Saved!",
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {
+                window.location.reload()
+              }
+            }
+          ]
+        });
       }
     }).catch(function (error) {
       console.log(error);
-      alert("Bad request! ")
+      confirmAlert({
+        title: 'NOTIFICATION',
+        message: "Bad request!",
+        buttons: [
+          {
+            label: 'OK',
+            onClick: () => {}
+          }
+        ]
+      });
     });
   }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import '../style/AccessForms.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
+import {confirmAlert} from "react-confirm-alert";
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -40,12 +41,31 @@ class SignUp extends React.Component {
                 }
             }).then(r => {
                 if (r.status === 201) {
-                    alert("Success!");
-                    window.location.href = './LogIn';
+                    confirmAlert({
+                        title: 'NOTIFICATION',
+                        message: "Success!",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => {
+                                    window.location.href = './LogIn';
+                                }
+                            }
+                        ]
+                    });
                 }
             }).catch(function (error) {
                 console.log(error);
-                alert("User with the same username and email already exists!")
+                confirmAlert({
+                    title: 'NOTIFICATION',
+                    message: "User with the same username and email already exists!",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {}
+                        }
+                    ]
+                });
             });
         }
     }
@@ -132,7 +152,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.firstName === null ? '' : this.state.firstName}
                             />
-                            <span style={{ color: "#731417" }}>{this.state.firstNameValidationMessage}</span>
+                            <span style={{ color: "#eee00f"}}>{this.state.firstNameValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Last name</label>
@@ -144,7 +164,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.lastName === null ? '' : this.state.lastName}
                             />
-                            <span style={{ color: "#731417" }}>{this.state.lastNameValidationMessage}</span>
+                            <span style={{ color: "#eee00f"}}>{this.state.lastNameValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Username</label>
@@ -156,7 +176,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.username === null ? '' : this.state.username}
                             />
-                            <span style={{ color: "#731417" }}>{this.state.usernameValidationMessage}</span>
+                            <span style={{ color: "#eee00f"}}>{this.state.usernameValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Email</label>
@@ -168,7 +188,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.email === null ? '' : this.state.email}
                             />
-                            <span style={{ color: "#731417" }}>{this.state.emailValidationMessage}</span>
+                            <span style={{ color: "#eee00f"}}>{this.state.emailValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Password</label>
@@ -180,7 +200,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.password === null ? '' : this.state.password}
                             />
-                            <span style={{ color: "#731417" }}>{this.state.passwordValidationMessage}</span>
+                            <span style={{ color: "#eee00f" }}>{this.state.passwordValidationMessage}</span>
                         </div>
                         <div className='form-inputs'>
                             <label className='form-label'>Confirm password</label>
@@ -192,7 +212,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChange}
                                 value={this.state.passwordConfirmation === null ? '' : this.state.passwordConfirmation}
                             />
-                            <span style={{ color: "#731417" }}>{this.state.passwordConfirmationValidationMessage}</span>
+                            <span style={{ color: "#eee00f" }}>{this.state.passwordConfirmationValidationMessage}</span>
                         </div>
                         <button className="button-login" type='submit'>
                             Sign Up

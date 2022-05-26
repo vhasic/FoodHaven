@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 import CategoryService from '../services/CategoryService';
+import {confirmAlert} from "react-confirm-alert";
 const defaultImageSrc = '/img/image-placeholder.png';
 
 class RecipeInfo extends React.Component {
@@ -71,10 +72,28 @@ class RecipeInfo extends React.Component {
     submitNew = e => {
         e.preventDefault();
         if (this.state.categoryName === '') {
-            alert("Please select category!")
+            confirmAlert({
+                title: 'NOTIFICATION',
+                message: "Please select category!",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {}
+                    }
+                ]
+            });
         }
         else if (this.state.pictureId === '') {
-            alert("Please select recipe photo!")
+            confirmAlert({
+                title: 'NOTIFICATION',
+                message: "Please select recipe photo!",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {}
+                    }
+                ]
+            });
         }
         else {
             const formData = {
@@ -92,13 +111,31 @@ class RecipeInfo extends React.Component {
                 }
             }).then(r => {
                 if (r.status === 201) {
-                    alert("Recipe saved!");
+                    confirmAlert({
+                        title: 'NOTIFICATION',
+                        message: "Recipe saved!",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => {}
+                            }
+                        ]
+                    });
                     localStorage.setItem('recipeId',  r.data);
                     window.location.href = './Ingredients';
                 }
             }).catch(function (error) {
                 console.log(error);
-                alert("Bad Request!")
+                confirmAlert({
+                    title: 'NOTIFICATION',
+                    message: "Bad Request!",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {}
+                        }
+                    ]
+                });
             });
         }
     }

@@ -3,6 +3,7 @@ import '../style/AccessForms.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import AuthService from "../services/AuthService";
 import UserService from "../services/UserService";
+import {confirmAlert} from "react-confirm-alert";
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -35,7 +36,16 @@ class LogIn extends React.Component {
                 window.location.href = './UserPage';
             }
         } else {
-            alert("Your login credentials could not be verified, please try again");
+            confirmAlert({
+                title: 'NOTIFICATION',
+                message: "Your login credentials could not be verified, please try again.",
+                buttons: [
+                    {
+                        label: 'OK',
+                        onClick: () => {}
+                    }
+                ]
+            });
         }
     }
 

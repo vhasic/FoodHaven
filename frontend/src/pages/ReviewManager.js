@@ -148,7 +148,7 @@ class ReviewManager extends Component {
             <div>
                 <div className="column2">
                     <React.Fragment>
-                        <h1>User maneger</h1>
+                        <h1>Review and rating management</h1>
                         <label className="span-style"><i className="fas fa-search"></i> </label>
                         <input type={'number'}
                             className="search-field"

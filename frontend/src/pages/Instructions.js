@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../style/Instructions.css';
 import axios from 'axios'
 import AuthService from '../services/AuthService';
+import {confirmAlert} from "react-confirm-alert";
 
 class Instructions extends Component {
   constructor(props) {
@@ -50,7 +51,16 @@ class Instructions extends Component {
   handleSubmit(event) {
     let i = 1;
     if (this.state.steps.length <= 0) {
-      alert("Please, add at least one step!");
+        confirmAlert({
+            title: 'NOTIFICATION',
+            message: "Please, add at least one step!",
+            buttons: [
+                {
+                    label: 'OK',
+                    onClick: () => {}
+                }
+            ]
+        });
     } else {
       {
         this.state.steps.map(
@@ -69,8 +79,18 @@ class Instructions extends Component {
             i += 1
           ));
       }
-      alert("Instructions saved!");
-      window.location.href = './Home';
+        confirmAlert({
+            title: 'NOTIFICATION',
+            message: "Instructions saved!",
+            buttons: [
+                {
+                    label: 'OK',
+                    onClick: () => {
+                        window.location.href = './Home';
+                    }
+                }
+            ]
+        });
     }
     event.preventDefault();
   }

@@ -1,7 +1,5 @@
-FROM maven:3.8-openjdk-11 AS maven
-COPY . /usr/src/app
-WORKDIR /usr/src/app
+FROM openjdk:12
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} user-service.jar
 EXPOSE 8083
-RUN mvn clean install -Dmaven.test.skip=true
-
-ENTRYPOINT ["mvn", "spring-boot:run"]
+ENTRYPOINT ["java", "-jar", "user-service.jar"]

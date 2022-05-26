@@ -1,10 +1,5 @@
-FROM maven:3.8-openjdk-11 AS maven
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN mvn clean install -Dmaven.test.skip=true
-
-FROM openjdk:11
-COPY --from=maven /usr/src/app/target /usr/src/app/target
-WORKDIR /usr/src/app
+FROM openjdk:12
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} rating-service.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "target/rating-service.jar"]
+ENTRYPOINT ["java", "-jar", "rating-service.jar"]

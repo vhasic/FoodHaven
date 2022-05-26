@@ -1,10 +1,5 @@
-FROM maven:3.8-openjdk-11 AS maven
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN mvn clean install -Dmaven.test.skip=true
-
-FROM openjdk:11
-COPY --from=maven /usr/src/app/target /usr/src/app/target
-WORKDIR /usr/src/app
+FROM openjdk:12
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} api-gateway.jar
 EXPOSE 8088
-ENTRYPOINT ["java", "-jar", "target/api-gateway.jar"]
+ENTRYPOINT ["java", "-jar", "api-gateway.jar"]

@@ -51,7 +51,7 @@ class LogIn extends React.Component {
 
     render() {
         return <div>
-            <h2 className='h2-style' onClick={event => {
+            <h2 className='h2-style' data-testid="mainHeader" onClick={event => {
                 event.preventDefault();
                 window.location.href = './Home';
             }}>FoodHaven</h2>

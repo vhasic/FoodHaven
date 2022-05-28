@@ -14,7 +14,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class JwtConfig {
-//    @Value("${security.jwt.uri:/auth/**}")
     @Value("${security.jwt.uri:/login/**}")
     private String Uri;
 

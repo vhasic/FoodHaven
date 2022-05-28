@@ -28,16 +28,6 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
     public Mono<Authentication> authenticate(Authentication authentication) {
         String token = authentication.getCredentials().toString();
         final String SECRET = Base64.getEncoder().encodeToString(jwtConfig.getSecret().getBytes());
-        // 4. Validate the token
-/*        Claims claims =null;
-        try{
-        claims = Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token)
-                .getBody();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
 
         return Mono.just(jwtConfig.validateToken(token,SECRET))
                 .filter(valid -> valid)
@@ -50,12 +40,8 @@ public class AuthenticationManager implements ReactiveAuthenticationManager {
                     String username = claims.getSubject();
                     List<String> authorities = (List<String>) claims.get("authorities");
 
-                    // 5. Create auth object
-                    // UsernamePasswordAuthenticationToken: A built-in object, used by spring to represent the current authenticated / being authenticated user.
-                    // It needs a list of authorities, which has type of GrantedAuthority interface, where SimpleGrantedAuthority is an implementation of that interface
                     return new UsernamePasswordAuthenticationToken(
                             username, null, authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
                 });
-//        return Mono.just(authentication);
     }
 }

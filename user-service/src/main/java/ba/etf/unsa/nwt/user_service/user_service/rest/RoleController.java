@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/api/roles", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleController {
-//    @Autowired
-//    private RoleService roleService;
     private final RoleService roleService;
 
     public RoleController(RoleService roleService) {

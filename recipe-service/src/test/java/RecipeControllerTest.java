@@ -1,5 +1,4 @@
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
-import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.repos.PictureRepository;
@@ -8,9 +7,10 @@ import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import etf.unsa.ba.nwt.recipe_service.service.PictureService;
 import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
 import etf.unsa.ba.nwt.recipe_service.service.StepService;
-import net.minidev.json.JSONObject;
-import org.apache.commons.lang.RandomStringUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +18,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,7 +34,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource(locations = "classpath:./application-test.properties")
@@ -62,7 +56,6 @@ public class RecipeControllerTest {
     private RecipeService recipeService;
     @Autowired
     private StepService stepService;
-
     @Autowired
     private RecipeRepository recipeRepository;
     @Autowired
@@ -73,13 +66,10 @@ public class RecipeControllerTest {
     private DiscoveryClient discoveryClient;
     @Mock
     private RestTemplate restTemplate;
-    private MockRestServiceServer mockServer;
-
     private UUID pictureID;
     private UUID categoryID;
     private UUID userID;
     private UUID recipeID;
-    private String stringUserID;
 
 
     @BeforeEach
@@ -110,54 +100,7 @@ public class RecipeControllerTest {
         }
         categoryID =categoryService.create(new CategoryDTO("Category" + pictureID, pictureID));
         recipeID = recipeService.create(new RecipeDTO("TestName", "TestDescription", 20, userID,pictureID, categoryID));
-
-        /*try{
-            RestTemplate restTemplate = new RestTemplate();
-            ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("user-service").get(0);
-            String resourceURL = serviceInstanceRecipe.getUri() + "/api/users/";
-            URI uri = new URI(resourceURL);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            int length = 10;
-            boolean useLetters = true;
-            boolean useNumbers = false;
-            String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-            String username = "user" + generatedString;
-
-            JSONObject json = new JSONObject();
-            json.put("firstName", "TestUser");
-            json.put("lastName", "TestUser");
-            json.put("username", username);
-            json.put("email", username+"@gmail.com");
-            json.put("password", "Password2!");
-
-            HttpEntity<String> httpEntity = new HttpEntity<>(json.toString(), headers);
-            stringUserID = restTemplate.postForObject(uri, httpEntity, String.class);
-        } catch (Exception e) {
-            System.out.println("Can't connect to user_service");
-        }
-        userID = UUID.fromString(stringUserID.substring(1, 37));
-         */
     }
-
-   /*@Test
-    public void createRecipeSuccessTest() throws Exception{
-        mockMvc.perform(post("/api/recipes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.format("{\n" +
-                                "    \"name\" : \"Test Recipe\",\n" +
-                                "    \"description\":\"Test Description\",\n" +
-                                "    \"preparationTime\":20, \n" +
-                                "    \"userID\":\"%s\",\n" +
-                                "    \"recipePicture\": \"%s\",\n" +
-                                "    \"recipeCategory\": \"%s\"\n" +
-                                "\n" +
-                                "}", userID, pictureID, categoryID)))
-                .andExpect(status().isCreated());
-    }
-    */
-
 
     @Test
     public void createRecipeValidationsTooLong() throws Exception {

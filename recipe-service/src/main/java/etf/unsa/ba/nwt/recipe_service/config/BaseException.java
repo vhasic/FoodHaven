@@ -2,7 +2,6 @@ package etf.unsa.ba.nwt.recipe_service.config;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
 
 @EqualsAndHashCode(callSuper = false)

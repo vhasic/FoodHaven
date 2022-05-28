@@ -2,7 +2,6 @@ package ba.unsa.etf.nwt.ingredient_service.rest;
 
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientDTO;
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientRecipeDTO;
-import ba.unsa.etf.nwt.ingredient_service.model.PictureDTO;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientRecipeService;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientService;
 import ba.unsa.etf.nwt.ingredient_service.service.PictureService;
@@ -13,24 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.UUID;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource(locations = "classpath:./application-test.properties")
 @SpringBootTest(classes={ba.unsa.etf.nwt.ingredient_service.IngredientServiceApplication.class})

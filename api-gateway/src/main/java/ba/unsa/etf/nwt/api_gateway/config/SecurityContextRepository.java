@@ -18,8 +18,6 @@ import reactor.core.publisher.Mono;
 public class SecurityContextRepository implements ServerSecurityContextRepository {
 
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtConfig jwtConfig;
 
     @Override
     public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {

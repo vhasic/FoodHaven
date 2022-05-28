@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // It has to be annotated with @Service.
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService  {
     @Autowired
     private BCryptPasswordEncoder encoder;
@@ -32,22 +32,15 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
             userDTO= userService.getUserByUsername(username);
         } catch ( Exception ignored){
             // If user not found. Throw this exception.
-            //todo vratiti response da username ne postoji
-            //todo vratiti reponse kada se password ne podudara
             throw new UsernameNotFoundException("Username: " + username + " not found");
         }
         String roleName=roleRepository.findById(userDTO.getRole()).get().getName();
         if (roleName.equals("Administrator")) roleName="Admin"; //radi lakšeg rada na gatewayu
 
-        // Remember that Spring needs roles to be in this format: "ROLE_" + userRole (i.e. "ROLE_ADMIN")
-        // So, we need to set it to that format, so we can verify and compare roles (i.e. hasRole("ADMIN")).
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_" + roleName);
 
-        // The "User" class is provided by Spring and represents a model class for user to be returned by UserDetailsService
-        // And used by auth manager to verify and check user authentication.
         return new User(userDTO.getId().toString(), encoder.encode(userDTO.getPassword()), grantedAuthorities);
-//        return new User(userDTO.getUsername(), encoder.encode(userDTO.getPassword()), grantedAuthorities);
     }
 
     @Bean

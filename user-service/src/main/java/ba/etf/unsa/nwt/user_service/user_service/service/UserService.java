@@ -5,21 +5,17 @@ import ba.etf.unsa.nwt.user_service.user_service.domain.User;
 import ba.etf.unsa.nwt.user_service.user_service.model.UserDTO;
 import ba.etf.unsa.nwt.user_service.user_service.repos.RoleRepository;
 import ba.etf.unsa.nwt.user_service.user_service.repos.UserRepository;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 

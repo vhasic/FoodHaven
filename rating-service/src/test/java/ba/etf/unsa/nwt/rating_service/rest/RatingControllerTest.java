@@ -1,120 +1,55 @@
 package ba.etf.unsa.nwt.rating_service.rest;
 
 import ba.etf.unsa.nwt.rating_service.model.RatingDTO;
-import ba.etf.unsa.nwt.rating_service.repos.RatingRepository;
 import ba.etf.unsa.nwt.rating_service.service.RatingService;
-import com.netflix.discovery.EurekaClient;
 import net.minidev.json.JSONObject;
-import org.junit.jupiter.api.*;
-import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.client.ExpectedCount;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
-//import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-//import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.client.ExpectedCount.once;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-//@TestPropertySource(locations = "classpath:application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@RunWith(MockitoJUnitRunner.class)
 class RatingControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private RatingService ratingService;
     private UUID uuid1,uuid2,ratingId1,ratingId2,ratingId3;
-    //    @Mock
-    //    private RestTemplate restTemplate;
-    //    @InjectMocks
-    //@MockBean
-    //private UserService userService;
-//    @Autowired
-//    private RestTemplate restTemplate;
-    @Autowired
-    private RatingRepository ratingRepository;
-//    @Autowired
-//    private DiscoveryClient discoveryClient;
     @Mock
     private DiscoveryClient discoveryClient;
     @Mock
     private RestTemplate restTemplate;
-    private MockRestServiceServer mockServer;
 
-
-    /*    public RatingControllerTest() {
-        uuid1= UUID.fromString("21a7dc09-8e5c-4920-b02d-b3c63e1bf9c3");
-        uuid2= UUID.fromString("2879d230-5692-4b1b-8443-868c5cca152c");
-        String resourceURL="http://localhost:8082";
-        MockitoAnnotations.initMocks(this);
-        ServiceInstance si = mock(ServiceInstance.class);
-        when(si.getUri()).thenReturn(URI.create(resourceURL));
-        doReturn(List.of(si)).when(discoveryClient).getInstances(anyString());
-        ServiceInstance serviceInstanceRecipe = discoveryClient.getInstances("recipe-service").get(0);
-        resourceURL = serviceInstanceRecipe.getUri() + "/api/recipes/";
-        doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+uuid1,String.class);
-        doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+uuid2,String.class);
-        ratingService=new RatingService(ratingRepository,restTemplate,discoveryClient);
-    }*/
 
     @BeforeAll
-    public void beforeAll() throws URISyntaxException {
-//        when(discoveryClient.getInstances(anyString()))
-//                .thenReturn(List.of(si));
-//        ResponseEntity<String> test= restTemplate.getForEntity(resourceURL+uuid1, String.class);
-//        Mockito.when(restTemplate.getForObject(Mockito.anyString(), ArgumentMatchers.any(Class.class))).thenReturn(json);
-//        Mockito.when(restTemplate.getForEntity(resourceURL+uuid1, String.class)).thenReturn(new ResponseEntity<String>(HttpStatus.OK));
-/*        mockServer = MockRestServiceServer.createServer(restTemplate);
-        mockServer.expect(once(), requestTo(resourceURL+uuid1))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(new ClassPathResource(json.toString()), MediaType.APPLICATION_JSON));
-        mockServer.expect(once(), requestTo(resourceURL+uuid2))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(new ClassPathResource(json.toString()), MediaType.APPLICATION_JSON));*/
-//        mockServer.expect(ExpectedCount.once(),
-//                        requestTo(new URI(resourceURL+uuid1)))
-//                .andExpect(method(HttpMethod.GET))
-//                .andRespond(withStatus(HttpStatus.OK));
-//        mockServer.expect(ExpectedCount.once(),
-//                        requestTo(new URI(resourceURL+uuid2)))
-//                .andExpect(method(HttpMethod.GET))
-//                .andRespond(withStatus(HttpStatus.OK));
-//        ratingService=new RatingService(ratingRepository,restTemplate,discoveryClient);
+    public void beforeAll() {
         uuid1= UUID.fromString("21a7dc09-8e5c-4920-b02d-b3c63e1bf9c3");
         uuid2= UUID.fromString("2879d230-5692-4b1b-8443-868c5cca152c");
         String resourceURL="http://localhost:8082";
@@ -126,7 +61,6 @@ class RatingControllerTest {
         resourceURL = serviceInstanceRecipe.getUri() + "/api/recipes/";
         doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+uuid1,String.class);
         doReturn(new ResponseEntity<String>(HttpStatus.OK)).when(restTemplate).getForEntity(resourceURL+uuid2,String.class);
-//        ratingService=new RatingService(ratingRepository,restTemplate,discoveryClient);
         ratingService.setDiscoveryClient(discoveryClient);
         ratingService.setRestTemplate(restTemplate);
         ratingId1= ratingService.create(new RatingDTO(5,"Ovo je testni komentar",uuid1,uuid2));
@@ -146,8 +80,6 @@ class RatingControllerTest {
 
     @Test
     public void createRatingValidation() throws Exception{
-//        UUID recipeID = UUID.randomUUID();
-//        UUID userID = UUID.randomUUID();
         mockMvc.perform(post("/api/ratings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(String.format("{\n" +
@@ -162,8 +94,6 @@ class RatingControllerTest {
     }
     @Test
     public void createRatingValidationBlank() throws Exception{
-//        UUID recipeID = UUID.randomUUID();
-//        UUID userID = UUID.randomUUID();
         mockMvc.perform(post("/api/ratings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(String.format("{\n" +
@@ -196,8 +126,6 @@ class RatingControllerTest {
     }
     @Test
     void updateRating() throws Exception {
-//        UUID recipeID = UUID.randomUUID();
-//        UUID userID = UUID.randomUUID();
         UUID id= ratingService.create(new RatingDTO(2,"Ovo je testni komentar",uuid1, uuid2));
         mockMvc.perform(put(String.format("/api/ratings/%s", id))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -238,7 +166,7 @@ class RatingControllerTest {
                 );
     }
 
-        @Test
+    @Test
     public void createRatingSuccessTest() throws Exception{
         JSONObject json = new JSONObject();
         json.put("rating", 5);

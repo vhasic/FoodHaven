@@ -1,9 +1,11 @@
 package ba.etf.unsa.nwt.rating_service.messaging;
+
 import ba.etf.unsa.nwt.rating_service.model.RecipeDTO;
 import ba.etf.unsa.nwt.rating_service.service.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+
 import javax.transaction.Transactional;
 import java.util.UUID;
 

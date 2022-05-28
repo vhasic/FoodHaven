@@ -10,26 +10,21 @@ import ba.etf.unsa.nwt.user_service.user_service.service.RoleService;
 import ba.etf.unsa.nwt.user_service.user_service.service.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import org.springframework.http.MediaType;
-
 import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-//@ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:./application-test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = {UserServiceApplication.class, AppConfig.class})
@@ -57,7 +52,6 @@ class UserControllerTest {
         userRoleId =roleService.create(new RoleDTO("User"));
         // save a few users
         adminId =userService.create(new UserDTO("Administrator","Administrator","admin","admin@nesto.com","Password1!", adminRoleId));
-//        userService.create(new UserDTO("User","User","user","user@nesto.com","Password1!",userId));
     }
 
     @Test

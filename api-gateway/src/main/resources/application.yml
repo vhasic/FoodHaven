@@ -1,9 +1,4 @@
 spring:
-  #  # ovo za main je dodano kako bi se mogao pokrenuti servis
-  #  main:
-  #    web-application-type: reactive # dodaje asinhronost, extends WebSecurityConfigurerAdapter ne radi kada je ovdje reactive
-  #    allow-bean-definition-overriding: true
-
   application:
     name: api-gateway
   cloud:
@@ -41,7 +36,7 @@ spring:
             - StripPrefix=0
             - RemoveRequestHeader=Cookie
             - RemoveRequestHeader=Set-Cookie,Authorization
-            - RemoveRequestHeader=Authorization     #Remove All the sensitive request headers (Cookie, Set-Cookie & Authorization) while passing request to downstream services
+            - RemoveRequestHeader=Authorization
 
   security:
     user:
@@ -59,7 +54,6 @@ eureka:
   instance:
     preferIpAddress: true
 
-#da se ipsisuje u konzoli kroz koje je korake prošao
 logging:
   level:
     org:

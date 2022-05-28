@@ -1,46 +1,42 @@
 package ba.unsa.etf.nwt.ingredient_service.rest;
 
 import ba.unsa.etf.nwt.ingredient_service.model.IngredientDTO;
-import ba.unsa.etf.nwt.ingredient_service.model.PictureDTO;
 import ba.unsa.etf.nwt.ingredient_service.service.IngredientService;
 import ba.unsa.etf.nwt.ingredient_service.service.PictureService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 
-import java.net.URI;
-import java.util.List;
-import java.util.UUID;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import org.mockito.Mock;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.net.URI;
+import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource(locations = "classpath:./application-test.properties")
 @SpringBootTest(classes={ba.unsa.etf.nwt.ingredient_service.IngredientServiceApplication.class})
@@ -58,7 +54,6 @@ public class IngredientControllerTest {
     private DiscoveryClient discoveryClient;
     @Mock
     private RestTemplate restTemplate;
-    private MockRestServiceServer mockServer;
 
     private UUID pictureID;
     private UUID recipeID;
@@ -141,20 +136,6 @@ public class IngredientControllerTest {
         mockMvc.perform(get(String.format("/api/ingredients/11111111-1111-1111-1111-111111111111")))
                 .andExpect(status().isNotFound());
     }
-    
-//    only after running recipe-service tests work
-//    @Test
-//    public void getTotalCaloriesSuccess() throws Exception {
-//        mockMvc.perform(get("/ingredients/totalCalories/recipe").param("recipeId",recipeID.toString()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.totalCalories").value(isNotNull()));
-//    }
-//
-//    @Test
-//    public void getTotalCaloriesError() throws Exception {
-//        mockMvc.perform(get("/ingredients/totalCalories/recipe").param("recipeId","11111111-1111-1111-1111-111111111111"))
-//                .andExpect(status().isNotFound());
-//    }
 
     @AfterEach
     public void afterEachTest() {

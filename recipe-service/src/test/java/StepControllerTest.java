@@ -1,6 +1,4 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
-import etf.unsa.ba.nwt.recipe_service.model.PictureDTO;
 import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
 import etf.unsa.ba.nwt.recipe_service.model.StepDTO;
 import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
@@ -10,9 +8,10 @@ import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
 import etf.unsa.ba.nwt.recipe_service.service.PictureService;
 import etf.unsa.ba.nwt.recipe_service.service.RecipeService;
 import etf.unsa.ba.nwt.recipe_service.service.StepService;
-import net.minidev.json.JSONObject;
-import org.apache.commons.lang.RandomStringUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +19,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
-
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +35,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource(locations = "classpath:./application-test.properties")
@@ -67,7 +58,6 @@ public class StepControllerTest {
     private RecipeService recipeService;
     @Autowired
     private StepService stepService;
-
     @Mock
     private DiscoveryClient discoveryClient;
     @Mock
@@ -78,13 +68,11 @@ public class StepControllerTest {
     private PictureRepository pictureRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-
     private UUID pictureID;
     private UUID categoryID;
     private UUID userID;
     private UUID recipeID;
     private UUID pictureID1;
-    private String stringUserID;
 
     @BeforeEach
     public void beforeEach() {
@@ -148,7 +136,7 @@ public class StepControllerTest {
                                 "    \"onumber\": 1}", pictureID, recipeID)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.fieldErrors[*].field", containsInAnyOrder("Step description may not be blank!")))
-        ;;
+        ;
     }
 
 

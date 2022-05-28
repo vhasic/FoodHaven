@@ -69,11 +69,6 @@ public class User {
     @NotNull(message = "User must have role")
     private Role role;
 
-/*
-    @OneToMany(mappedBy = "user")
-    private Set<Token> userTokens;
-*/
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private OffsetDateTime dateCreated;

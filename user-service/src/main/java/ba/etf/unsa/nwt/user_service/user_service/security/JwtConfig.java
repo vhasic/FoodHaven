@@ -3,8 +3,6 @@ package ba.etf.unsa.nwt.user_service.user_service.security;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * The JwtConfig is just a class contains configuration variables.
@@ -12,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Getter
 @Setter
 public class JwtConfig {
-//    @Value("${security.jwt.uri:/auth/**}")
     @Value("${security.jwt.uri:/login/**}")
     private String Uri;
 

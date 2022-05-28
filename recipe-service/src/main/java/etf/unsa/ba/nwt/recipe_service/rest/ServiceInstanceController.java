@@ -1,8 +1,8 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

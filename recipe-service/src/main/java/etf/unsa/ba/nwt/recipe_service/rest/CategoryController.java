@@ -1,20 +1,16 @@
 package etf.unsa.ba.nwt.recipe_service.rest;
 
 import etf.unsa.ba.nwt.recipe_service.model.CategoryDTO;
-import etf.unsa.ba.nwt.recipe_service.model.ErrorResponse;
-import etf.unsa.ba.nwt.recipe_service.model.RecipeDTO;
-import etf.unsa.ba.nwt.recipe_service.repos.CategoryRepository;
 import etf.unsa.ba.nwt.recipe_service.service.CategoryService;
-import java.util.List;
-import java.util.UUID;
-import javax.validation.Valid;
-
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -22,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
-    CategoryRepository categoryRepository;
 
     public CategoryController(final CategoryService categoryService) {
         this.categoryService = categoryService;

@@ -30,9 +30,11 @@ class LogIn extends React.Component {
         if (authenticated === true) {
             const user = await UserService.getUser();
             if (user.role.roleName === "Administrator") {
-                window.location.href = './AdminPage';
+                window.location.assign('./AdminPage');
+                // window.location.href = './AdminPage';
             } else {
-                window.location.href = './UserPage';
+                window.location.assign('./UserPage');
+                // window.location.href = './UserPage';
             }
         } else {
             confirmAlert({

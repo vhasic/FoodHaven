@@ -3,6 +3,7 @@ import '../style/UserPage.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import AuthService from "../services/AuthService";
 import axios from "axios";
+import UserService from "../services/UserService";
 
 const API_URL = "http://localhost:8088/";
 
@@ -20,24 +21,15 @@ class UserPage extends React.Component {
         };
     }
 
-    componentDidMount() {
-        axios.get(API_URL + "api/users/" + this.state.userId, {
-            headers: {
-                'Authorization': 'Bearer ' + AuthService.getCurrentUser().token
-            }
-        }).then(response => {
-            const user = response.data;
-            this.setState({
-                userId: this.state.userId,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                username: user.username,
-                email: user.email,
-                role: user.role
-            });
-        }).catch(err => {
-            console.warn(err);
-            return false;
+    async componentDidMount() {
+        const user = await UserService.getUser();
+        this.setState({
+            userId: user.userId,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            email: user.email,
+            role: user.role
         });
     }
 

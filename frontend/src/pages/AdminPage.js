@@ -38,7 +38,7 @@ class AdminPage extends Component {
                         event.preventDefault();
                         window.location.href = './ManageAccount';
                     }}><i className="fas fa-user-circle"></i></h2>
-                    <h2 style={{textAlign: "center"}}>Admin</h2>
+                    <h2 style={{textAlign: "center"}}>Hello Admin</h2>
                     <div>
                         <button style={{marginBottom: '10%'}} className='button-logout' onClick={AuthService.logout}><a
                             style={{color: "white"}}>Log Out</a></button>

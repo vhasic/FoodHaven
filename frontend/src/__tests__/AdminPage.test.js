@@ -1,14 +1,14 @@
 import {render, screen} from "@testing-library/react";
-import UserPage from "../pages/UserPage";
+import AdminPage from "../pages/AdminPage";
 import AuthService from "../services/AuthService";
 import UserService from "../services/UserService";
 import {act} from "react-dom/test-utils";
 
 
-describe('UserPage', function () {
+describe('AdminPage', function () {
     const fakeUser= {
         userId: "userId",
-        firstName: "User",
+        firstName: "Admin",
         lastName: "lastName",
         username: "username",
         email: "email",
@@ -24,17 +24,17 @@ describe('UserPage', function () {
 
     it('Test renders correctly', async function () {
         await act(async () => {
-            render(<UserPage/>);
+            render(<AdminPage/>);
         });
         expect(screen.getByText(/log out/i)).toHaveTextContent("Log Out");
     });
 
-    it('Test gets user and renders his information correctly', async function () {
+    it('Test gets administrator and renders his information correctly', async function () {
         await act(async () => {
-            render(<UserPage/>);
+            render(<AdminPage/>);
         });
         expect(screen.getByRole('heading', {
-            name: /hello user/i
-        })).toHaveTextContent("Hello User");
+            name: /hello admin/i
+        })).toHaveTextContent("Hello Admin");
     });
 });

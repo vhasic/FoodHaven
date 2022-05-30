@@ -1,10 +1,5 @@
-FROM maven:3.8-openjdk-11 AS maven
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN mvn clean install -Dmaven.test.skip=true
-
-FROM openjdk:11
-COPY --from=maven /usr/src/app/target /usr/src/app/target
-WORKDIR /usr/src/app
+FROM openjdk:11-jre-slim-buster
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
 EXPOSE 8084
-ENTRYPOINT ["java", "-jar", "target/ingredient-service.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

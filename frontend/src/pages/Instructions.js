@@ -19,13 +19,14 @@ class Instructions extends Component {
             <div key={i}>
                 <h4>Step {i + 1}</h4><br/>
                 <textarea
+                    role = 'textarea'
                     key={i + 1}
                     required="required"
                     maxLength="255"
                     className='instruction-input'
                     type="text"
                     onChange={this.handleChange.bind(this, i)}/>
-                <button className='remove-button' type='button' value='remove' onClick={this.removeClick.bind(this, i)}>
+                <button role='remove-button' className='remove-button' type='button' value='remove' onClick={this.removeClick.bind(this, i)}>
                     <i className='fas fa-trash-alt'></i></button>
             </div>
         )
@@ -111,7 +112,7 @@ class Instructions extends Component {
                         className='fas fa-plus-circle'></i> Add step
                     </button>
                     {this.createUI()} <br/> <br/>
-                    <button type="submit" value="Submit"><i className='fas fa-save'></i> Save instructions</button>
+                    <button role='submit-button' type="submit" value="Submit"><i className='fas fa-save'></i> Save instructions</button>
                 </form>
             </div>
         );

@@ -26,7 +26,7 @@ class LoginLogout extends React.Component {
         {
             if (this.state.isLoggedIn) {
                 return <div>
-                    <button className='button-login-signup' onClick={event => {
+                    <button role='hello-button' className='button-login-signup' onClick={event => {
                         event.preventDefault();
                         if (this.state.user.role.roleName === "Administrator") {
                             window.location.href = './AdminPage';
@@ -37,7 +37,7 @@ class LoginLogout extends React.Component {
                     }><i className='fas fa-user a-home'></i> Hello {this.state.user.firstName} </button>
                 </div>
             } else {
-                return <button className='button-login-signup'><a className='a-home' href='./LogIn'>Log In</a> / <a
+                return <button role='login-button' className='button-login-signup'><a className='a-home' href='./LogIn'>Log In</a> / <a
                     className='a-home' href='./SignUp'>Sign Up</a></button>
             }
         }

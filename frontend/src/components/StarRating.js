@@ -82,7 +82,7 @@ class StarRating extends React.Component {
         {
             if (this.state.isLoggedIn) {
                 return <form style={{marginBottom: "5%"}} onSubmit={this.submitNew}>
-                    <label>Your Rating</label><br/>
+                    <label role='your-rating-label'>Your Rating</label><br/>
                     <Rating
                         size="25"
                         fillColor='#ff6127'

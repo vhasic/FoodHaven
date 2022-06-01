@@ -80,7 +80,7 @@ class StarRating extends React.Component {
 
     render() {
         {
-            if (this.state.isLoggedIn) {
+            if (this.state.isLoggedIn && this.props.userId != this.state.userId) {
                 return <form style={{marginBottom: "5%"}} onSubmit={this.submitNew}>
                     <label role='your-rating-label'>Your Rating</label><br/>
                     <Rating

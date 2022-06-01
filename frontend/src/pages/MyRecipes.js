@@ -8,6 +8,8 @@ import PictureService from '../services/PictureService';
 import CategoryCard from '../components/CategoryCard';
 import RecipeCard from '../components/RecipeCard';
 import LoginLogout from '../components/LoginLogout';
+import AuthService from '../services/AuthService';
+import axios from 'axios';
 
 const responsive = {
     superLargeDesktop: {
@@ -28,7 +30,7 @@ const responsive = {
     }
 };
 
-class HomePage extends Component {
+class MyRecipes extends Component {
     constructor(props) {
         super(props);
         this.recipeCategoryName = new Map();
@@ -45,7 +47,12 @@ class HomePage extends Component {
     }
 
     componentDidMount() {
-        RecipeService.getRecipes().then((res) => {
+        axios.get('http://localhost:8088/api/recipes/user?userId=' + AuthService.getCurrentUser().userId, {
+            headers: {
+                'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
             this.setState({ recipes: res.data });
             this.setState({ allrecipes: res.data });
         });
@@ -83,41 +90,17 @@ class HomePage extends Component {
                 this.state.pictureMap.set(picture.id, picture.picByte)
             )
         )
+        {
+            this.state.categories.map(
+                category => (
+                    this.state.categoryMap.set(category.id, category.name)
+                ))
+        }
         return (
             <div>
                 <div className='home-div'>
-                    <h2 className='h2-style'>FoodHaven</h2>
+                    <h2 className='h2-style'>My recipes</h2>
                     <LoginLogout />
-                </div>
-                <div className="container">
-                    <Carousel
-                        swipeable={true}
-                        draggable={true}
-                        showDots={false}
-                        autoPlay={true}
-                        infinite={true}
-                        autoPlaySpeed={3000}
-                        responsive={responsive}
-                        ssr={true} // means to render carousel on server-side.
-                        keyBoardControl={true}
-                        customTransition="all .5"
-                        transitionDuration={500}
-                        containerClass="carousel-container"
-                        deviceType={this.props.deviceType}
-                        dotListClass="custom-dot-list-style"
-                        itemClass="carousel-item-padding-40-px"
-                    >
-                        {this.state.categories.map(
-                            category => (
-                                this.state.categoryMap.set(category.id, category.name),
-                                <button style={{ border: 'none', backgroundColor: 'white' }}
-                                    onClick={() => this.searchByCategory(category.id)}><CategoryCard
-                                        key={category.id} img={this.state.pictureMap.get(category.categoryPicture)}
-                                        name={category.name.toUpperCase()} /></button>
-                            ))}
-
-                    </Carousel>
-
                 </div>
                 <div className="Search">
                     <span className="SearchSpan">
@@ -140,8 +123,8 @@ class HomePage extends Component {
                                 category={this.state.categoryMap.get(recipe.recipeCategory)}
                                 description={recipe.description}
                                 rating={4.29}
-                                currentUserId={null}
-                                userId={recipe.userID} 
+                                currentUserId = {AuthService.getCurrentUser().userId}
+                                userID = {recipe.userID}
                             />
                         )
                     )}
@@ -151,4 +134,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage;
+export default MyRecipes;

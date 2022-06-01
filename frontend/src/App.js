@@ -8,6 +8,7 @@ import Instructions from './pages/Instructions.js';
 import Ingredients from './pages/Ingredients.js';
 import Recipe from './pages/Recipe.js';
 import AdminPage from './pages/AdminPage.js';
+import MyRecipes from './pages/MyRecipes.js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ManageAccount from "./pages/ManageAccount";
 
@@ -27,6 +28,7 @@ class App extends Component {
           <Route path='/Recipe' element={<Recipe/>} />
           <Route path='/AdminPage' element={<AdminPage/>}/>
           <Route path='/ManageAccount' element={<ManageAccount/>}/>
+          <Route path='/MyRecipes' element={<MyRecipes/>}/>
       </Routes>
   </Router>
   }

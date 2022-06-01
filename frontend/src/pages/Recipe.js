@@ -102,7 +102,7 @@ class Recipe extends React.Component {
                     </div>
                     <div>
                         <h1>Reviews:</h1>
-                        <StarRating/>
+                        <StarRating userId={this.state.recipe.userID}/>
                         {this.state.ratings.map(rating => {
                             return (
                                 <div key={rating.id + 1} style={{marginBottom: "3%"}}>

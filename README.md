@@ -28,10 +28,16 @@ This project consists of a web application that showcases the functionalities de
 
 ## Startup
 You can run the application utilizing the docker setup. In order to do so, follow the next steps:
-- Make sure you have **docker** installed (and make sure you are registered to Docker Hub)
+- Make sure you have **docker** installed
 - Navigate to the root of the project
-- run ``sudo docker-compose up `` (be aware that the first time you run this, it may take around 15 minutes to build the project)
-- navigate to **localhost** in your browser to start using the web application (make sure that ports 3000 and 8088 on your machine are free, because the app uses those ports to serve the webapp and expose the backend)
+- Projects must be built by typing: ``./mvnw package -Dmaven.test.skip=true`` in console (make sure you have at least JAVA 11 installed). 
+If some project build doesn't succeed it has to be built manually.
+- run ``docker-compose up `` (be aware that the first time you run this, it may take around 15 minutes to build the project)
+- navigate to http://localhost:3000 in your browser to start using the web application (make sure that ports 3000 and 8088 on your machine are free, because the app uses those ports to serve the webapp and expose the backend)
+
+## Created dummy users
+Administrator: username: admin password: Password1! \
+User: username: user password: Password1!
 
 ## Technological stack
 - Spring Boot
@@ -40,6 +46,7 @@ You can run the application utilizing the docker setup. In order to do so, follo
 - Rabbit MQ
 
 # Contributors
-- [Aya Ali Al Zayat](https://github.com/aalialzaya1)
 - [Vahidin Hasić](https://github.com/vhasic)
 - [Hana Veladžić](https://github.com/hveladzic2)
+- [Aya Ali Al Zayat](https://github.com/aalialzaya1)
+

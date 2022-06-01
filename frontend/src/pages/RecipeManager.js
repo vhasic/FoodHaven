@@ -173,7 +173,6 @@ class RecipeManager extends Component {
                             <td className="header"></td>
                             <td className="header">Average rating</td>
                             <td className="header">Name</td>
-                            <td className="header">Category</td>
                             <td className="header">Created by</td>
                             <td className="header">Delete</td>
                         </tr>
@@ -183,7 +182,7 @@ class RecipeManager extends Component {
                                 <td className="cell"><i
                                     className='fas fa-star recipe-i'></i> {this.state.ratingFor.get(item.id)}</td>
                                 <td className="cell">{item.name}</td>
-                                <td className="cell">{this.state.categoryFor.get(item.recipeCategory).toUpperCase()}</td>
+                                
                                 <td className="cell">{this.state.createdBy.get(item.userID)}</td>
                                 <td className="cell">
                                     <button

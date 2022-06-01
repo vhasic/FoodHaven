@@ -66,9 +66,8 @@ class Recipe extends React.Component {
                         <h4>Average rating: <i
                             className='fas fa-star recipe-i'></i> {this.state.averageRating.averageRating}</h4>
                         <img className='recipe-img' src={'data:image/jpeg;base64,' + this.state.pic.picByte} alt=''/>
-                        <p>{this.state.recipe.description}</p>
+                        <p style={{width:'60%'}}>{this.state.recipe.description}</p>
                         <div className="numberCircle">calories: <b>{this.state.calories.totalCalories}</b></div>
-                        <div className="numberCircle">vitamins: <b>{this.state.nutrition.totalVitamins}</b></div>
                         <div className="numberCircle">fat: <b>{this.state.nutrition.totalFat}</b></div>
                         <div className="numberCircle">proteins: <b>{this.state.nutrition.totalProteins}</b></div>
                     </div>

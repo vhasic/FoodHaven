@@ -96,7 +96,7 @@ class HomePage extends Component {
                         showDots={false}
                         autoPlay={true}
                         infinite={true}
-                        autoPlaySpeed={3000}
+                        autoPlaySpeed={5000}
                         responsive={responsive}
                         ssr={true} // means to render carousel on server-side.
                         keyBoardControl={true}
@@ -110,7 +110,7 @@ class HomePage extends Component {
                         {this.state.categories.map(
                             category => (
                                 this.state.categoryMap.set(category.id, category.name),
-                                <button style={{ border: 'none', backgroundColor: 'white' }}
+                                <button className='category-card'
                                     onClick={() => this.searchByCategory(category.id)}><CategoryCard
                                         key={category.id} img={this.state.pictureMap.get(category.categoryPicture)}
                                         name={category.name.toUpperCase()} /></button>

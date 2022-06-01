@@ -89,7 +89,7 @@ class Instructions extends Component {
                     {
                         label: 'OK',
                         onClick: () => {
-                            window.location.href = './Home';
+                            window.location.href = './MyRecipes';
                         }
                     }
                 ]

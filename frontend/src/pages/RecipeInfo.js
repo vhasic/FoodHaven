@@ -19,7 +19,7 @@ class RecipeInfo extends React.Component {
             description: '',
             preparationTime: '',
             userID: userId,
-            recipeCategory: 'ebb0111e-c2b3-42e7-821b-3378192a20d8',
+            recipeCategory: '',
             categories: [],
             categoryMap: new Map(),
             categoryName: '',
@@ -74,6 +74,7 @@ class RecipeInfo extends React.Component {
 
     submitNew = e => {
         e.preventDefault();
+        console.log(this.state.pictureId)
         if (this.state.categoryName === '') {
             confirmAlert({
                 title: 'NOTIFICATION',
@@ -121,12 +122,12 @@ class RecipeInfo extends React.Component {
                             {
                                 label: 'OK',
                                 onClick: () => {
+                                    window.location.href = './Ingredients';
                                 }
                             }
                         ]
                     });
                     localStorage.setItem('recipeId', r.data);
-                    window.location.href = './Ingredients';
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -222,7 +223,8 @@ class RecipeInfo extends React.Component {
                                     className='dropbtn'
                                     value={this.state.categoryName}
                                     onChange={this.handleChange}
-                                >
+                                >   
+                                    <option value="none" selected hidden ></option>
                                     {this.state.categories.map(
                                         category => (
                                             this.state.categoryMap.set(category.name, category.id),

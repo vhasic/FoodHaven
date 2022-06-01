@@ -63,12 +63,14 @@ code {
   color: black;
   text-align: left;
   font-size: 20px;
-  margin-left: 8%;
-  margin-bottom: 5%;
   color: white;
   background-color: black;
-  margin-left: 5%;
   text-decoration: none;
+  width: 100%;
+  padding: 3%;
+}
+.h3-admin:hover {
+  background-color: rgb(47, 47, 47);
 }
 
 .column1 {

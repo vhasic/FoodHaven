@@ -103,7 +103,6 @@ class Instructions extends Component {
             <div>
                 <div>
                     <h2 style={{marginLeft: "40%"}} className='h2-style'>FoodHaven</h2>
-                    <a className='a-back' href='./Ingredients'> <i className="fas fa-angle-left"></i> Back</a>
                     <h1 style={{marginLeft: "5%"}}>Instructions</h1>
                 </div>
 

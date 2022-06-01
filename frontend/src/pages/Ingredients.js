@@ -151,7 +151,6 @@ class Ingredients extends Component {
             <div>
                 <div>
                     <h2 style={{ marginLeft: "40%" }} className='h2-style'>FoodHaven</h2>
-                    <a className='a-back' href='./RecipeInfo'> <i className="fas fa-angle-left"></i> Back</a>
                     <h1 style={{ marginLeft: "5%" }}>Ingredients</h1>
                 </div>
                 <input

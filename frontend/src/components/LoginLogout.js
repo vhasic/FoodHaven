@@ -1,6 +1,5 @@
 import React from 'react';
 import AuthService from '../services/AuthService';
-import axios from 'axios';
 import UserService from "../services/UserService";
 
 class LoginLogout extends React.Component {

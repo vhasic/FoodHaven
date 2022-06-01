@@ -166,7 +166,7 @@ class UserManager extends Component {
                                             backgroundColor: 'white',
                                             color: '#ff6127',
                                             fontSize: '20px'
-                                        }}><i style={{textIndent: "80%"}} className="fas fa-trash"></i></button>
+                                        }}><i style={{textIndent: "30%"}} className="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         })

@@ -190,7 +190,7 @@ class RecipeManager extends Component {
                                         onClick={() => {
                                             confirmAlert({
                                                 title: 'WARNING',
-                                                message: 'Are you sure you want to delete this user?',
+                                                message: 'Are you sure you want to delete this recipe?',
                                                 buttons: [
                                                     {
                                                         label: 'DELETE',
@@ -209,7 +209,7 @@ class RecipeManager extends Component {
                                             backgroundColor: 'white',
                                             color: '#ff6127',
                                             fontSize: '20px'
-                                        }}><i style={{textIndent: "80%"}} className="fas fa-trash"></i></button>
+                                        }}><i style={{textIndent: "30%"}} className="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         })

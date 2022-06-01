@@ -53,7 +53,6 @@ class UserPage extends React.Component {
                     }}>FoodHaven</h2>
                     <a href="/RecipeInfo" className="button"><i className="fa fa-plus"></i>&nbsp; Add recipe</a>
                     <a href="" className="button"><i className="fas fa-book"></i>&nbsp; My recipes</a>
-                    <a href="" className="button"><i className="fas fa-search"></i>&nbsp; Search</a>
                     <a href="/Home" className="button"><i className="fas fa-home"></i>&nbsp; Home</a>
                 </div>
             </div>

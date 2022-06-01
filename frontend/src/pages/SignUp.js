@@ -45,7 +45,7 @@ class SignUp extends React.Component {
                 if (r.status === 201) {
                     confirmAlert({
                         title: 'NOTIFICATION',
-                        message: "Success!",
+                        message: "You have signed up successfully.",
                         buttons: [
                             {
                                 label: 'OK',

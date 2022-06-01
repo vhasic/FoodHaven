@@ -160,7 +160,7 @@ class ReviewManager extends Component {
                         <tr>
                             <td className="header"></td>
                             <td className="header">Created by</td>
-                            <td className="header">Cretaed for</td>
+                            <td className="header">Created for</td>
                             <td className="header">Rating</td>
                             <td className="header">Review</td>
                             <td className="header">Delete</td>
@@ -183,7 +183,7 @@ class ReviewManager extends Component {
                                         onClick={() => {
                                             confirmAlert({
                                                 title: 'WARNING',
-                                                message: 'Are you sure you want to delete this user?',
+                                                message: 'Are you sure you want to delete this review?',
                                                 buttons: [
                                                     {
                                                         label: 'DELETE',
@@ -202,7 +202,7 @@ class ReviewManager extends Component {
                                             backgroundColor: 'white',
                                             color: '#ff6127',
                                             fontSize: '20px'
-                                        }}><i style={{textIndent: "80%"}} className="fas fa-trash"></i></button>
+                                        }}><i style={{textIndent: "30%"}} className="fas fa-trash"></i></button>
                                 </td>
                             </tr>
                         })

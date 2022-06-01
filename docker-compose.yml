@@ -34,6 +34,7 @@ services:
       context: ./configuration-service
     image: docker-configuration-service
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - FOODHAVEN_GIT_USERNAME=aalialzaya1
       - FOODHAVEN_GIT_PASSWORD=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
     expose:
@@ -51,6 +52,8 @@ services:
     build:
       context: ./eureka-server
     image: docker-eureka
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
     expose:
       - 8761
     networks:
@@ -66,6 +69,7 @@ services:
       context: ./system-events-service
     image: docker-system-events-service
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - SS_DATABASE_URL=jdbc:mysql://db:3306/systemEventsServiceDB
@@ -88,6 +92,7 @@ services:
       context: ./user-service
     image: docker-user-service
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - US_DATABASE_URL=jdbc:mysql://db:3306/userServiceDB
@@ -111,6 +116,7 @@ services:
     image: docker-recipe-service
     restart: always
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - RS_DATABASE_URL=jdbc:mysql://db:3306/recipeServiceDB
@@ -135,6 +141,7 @@ services:
       context: ./rating-service
     image: docker-rating-service
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - RRS_DATABASE_URL=jdbc:mysql://db:3306/reviewServiceDB
@@ -159,6 +166,7 @@ services:
       context: ./ingredient-service
     image: docker-ingredient-service
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - IS_DATABASE_URL=jdbc:mysql://db:3306/ingredientServiceDB
@@ -183,6 +191,7 @@ services:
     image: docker-api-gateway
     restart: always
     environment:
+      - JAVA_TOOL_OPTIONS=-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xss256k
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
     expose:
       - 8088

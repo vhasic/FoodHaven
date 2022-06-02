@@ -8,7 +8,7 @@ Some of the main features include:
 - Adding a recipe
 - Rating and reviewing recipes
 
-You can watch a short demo of project functionalities. The video shows all the features on the frontend and some backend features. 
+You can watch a short [demo](https://drive.google.com/drive/folders/1_iLpsk8A4YFt2QHAjE2nG_4kf-pKbjqr) of project functionalities. The video shows all the features on the frontend and some backend features. 
 
 ## Backend (Microservices)
 The project consists of following four main microservices:

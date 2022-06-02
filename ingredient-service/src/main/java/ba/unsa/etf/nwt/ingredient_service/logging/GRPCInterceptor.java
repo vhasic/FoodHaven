@@ -1,11 +1,14 @@
 package ba.unsa.etf.nwt.ingredient_service.logging;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Base64;
 
 @Component
 public class GRPCInterceptor implements HandlerInterceptor {
@@ -32,7 +35,14 @@ public class GRPCInterceptor implements HandlerInterceptor {
         else {
             responseType = "ERROR - WrongInput/Validation";
         }
-
-        grpcService.save(request.getMethod(), request.getRequestURI(), responseType, "test");
+        String authHeader=request.getHeader("Authorization");
+        String token = authHeader.substring(7);
+        final String SECRET = Base64.getEncoder().encodeToString("JwtSecretKey".getBytes());
+        Claims claims = Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        String username = claims.getIssuer();
+        grpcService.save(request.getMethod(), request.getRequestURI(), responseType, username);
     }
 }

@@ -53,11 +53,16 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication auth) throws IOException {
+        String userIdUsername=auth.getName();
+        String[] lines = userIdUsername.split("\r?\n|\r");
+        String userId=lines[0];
+        String username=lines[1];
 
         Long now = System.currentTimeMillis();
         final String SECRET = Base64.getEncoder().encodeToString(jwtConfig.getSecret().getBytes());
         String accessToken = Jwts.builder()
-                .setSubject(auth.getName())
+                .setSubject(userId)
+                .setIssuer(username)
                 .claim("authorities", auth.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))

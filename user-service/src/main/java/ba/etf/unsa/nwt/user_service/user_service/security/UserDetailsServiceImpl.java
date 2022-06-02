@@ -40,7 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_" + roleName);
 
-        return new User(userDTO.getId().toString(), encoder.encode(userDTO.getPassword()), grantedAuthorities);
+        String userIdUsername=userDTO.getId().toString()+"\n"+userDTO.getUsername();
+        return new User(userIdUsername, encoder.encode(userDTO.getPassword()), grantedAuthorities);
     }
 
     @Bean

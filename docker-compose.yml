@@ -183,7 +183,8 @@ services:
         condition: on-failure
         max_attempts: 5
 
-  api-gateway:
+#  api-gateway:
+  localhost:
     container_name: api-gateway
     hostname: api-gateway
     build:
@@ -220,7 +221,8 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - api-gateway
+#      - api-gateway
+      - localhost
     networks:
       - foodhaven
     deploy:

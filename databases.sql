@@ -4,12 +4,44 @@ CREATE DATABASE IF NOT EXISTS recipeServiceDB;
 CREATE DATABASE IF NOT EXISTS userServiceDB;
 CREATE DATABASE IF NOT EXISTS systemEventsServiceDB;
 
+CREATE USER if not exists 'springuser'@'%' identified by 'ThePassword';
+
 GRANT ALL ON ingredientServiceDB.* TO 'springuser'@'%';
 GRANT ALL ON reviewServiceDB.* TO 'springuser'@'%';
 GRANT ALL ON recipeServiceDB.* TO 'springuser'@'%';
 GRANT ALL ON userServiceDB.* TO 'springuser'@'%';
 GRANT ALL ON systemEventsServiceDB.* TO 'springuser'@'%';
 
+USE userServiceDB;
+create table if not exists role
+(
+    id           char(36)     not null
+    primary key,
+    date_created datetime(6)  not null,
+    last_updated datetime(6)  not null,
+    name         varchar(255) not null,
+    constraint UK_8sewwnpamngi6b1dwaa88askk
+    unique (name)
+);
+create table if not exists user
+(
+    id           char(36)     not null
+        primary key,
+    date_created datetime(6)  not null,
+    email        varchar(255) not null,
+    first_name   varchar(20)  not null,
+    last_name    varchar(20)  not null,
+    last_updated datetime(6)  not null,
+    password     varchar(255) null,
+    username     varchar(255) not null,
+    role_id      char(36)     not null,
+    constraint UK_ob8kqyqqgmefl0aco34akdtpe
+        unique (email),
+    constraint UK_sb8bbouer5wak8vyiiy4pf2bx
+        unique (username),
+    constraint FKk0j847d0uhn0nxb3a1grvqdao
+        foreign key (role_id) references role (id)
+);
 
 INSERT INTO userServiceDB.role (id, date_created, last_updated, name) VALUES ('39f815d9-9f82-4015-858c-a5bf37d7a3ae', '2022-05-18 13:52:03.169084', '2022-05-18 13:52:03.169084', 'User');
 INSERT INTO userServiceDB.role (id, date_created, last_updated, name) VALUES ('4cc8d514-53b7-4c2b-9c20-c394788d5447', '2022-05-18 13:52:03.084270', '2022-05-18 13:52:03.084270', 'Administrator');

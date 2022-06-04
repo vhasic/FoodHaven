@@ -4,7 +4,6 @@ CREATE DATABASE IF NOT EXISTS recipeServiceDB;
 CREATE DATABASE IF NOT EXISTS userServiceDB;
 CREATE DATABASE IF NOT EXISTS systemEventsServiceDB;
 
-CREATE USER if not exists 'springuser'@'%' identified by 'ThePassword';
 
 GRANT ALL ON ingredientServiceDB.* TO 'springuser'@'%';
 GRANT ALL ON reviewServiceDB.* TO 'springuser'@'%';

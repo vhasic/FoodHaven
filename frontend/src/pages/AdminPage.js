@@ -5,6 +5,7 @@ import AuthService from "../services/AuthService";
 import ReviewManager from "./ReviewManager";
 import RecipeManager from "./RecipeManager";
 import AddCategory from "../components/AddCategory";
+import AddIngredient from "../components/AddIngredient";
 
 class AdminPage extends Component {
 
@@ -23,9 +24,10 @@ class AdminPage extends Component {
                 return <ReviewManager />
             } else if (this.state.component === 'RecipeManager') {
                 return <RecipeManager />
-            }
-            else if (this.state.component === 'AddCategory') {
+            } else if (this.state.component === 'AddCategory') {
                 return <AddCategory />
+            } else if (this.state.component === 'AddIngredient') {
+                return <AddIngredient />
             }
         }
     }
@@ -60,6 +62,10 @@ class AdminPage extends Component {
                         <br />
                         <button onClick={() => this.setComponent('AddCategory')} className='h3-admin'>
                             <i className="fas fa-list-alt"></i> New recipe category
+                        </button>
+                        <br />
+                        <button onClick={() => this.setComponent('AddIngredient')} className='h3-admin'>
+                            <i className="fas fa-carrot"></i> New ingredient
                         </button>
                         <br />
                     </div>

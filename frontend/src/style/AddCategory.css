@@ -1,3 +1,7 @@
+.form-space{
+    margin-top: 5%;
+}
+
 .add-category-form {
     background: white;
     position: relative;
@@ -23,24 +27,44 @@
     text-align: center;
     cursor: pointer;
     width: 98%;
-    height: 20%;
+    height: 18%;
     color: white;
     margin-top: 5%;
     border: none;
     background: linear-gradient(90deg,
-    #c33206 0%,
-    #ff6127 100%);
-  }
-  .add-category-button:hover {
+            #c33206 0%,
+            #ff6127 100%);
+}
+
+.add-category-button:hover {
     color: #fff;
     box-shadow: 0px 0px 10px 0px rgb(249, 148, 105);
-  }
-  .input-category{
+}
+
+.input-category {
     width: 98%;
     height: 40px;
     border: none;
     border-bottom: 1px solid #c33206;
-  }
-  .input-category:focus {
+}
+
+.input-category:focus {
     outline: none;
+}
+
+.input-ingredient {
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #c33206;
+    margin-right: 19%;
+    width: 20%;
+}
+
+.input-ingredient:focus {
+    outline: none;
+}
+
+.label-ingredient{
+    color:#c33206;
+    font-size: 10px;
 }

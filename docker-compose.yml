@@ -105,6 +105,7 @@ services:
       - configuration-service
       - eureka-service
       - db
+      - system-events-service
     deploy:
       restart_policy:
         condition: on-failure
@@ -130,6 +131,7 @@ services:
       - configuration-service
       - eureka-service
       - db
+      - system-events-service
     deploy:
       restart_policy:
         condition: on-failure
@@ -155,6 +157,7 @@ services:
       - configuration-service
       - eureka-service
       - db
+      - system-events-service
     deploy:
       restart_policy:
         condition: on-failure
@@ -178,6 +181,7 @@ services:
       - configuration-service
       - eureka-service
       - db
+      - system-events-service
     deploy:
       restart_policy:
         condition: on-failure

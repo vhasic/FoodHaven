@@ -45,36 +45,32 @@ public class WebSecurityConfig {
                     // user-serice
                     .pathMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll() //login
                     .pathMatchers(HttpMethod.POST, "/api/users").permitAll() //signUp
-                    .pathMatchers(HttpMethod.PUT, "/api/users").permitAll() //promjena podataka accounta
-                    .pathMatchers(HttpMethod.GET,"/api/users/**").permitAll()//korisnike može samo admin vidjeti
+                    .pathMatchers(HttpMethod.GET,"/api/users/**").hasRole("Admin")//korisnike može samo admin vidjeti
                     .pathMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("Admin") //korisnike može samo admin brisati
-                    .pathMatchers(HttpMethod.GET,"/api/roles/{id}").permitAll() // samo admin može pristupiti rolama
-                    .pathMatchers("/api/roles/**").hasRole("Admin") // samo admin može pristupiti rolama
+                    .pathMatchers(HttpMethod.POST,"/api/roles/**").hasRole("Admin") // samo admin može pristupiti rolama
+                    .pathMatchers(HttpMethod.PUT,"/api/roles/**").hasRole("Admin")
+                    .pathMatchers(HttpMethod.DELETE,"/api/roles/**").hasRole("Admin")
                     // recipe-service
                     .pathMatchers(HttpMethod.GET,"/api/categorys/**").permitAll()
                     .pathMatchers(HttpMethod.POST,"/api/categorys/**").hasRole("Admin")
                     .pathMatchers(HttpMethod.PUT,"/api/categorys/**").hasRole("Admin")
-                    .pathMatchers(HttpMethod.DELETE,"/api/categorys").denyAll()//hasRole("Admin")
+                    .pathMatchers(HttpMethod.DELETE,"/api/categorys").denyAll()
                     .pathMatchers(HttpMethod.DELETE,"/api/categorys/**").hasRole("Admin")
                     .pathMatchers(HttpMethod.GET,"/api/recipes/**").permitAll()
                     .pathMatchers(HttpMethod.GET,"/api/pictures/**").permitAll()
-                    .pathMatchers(HttpMethod.DELETE,"/api/pictures").denyAll()//hasRole("Admin") // sve slike može samo admin obrisati
-                    .pathMatchers(HttpMethod.DELETE,"/api/recipes").denyAll()//hasRole("Admin") // sve recepte može samo admin obrisati
+                    .pathMatchers(HttpMethod.DELETE,"/api/pictures").denyAll()
+                    .pathMatchers(HttpMethod.DELETE,"/api/recipes").denyAll()
                     .pathMatchers(HttpMethod.GET,"/api/steps").permitAll()
                     .pathMatchers(HttpMethod.GET,"/api/steps/recipe/**").permitAll()
-                    .pathMatchers(HttpMethod.DELETE,"/api/steps").denyAll()//hasRole("Admin") // sve korake može samo admin obrisati
+                    .pathMatchers(HttpMethod.DELETE,"/api/steps").denyAll()
                     // rating-service
                     .pathMatchers(HttpMethod.GET,"/api/ratings/**").permitAll()
                     // ingredients-service
-                    .pathMatchers(HttpMethod.GET,"/api/ingredients").permitAll()
+                    .pathMatchers(HttpMethod.GET,"/api/ingredients/**").permitAll()
                     .pathMatchers(HttpMethod.GET,"/api/ingredientPictures").permitAll()
-                    .pathMatchers(HttpMethod.GET,"/api/ingredients/totalCalories/**").permitAll()
-                .pathMatchers(HttpMethod.GET,"/api/ingredients/totalNutrition/**").permitAll()
-                .pathMatchers(HttpMethod.GET,"/api/ingredients/ingredientInfo/**").permitAll()
-
-                .pathMatchers(HttpMethod.POST,"/api/ingredients/**").hasRole("Admin")
+                    .pathMatchers(HttpMethod.POST,"/api/ingredients/**").hasRole("Admin")
                     .pathMatchers(HttpMethod.PUT,"/api/ingredients/**").hasRole("Admin")
-                    .pathMatchers(HttpMethod.DELETE,"/api/ingredients").denyAll()//hasRole("Admin") // niko ne može sve obrisati
+                    .pathMatchers(HttpMethod.DELETE,"/api/ingredients").denyAll()
                     .pathMatchers(HttpMethod.DELETE,"/api/ingredients/**").hasRole("Admin")
                     .pathMatchers(HttpMethod.GET,"/api/ingredientRecipes").hasRole("Admin")
                     .pathMatchers(HttpMethod.DELETE,"/api/ingredientRecipes").denyAll()

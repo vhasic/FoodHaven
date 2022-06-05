@@ -36,14 +36,19 @@ public class GRPCInterceptor implements HandlerInterceptor {
         else {
             responseType = "ERROR - WrongInput/Validation";
         }
-        String authHeader=request.getHeader("Authorization");
-        String token = authHeader.substring(7);
-        final String SECRET = Base64.getEncoder().encodeToString("JwtSecretKey".getBytes());
-        Claims claims = Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token)
-                .getBody();
-        String username = claims.getIssuer();
+        String username=null;
+        try{
+            String authHeader=request.getHeader("Authorization");
+            String token = authHeader.substring(7);
+            final String SECRET = Base64.getEncoder().encodeToString("JwtSecretKey".getBytes());
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
+            username = claims.getIssuer();
+        } catch ( Exception e){
+            username="guest";
+        }
         grpcService.save(request.getMethod(), request.getRequestURI(), responseType, username);
     }
 }

@@ -11,7 +11,7 @@ class RatingService {
         return axios.get('http://localhost:8088/api/ratings/averageRating?recipeId=' + id)
     }
     getRatingForRecipe(id) {
-        return axios.get('http://localhost:8081/api/ratings/recipe?recipeId=' + id)
+        return axios.get('http://localhost:8088/api/ratings/recipe?recipeId=' + id)
     }
 }
 

@@ -16,15 +16,17 @@ services:
   db:
     image: mysql:8.0
     container_name: db
-    command: --init-file /data/application/databases.sql
+    restart: always
     expose:
       - 3306
     networks:
       - foodhaven
     volumes:
-      - ./databases.sql:/data/application/databases.sql
+      - ./databases.sql:/docker-entrypoint-initdb.d/databases.sql
     environment:
       MYSQL_ROOT_PASSWORD: root
+#      MYSQL_USER: springuser
+#      MYSQL_PASSWORD: ThePassword
 
   configuration-service:
     container_name: config-service
@@ -74,6 +76,8 @@ services:
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - SS_DATABASE_URL=jdbc:mysql://db:3306/systemEventsServiceDB
+      - MYSQL_USER = root
+      - MYSQL_PASSWORD = root
     expose:
       - 8086
     depends_on:
@@ -97,6 +101,8 @@ services:
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - US_DATABASE_URL=jdbc:mysql://db:3306/userServiceDB
+      - MYSQL_USER = root
+      - MYSQL_PASSWORD = root
     expose:
       - 8083
     networks:
@@ -122,6 +128,8 @@ services:
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - RS_DATABASE_URL=jdbc:mysql://db:3306/recipeServiceDB
       - RABBITMQ_HOST=rabbitmq
+      - MYSQL_USER = root
+      - MYSQL_PASSWORD = root
     expose:
       - 8082
     networks:
@@ -148,6 +156,8 @@ services:
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - RRS_DATABASE_URL=jdbc:mysql://db:3306/reviewServiceDB
       - RABBITMQ_HOST=rabbitmq
+      - MYSQL_USER = root
+      - MYSQL_PASSWORD = root
     expose:
       - 8081
     networks:
@@ -173,6 +183,8 @@ services:
       - CONFIG_SERVER_URL=http://config-service:8888
       - EUREKA_SERVER_URL=http://eureka:8761/eureka
       - IS_DATABASE_URL=jdbc:mysql://db:3306/ingredientServiceDB
+      - MYSQL_USER = root
+      - MYSQL_PASSWORD = root
     expose:
       - 8084
     networks:

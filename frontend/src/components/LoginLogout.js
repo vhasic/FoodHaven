@@ -12,7 +12,7 @@ class LoginLogout extends React.Component {
     }
 
     async componentDidMount() {
-        if (AuthService.getCurrentUser() != null) {
+        if (this.state.isLoggedIn == false && AuthService.getCurrentUser() != null) {
             const user = await UserService.getUser();
             this.setState({
                 isLoggedIn: true,

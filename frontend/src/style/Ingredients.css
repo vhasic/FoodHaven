@@ -92,5 +92,10 @@
 
 .select-style {
   border: none;
+  color: grey;
+  border-bottom: 1px solid #ff6127;
   font-size: 17px;
+}
+.select-style:focus {
+  outline: none;
 }

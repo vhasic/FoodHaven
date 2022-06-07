@@ -15,9 +15,13 @@ export default class AddIngredient extends Component {
             carbohidrates: 0,
             fat: 0,
             proteins: 0,
-            measuringUnit: "",
+            measuringUnit: "g",
             pictureId: ""
         };
+    }
+
+    handleChange = e => {
+        this.setState({ measuringUnit: e.target.value });
     }
 
     onChange = event => {
@@ -41,50 +45,52 @@ export default class AddIngredient extends Component {
     }
 
     submitNew = e => {
+        alert(this.state.measuringUnit)
         e.preventDefault();
-        const formData = {
-            'name': this.state.name,
-            'calorieCount': this.state.calorieCount,
-            'vitamins': this.state.vitamins,
-            'carbohidrates': this.state.carbohidrates,
-            'fat': this.state.fat,
-            'proteins': this.state.proteins,
-            'measuringUnit': this.state.measuringUnit,
-            'ingredientPicture': this.state.pictureId
-        };
-        axios.post(`http://localhost:8088/api/ingredients`, formData, {
-            headers: {
-                'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                'Content-Type': 'application/json'
-            }
-        }).then(r => {
-            if (r.status === 201) {
-                confirmAlert({
-                    title: 'NOTIFICATION',
-                    message: "Ingredient saved!",
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => {
-                            }
-                        }
-                    ]
-                });
-            }
-        }).catch(function (error) {
-            console.log(error);
-            confirmAlert({
-                title: 'NOTIFICATION',
-                message: "Bad Request!",
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => {
-                        }
-                    }
-                ]
-            });
-        });
+         const formData = {
+             'name': this.state.name,
+             'calorieCount': this.state.calorieCount,
+             'vitamins': this.state.vitamins,
+             'carbohidrates': this.state.carbohidrates,
+             'fat': this.state.fat,
+             'proteins': this.state.proteins,
+             'measuringUnit': this.state.measuringUnit,
+             'ingredientPicture': this.state.pictureId
+         };
+         axios.post(`http://localhost:8088/api/ingredients`, formData, {
+             headers: {
+                 'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                 'Content-Type': 'application/json'
+             }
+         }).then(r => {
+             if (r.status === 201) {
+                 confirmAlert({
+                     title: 'NOTIFICATION',
+                     message: "Ingredient saved!",
+                     buttons: [
+                         {
+                             label: 'OK',
+                             onClick: () => {
+                                 window.location.href = './Ingredients';
+                             }
+                         }
+                     ]
+                 });
+             }
+         }).catch(function (error) {
+             console.log(error);
+             confirmAlert({
+                 title: 'NOTIFICATION',
+                 message: "Bad Request!",
+                 buttons: [
+                     {
+                         label: 'OK',
+                         onClick: () => {
+                         }
+                     }
+                 ]
+             });
+         });
     }
 
     render() {
@@ -96,6 +102,8 @@ export default class AddIngredient extends Component {
                             <div className='form-space'>
                                 <label>Name</label>
                                 <input
+                                    maxLength="50"
+                                    required='required'
                                     className="input-ingredient"
                                     style={{ width: '90%' }}
                                     type='text'
@@ -109,8 +117,11 @@ export default class AddIngredient extends Component {
                                 <label>Nutrition Facts</label><br />
                                 <label className="label-ingredient">Calories: </label>
                                 <input
+                                    required='required'
                                     className='input-ingredient'
                                     type='text'
+                                    pattern='^[0-9\b]{1,6}$'
+                                    title="Value must be a number!"
                                     name='calorieCount'
                                     placeholder='0 gram'
                                     onChange={this.onChange}
@@ -118,8 +129,11 @@ export default class AddIngredient extends Component {
                                 />
                                 <label className="label-ingredient">Protein: </label>
                                 <input
+                                    required='required'
                                     className='input-ingredient'
                                     type='text'
+                                    pattern='^[0-9\b]{1,6}$'
+                                    title="Value must be a number!"
                                     name='proteins'
                                     placeholder='0 gram'
                                     onChange={this.onChange}
@@ -127,9 +141,12 @@ export default class AddIngredient extends Component {
                                 />
                                 <label className="label-ingredient">Carbs: </label>
                                 <input
+                                    required='required'
                                     style={{ marginLeft: '2%' }}
                                     className='input-ingredient'
                                     type='text'
+                                    pattern='^[0-9\b]{1,6}$'
+                                    title="Value must be a number!"
                                     name='carbohidrates'
                                     placeholder='0 gram'
                                     onChange={this.onChange}
@@ -137,29 +154,32 @@ export default class AddIngredient extends Component {
                                 />
                                 <label className="label-ingredient">Fat: </label>
                                 <input
+                                    required='required'
                                     style={{ marginLeft: '4%' }}
                                     className='input-ingredient'
                                     type='text'
                                     name='fat'
+                                    pattern='^[0-9\b]{1,6}$'
+                                    title="Value must be a number!"
                                     placeholder='0 gram'
                                     onChange={this.onChange}
                                     value={this.state.fat === 0 ? '' : this.state.fat}
                                 />
                             </div>
                             <div className='form-space'>
-                                <label>Measuring unit</label><br />
-                                <input
-                                    className="input-ingredient"
-                                    type='text'
-                                    name='measuringUnit'
-                                    placeholder="Enter here"
-                                    onChange={this.onChange}
-                                    value={this.state.measuringUnit === null ? '' : this.state.measuringUnit}
-                                />
+                                <label>Measuring unit </label><br/>
+                                <select
+                                    required='required'
+                                    value={this.state.measuringUnit}
+                                    onChange={this.handleChange}
+                                    className='select-style'>
+                                    <option>g</option>
+                                    <option>ml</option>
+                                </select>
                             </div>
                             <div className='form-space'>
                                 <label>Add picture </label><br />
-                                <input onChange={this.showPreview} type="file" id="files" accept="image/*" />
+                                <input required='required' onChange={this.showPreview} type="file" id="files" accept="image/*" />
                             </div>
                             <button style={{ height: '8%' }} className="add-category-button" type='submit'>
                                 Save

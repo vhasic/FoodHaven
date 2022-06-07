@@ -54,6 +54,7 @@ export default class AddCategory extends Component {
                         {
                             label: 'OK',
                             onClick: () => {
+                                window.location.href = './Home';
                             }
                         }
                     ]
@@ -63,7 +64,7 @@ export default class AddCategory extends Component {
             console.log(error);
             confirmAlert({
                 title: 'NOTIFICATION',
-                message: "Bad Request!",
+                message: "Category with this name already exists!",
                 buttons: [
                     {
                         label: 'OK',
@@ -83,6 +84,8 @@ export default class AddCategory extends Component {
                         <form onSubmit={this.submitNew} className='form' >
                             <div className='form-inputs'>
                                 <input
+                                    maxLength="50"
+                                    required='required'
                                     className="input-category"
                                     type='text'
                                     name='name'
@@ -92,8 +95,8 @@ export default class AddCategory extends Component {
                                 />
                             </div>
                             <div>
-                                <label>Add picture </label><br/>
-                                <input onChange={this.showPreview} type="file" id="files" accept="image/*" />
+                                <label>Add picture </label><br />
+                                <input required='required' onChange={this.showPreview} type="file" id="files" accept="image/*" />
                             </div>
                             <button className="add-category-button" type='submit'>
                                 Save

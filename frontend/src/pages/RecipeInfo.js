@@ -193,7 +193,7 @@ class RecipeInfo extends React.Component {
                                     type="text"
                                     maxLength="6"
                                     pattern='^[0-9\b]{1,6}$'
-                                    title="Value must be integer!"
+                                    title="Value must be a number!"
                                     name='preparationTime'
                                     style={{ width: "10%" }}
                                     onChange={this.onChange}

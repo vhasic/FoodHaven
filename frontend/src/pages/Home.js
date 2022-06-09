@@ -78,11 +78,13 @@ class HomePage extends Component {
     }
 
     render() {
-        this.state.pictures.map(
-            picture => (
-                this.state.pictureMap.set(picture.id, picture.picByte)
+        {
+            this.state.pictures && this.state.pictures.map(
+                picture => (
+                    this.state.pictureMap.set(picture.id, picture.picByte)
+                )
             )
-        )
+        }
         return (
             <div>
                 <div className='home-div'>
@@ -107,10 +109,10 @@ class HomePage extends Component {
                         dotListClass="custom-dot-list-style"
                         itemClass="carousel-item-padding-40-px"
                     >
-                        {this.state.categories.map(
+                        {this.state.categories && this.state.categories.map(
                             category => (
                                 this.state.categoryMap.set(category.id, category.name),
-                                <button className='category-card'
+                                <button key={category.id + '1'} className='category-card'
                                     onClick={() => this.searchByCategory(category.id)}><CategoryCard
                                         key={category.id} img={this.state.pictureMap.get(category.categoryPicture)}
                                         name={category.name.toUpperCase()} /></button>
@@ -131,7 +133,7 @@ class HomePage extends Component {
                     />
                 </div>
                 <div className="cards">
-                    {this.state.recipes.map(
+                    {this.state.recipes && this.state.recipes.map(
                         recipe => (
                             <RecipeCard key={recipe.id}
                                 recipeId={recipe.id}
@@ -141,7 +143,7 @@ class HomePage extends Component {
                                 description={recipe.description}
                                 rating={4.29}
                                 currentUserId={null}
-                                userId={recipe.userID} 
+                                userId={recipe.userID}
                             />
                         )
                     )}

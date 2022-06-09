@@ -68,7 +68,7 @@ class Ingredients extends Component {
                     <option>ml</option>
                 </select>
                 <label className="add-ingredient" style={{ marginLeft: "20%" }}> <img className='ingredient-image'
-                    src={'data:image/jpeg;base64,' + this.map.get(this.labela[i])}
+                    src={this.map.get(this.labela[i]) && 'data:image/jpeg;base64,' + this.map.get(this.labela[i])}
                     alt='' /> {this.labela[i]}</label>
             </div>
         )
@@ -173,7 +173,7 @@ class Ingredients extends Component {
                                     <i className='fas fa-plus'></i></button>
                                 <label key={ingredient.id + "2"} className="add-ingredient"
                                     onChange={this.handleChange.bind(this)}><img className='ingredient-image'
-                                        src={'data:image/jpeg;base64,' + this.state.pictureMap.get(ingredient.ingredientPicture)}
+                                        src={this.state.pictureMap.get(ingredient.ingredientPicture) && 'data:image/jpeg;base64,' + this.state.pictureMap.get(ingredient.ingredientPicture)}
                                         alt='' /> {ingredient.name}
                                 </label>
                             </div>

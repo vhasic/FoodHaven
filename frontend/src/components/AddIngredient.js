@@ -16,7 +16,8 @@ export default class AddIngredient extends Component {
             fat: 0,
             proteins: 0,
             measuringUnit: "g",
-            pictureId: ""
+            pictureId: "",
+            formDataPic: new FormData()
         };
     }
 
@@ -30,67 +31,63 @@ export default class AddIngredient extends Component {
 
     showPreview = e => {
         if (e.target.files && e.target.files[0]) {
-            const formData = new FormData();
-            formData.append('file', e.target.files[0]);
-
-            axios.post(`http://localhost:8088/api/ingredientPictures/upload`, formData, {
-                headers: {
-                    'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res) => {
-                this.setState({ pictureId: res.data });
-            });
+            this.state.formDataPic.append('file', e.target.files[0]);
         }
     }
 
-    submitNew = e => {
-        alert(this.state.measuringUnit)
+    submitNew = async e => {
         e.preventDefault();
-         const formData = {
-             'name': this.state.name,
-             'calorieCount': this.state.calorieCount,
-             'vitamins': this.state.vitamins,
-             'carbohidrates': this.state.carbohidrates,
-             'fat': this.state.fat,
-             'proteins': this.state.proteins,
-             'measuringUnit': this.state.measuringUnit,
-             'ingredientPicture': this.state.pictureId
-         };
-         axios.post(`http://localhost:8088/api/ingredients`, formData, {
-             headers: {
-                 'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                 'Content-Type': 'application/json'
-             }
-         }).then(r => {
-             if (r.status === 201) {
-                 confirmAlert({
-                     title: 'NOTIFICATION',
-                     message: "Ingredient saved!",
-                     buttons: [
-                         {
-                             label: 'OK',
-                             onClick: () => {
-                                 window.location.href = './Ingredients';
-                             }
-                         }
-                     ]
-                 });
-             }
-         }).catch(function (error) {
-             console.log(error);
-             confirmAlert({
-                 title: 'NOTIFICATION',
-                 message: "Bad Request!",
-                 buttons: [
-                     {
-                         label: 'OK',
-                         onClick: () => {
-                         }
-                     }
-                 ]
-             });
-         });
+        await axios.post(`http://localhost:8088/api/ingredientPictures/upload`, this.state.formDataPic, {
+            headers: {
+                'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(async (res) => {
+            const formData = {
+                'name': this.state.name,
+                'calorieCount': this.state.calorieCount,
+                'vitamins': this.state.vitamins,
+                'carbohidrates': this.state.carbohidrates,
+                'fat': this.state.fat,
+                'proteins': this.state.proteins,
+                'measuringUnit': this.state.measuringUnit,
+                'ingredientPicture': res.data
+            };
+            await axios.post(`http://localhost:8088/api/ingredients`, formData, {
+                headers: {
+                    'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(r => {
+                if (r.status === 201) {
+                    confirmAlert({
+                        title: 'NOTIFICATION',
+                        message: "Ingredient saved!",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => {
+                                    window.location.href = './Ingredients';
+                                }
+                            }
+                        ]
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
+                confirmAlert({
+                    title: 'NOTIFICATION',
+                    message: "Bad Request!",
+                    buttons: [
+                        {
+                            label: 'OK',
+                            onClick: () => {
+                            }
+                        }
+                    ]
+                });
+            });
+        });
     }
 
     render() {

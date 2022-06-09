@@ -10,7 +10,7 @@ export default class AddCategory extends Component {
         super(props);
         this.state = {
             name: "",
-            pictureId: ""
+            formDataPic: new FormData()
         };
     }
 
@@ -20,60 +20,59 @@ export default class AddCategory extends Component {
 
     showPreview = e => {
         if (e.target.files && e.target.files[0]) {
-            const formData = new FormData();
-            formData.append('file', e.target.files[0]);
-
-            axios.post(`http://localhost:8088/api/pictures/upload`, formData, {
-                headers: {
-                    'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res) => {
-                this.setState({ pictureId: res.data });
-            });
+            this.state.formDataPic.append('file', e.target.files[0]);
         }
     }
 
-    submitNew = e => {
+    submitNew = async e => {
         e.preventDefault();
-        const formData = {
-            'name': this.state.name,
-            'categoryPicture': this.state.pictureId
-        };
-        axios.post(`http://localhost:8088/api/categorys`, formData, {
+        await axios.post(`http://localhost:8088/api/pictures/upload`, this.state.formDataPic, {
             headers: {
                 'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                'Content-Type': 'application/json'
+                'Content-Type': 'multipart/form-data'
             }
-        }).then(r => {
-            if (r.status === 201) {
+        }).then(async (res) => {
+            const formData = {
+                'name': this.state.name,
+                'categoryPicture': res.data
+            };
+           await axios.post(`http://localhost:8088/api/categorys`, formData, {
+                headers: {
+                    'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(r => {
+                if (r.status === 201) {
+                    confirmAlert({
+                        title: 'NOTIFICATION',
+                        message: "Category saved!",
+                        buttons: [
+                            {
+                                label: 'OK',
+                                onClick: () => {
+                                    window.location.href = './Home';
+                                }
+                            }
+                        ]
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
                 confirmAlert({
                     title: 'NOTIFICATION',
-                    message: "Category saved!",
+                    message: "Category with this name already exists!",
                     buttons: [
                         {
                             label: 'OK',
                             onClick: () => {
-                                window.location.href = './Home';
                             }
                         }
                     ]
                 });
-            }
-        }).catch(function (error) {
-            console.log(error);
-            confirmAlert({
-                title: 'NOTIFICATION',
-                message: "Category with this name already exists!",
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => {
-                        }
-                    }
-                ]
             });
         });
+        /*
+        */
     }
 
     render() {

@@ -23,7 +23,7 @@ export default class RecipeCard extends Component {
                 >
                     <h2>{this.props.name}</h2>
                     <h5>{this.props.category}</h5>
-                    <img src={'data:image/jpeg;base64,' + this.props.img} alt='' />
+                    <img src={this.props.img && 'data:image/jpeg;base64,' + this.props.img} alt='' />
                     <div className="card-body">
                         <p>
                             {this.props.description}

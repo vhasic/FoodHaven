@@ -13,7 +13,7 @@ class RecipeInfo extends React.Component {
         super(props);
         const userId = AuthService.getCurrentUser().userId;
         this.state = {
-            pictureId: '',
+            picture: false,
             imageSrc: defaultImageSrc,
             name: '',
             description: '',
@@ -23,6 +23,7 @@ class RecipeInfo extends React.Component {
             categories: [],
             categoryMap: new Map(),
             categoryName: '',
+            formDataPic: new FormData(),
             warning: 'Please fill in the required information!'
         }
     }
@@ -43,17 +44,9 @@ class RecipeInfo extends React.Component {
 
     showPreview = e => {
         if (e.target.files && e.target.files[0]) {
-            const formData = new FormData();
-            formData.append('file', e.target.files[0]);
 
-            axios.post(`http://localhost:8088/api/pictures/upload`, formData, {
-                headers: {
-                    'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res) => {
-                this.setState({ pictureId: res.data });
-            });
+            this.state.formDataPic.append('file', e.target.files[0]);
+            this.setState({picture: true})
 
             let imageFiles = e.target.files[0];
             const reader = new FileReader();
@@ -72,7 +65,7 @@ class RecipeInfo extends React.Component {
         }
     }
 
-    submitNew = e => {
+    submitNew = async e => {
         e.preventDefault();
         console.log(this.state.pictureId)
         if (this.state.categoryName === '') {
@@ -87,7 +80,7 @@ class RecipeInfo extends React.Component {
                     }
                 ]
             });
-        } else if (this.state.pictureId === '') {
+        } else if (!this.state.picture) {
             confirmAlert({
                 title: 'NOTIFICATION',
                 message: "Please select recipe photo!",
@@ -100,49 +93,57 @@ class RecipeInfo extends React.Component {
                 ]
             });
         } else {
-            const formData = {
-                'name': this.state.name,
-                'description': this.state.description,
-                'preparationTime': this.state.preparationTime,
-                'userID': this.state.userID,
-                'recipePicture': this.state.pictureId,
-                'recipeCategory': this.state.categoryMap.get(this.state.categoryName)
-            };
-            axios.post(`http://localhost:8088/api/recipes`, formData, {
+            await axios.post(`http://localhost:8088/api/pictures/upload`, this.state.formDataPic, {
                 headers: {
                     'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
-            }).then(r => {
-                if (r.status === 201) {
+            }).then(async (res) => {
+                const formData = {
+                    'name': this.state.name,
+                    'description': this.state.description,
+                    'preparationTime': this.state.preparationTime,
+                    'userID': this.state.userID,
+                    'recipePicture': res.data,
+                    'recipeCategory': this.state.categoryMap.get(this.state.categoryName)
+                };
+                await axios.post(`http://localhost:8088/api/recipes`, formData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + AuthService.getCurrentUser().token,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(r => {
+                    if (r.status === 201) {
+                        confirmAlert({
+                            title: 'NOTIFICATION',
+                            message: "Recipe saved!",
+                            buttons: [
+                                {
+                                    label: 'OK',
+                                    onClick: () => {
+                                        window.location.href = './Ingredients';
+                                    }
+                                }
+                            ]
+                        });
+                        localStorage.setItem('recipeId', r.data);
+                    }
+                }).catch(function (error) {
+                    console.log(error);
                     confirmAlert({
                         title: 'NOTIFICATION',
-                        message: "Recipe saved!",
+                        message: "Bad Request!",
                         buttons: [
                             {
                                 label: 'OK',
                                 onClick: () => {
-                                    window.location.href = './Ingredients';
                                 }
                             }
                         ]
                     });
-                    localStorage.setItem('recipeId', r.data);
-                }
-            }).catch(function (error) {
-                console.log(error);
-                confirmAlert({
-                    title: 'NOTIFICATION',
-                    message: "Bad Request!",
-                    buttons: [
-                        {
-                            label: 'OK',
-                            onClick: () => {
-                            }
-                        }
-                    ]
                 });
-            });
+            }
+            );
         }
     }
 
@@ -223,8 +224,8 @@ class RecipeInfo extends React.Component {
                                     className='dropbtn'
                                     value={this.state.categoryName}
                                     onChange={this.handleChange}
-                                >   
-                                    <option value="none" selected hidden ></option>
+                                >
+                                    <option value="none" hidden ></option>
                                     {this.state.categories.map(
                                         category => (
                                             this.state.categoryMap.set(category.name, category.id),

@@ -50,7 +50,7 @@ export default class AddCategory extends Component {
                             {
                                 label: 'OK',
                                 onClick: () => {
-                                    window.location.href = './Home';
+                                    window.location.href = './CategoryList';
                                 }
                             }
                         ]

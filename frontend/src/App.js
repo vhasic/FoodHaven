@@ -11,6 +11,8 @@ import AdminPage from './pages/AdminPage.js';
 import MyRecipes from './pages/MyRecipes.js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ManageAccount from "./pages/ManageAccount";
+import IngredientsList from './pages/IngredientsList.js';
+import CategoryList from './pages/CategoryList';
 
 class App extends Component {    
 
@@ -29,6 +31,8 @@ class App extends Component {
           <Route path='/AdminPage' element={<AdminPage/>}/>
           <Route path='/ManageAccount' element={<ManageAccount/>}/>
           <Route path='/MyRecipes' element={<MyRecipes/>}/>
+          <Route path='/IngredientsList' element={<IngredientsList/>}/>
+          <Route path='/CategoryList' element={<CategoryList/>}/>
       </Routes>
   </Router>
   }

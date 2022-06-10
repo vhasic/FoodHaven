@@ -67,7 +67,7 @@ export default class AddIngredient extends Component {
                             {
                                 label: 'OK',
                                 onClick: () => {
-                                    window.location.href = './Ingredients';
+                                    window.location.href = './IngredientsList';
                                 }
                             }
                         ]

@@ -67,7 +67,17 @@ export default class AddIngredient extends Component {
                             {
                                 label: 'OK',
                                 onClick: () => {
-                                    window.location.href = './AdminPage';
+                                    this.setState({
+                                        name:'',
+                                        calorieCount: 0,
+                                        vitamins: 0,
+                                        carbohidrates: 0,
+                                        fat: 0,
+                                        proteins: 0,
+                                        measuringUnit: 'g',
+                                        pictureId: '',
+                                        formDataPic: new FormData()
+                                    })
                                 }
                             }
                         ]

@@ -50,7 +50,7 @@ export default class AddCategory extends Component {
                             {
                                 label: 'OK',
                                 onClick: () => {
-                                    this.setState({ [e.target.name]: {} })
+                                    this.setState({ name: '' })
                                 }
                             }
                         ]

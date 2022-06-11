@@ -73,9 +73,7 @@ class CategoryList extends Component {
         )
         return (
             <div>
-                <div>
-                    <h2 style={{ marginLeft: "40%" }} className='h2-style'>Categories</h2>
-                </div>
+                <h1 style={{marginLeft:'5%'}}>Categories</h1>
                 <input
                     className='search-input'
                     type="text"
@@ -90,7 +88,7 @@ class CategoryList extends Component {
                     {this.state.categories.map(
                         category => (
                             this.state.categoryIdMap.set(category.name, category.id),
-                            <div style={{ float: 'left', width: '25%' }} key={category.id}>
+                            <div style={{ float: 'left', width: '50%' }} key={category.id}>
                                 <button key={category.id + "1"} className="add-button" type='button' value='add'
                                     onClick={() => {
                                         confirmAlert({

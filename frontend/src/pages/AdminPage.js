@@ -6,7 +6,8 @@ import ReviewManager from "./ReviewManager";
 import RecipeManager from "./RecipeManager";
 import AddCategory from "../components/AddCategory";
 import AddIngredient from "../components/AddIngredient";
-
+import IngredientsList from "../components/IngredientsList";
+import CategoryList from "../components/CategoryList";
 class AdminPage extends Component {
 
     constructor(props) {
@@ -25,9 +26,13 @@ class AdminPage extends Component {
             } else if (this.state.component === 'RecipeManager') {
                 return <RecipeManager />
             } else if (this.state.component === 'AddCategory') {
-                return <AddCategory />
+                return <AddCategory component={this.state.component}/>
             } else if (this.state.component === 'AddIngredient') {
                 return <AddIngredient />
+            } else if (this.state.component === 'IngredientsList') {
+                return <IngredientsList />
+            } else if (this.state.component === 'CategoryList') {
+                return <CategoryList />
             }
         }
     }
@@ -60,8 +65,16 @@ class AdminPage extends Component {
                             className="fa fa-book"></i> Manage recipes
                         </button>
                         <br />
+                        <button onClick={() => this.setComponent('IngredientsList')} className='h3-admin'>
+                            <i className="fas fa-fas fa-th"></i> Ingredients list
+                        </button>
+                        <br />
+                        <button onClick={() => this.setComponent('CategoryList')} className='h3-admin'>
+                            <i className="fas fas fa-th-large"></i> Category list
+                        </button>
+                        <br />
                         <button onClick={() => this.setComponent('AddCategory')} className='h3-admin'>
-                            <i className="fas fa-list-alt"></i> New recipe category
+                            <i className="fas fa-concierge-bell"></i> New recipe category
                         </button>
                         <br />
                         <button onClick={() => this.setComponent('AddIngredient')} className='h3-admin'>

@@ -72,9 +72,7 @@ class IngredientsList extends Component {
         )
         return (
             <div>
-                <div>
-                    <h2 style={{ marginLeft: "40%" }} className='h2-style'>Ingredients</h2>
-                </div>
+                <h1 style={{marginLeft:'5%'}}>Ingredients</h1>
                 <input
                     className='search-input'
                     type="text"
@@ -89,7 +87,7 @@ class IngredientsList extends Component {
                     {this.state.ingredients.map(
                         ingredient => (
                             this.state.ingredientIdMap.set(ingredient.name, ingredient.id),
-                            <div style={{ float: 'left', width: '30%' }} key={ingredient.id}>
+                            <div style={{ float: 'left', width: '50%' }} key={ingredient.id}>
                                 <button key={ingredient.id + "1"} className="add-button" type='button' value='add'
                                     onClick={() => {
                                         confirmAlert({

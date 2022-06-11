@@ -25,10 +25,6 @@ class AdminPage extends Component {
                 return <ReviewManager />
             } else if (this.state.component === 'RecipeManager') {
                 return <RecipeManager />
-            } else if (this.state.component === 'AddCategory') {
-                return <AddCategory component={this.state.component}/>
-            } else if (this.state.component === 'AddIngredient') {
-                return <AddIngredient />
             } else if (this.state.component === 'IngredientsList') {
                 return <IngredientsList />
             } else if (this.state.component === 'CategoryList') {
@@ -65,20 +61,12 @@ class AdminPage extends Component {
                             className="fa fa-book"></i> Manage recipes
                         </button>
                         <br />
-                        <button onClick={() => this.setComponent('IngredientsList')} className='h3-admin'>
-                            <i className="fas fa-fas fa-th"></i> Ingredients list
-                        </button>
-                        <br />
                         <button onClick={() => this.setComponent('CategoryList')} className='h3-admin'>
-                            <i className="fas fas fa-th-large"></i> Category list
+                            <i className="fas fa-concierge-bell"></i> Category list
                         </button>
                         <br />
-                        <button onClick={() => this.setComponent('AddCategory')} className='h3-admin'>
-                            <i className="fas fa-concierge-bell"></i> New recipe category
-                        </button>
-                        <br />
-                        <button onClick={() => this.setComponent('AddIngredient')} className='h3-admin'>
-                            <i className="fas fa-carrot"></i> New ingredient
+                        <button onClick={() => this.setComponent('IngredientsList')} className='h3-admin'>
+                            <i className="fas fa-carrot"></i> Ingredients list
                         </button>
                         <br />
                     </div>

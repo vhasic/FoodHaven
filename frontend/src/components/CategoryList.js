@@ -6,6 +6,8 @@ import axios from 'axios';
 import AuthService from '../services/AuthService';
 import { confirmAlert } from "react-confirm-alert";
 import CategoryService from '../services/CategoryService';
+import Modal from 'react-modal';
+import AddCategory from './AddCategory';
 
 
 class CategoryList extends Component {
@@ -17,7 +19,8 @@ class CategoryList extends Component {
             allcategories: [],
             pictures: [],
             pictureMap: new Map(),
-            categoryIdMap: new Map()
+            categoryIdMap: new Map(),
+            modal: ''
         };
     }
 
@@ -30,6 +33,25 @@ class CategoryList extends Component {
             this.setState({ pictures: res.data });
         })
     }
+
+    toggle = () => {
+        this.setState(previous => ({
+            modal: !previous.modal
+        }));
+    }
+    close = () => {
+        CategoryService.getCategories().then((res) => {
+            this.setState({ categories: res.data });
+            this.setState({ allcategories: res.data });
+        });
+        PictureService.getPictures().then((res) => {
+            this.setState({ pictures: res.data });
+        })
+        this.setState(previous => ({
+            modal: !previous.modal
+        }));
+    }
+
 
     handleDeleteCrumb = () => {
 
@@ -73,7 +95,7 @@ class CategoryList extends Component {
         )
         return (
             <div>
-                <h1 style={{marginLeft:'5%'}}>Categories</h1>
+                <h1 style={{ marginLeft: '5%' }}>Categories</h1>
                 <input
                     className='search-input'
                     type="text"
@@ -84,6 +106,13 @@ class CategoryList extends Component {
                     <i className="fas fa-search" />
                 </span>
                 <br />
+                <div style={{marginLeft:'5%', marginBottom:'2%'}}>
+                    <button className='add-new-button' onClick={this.toggle}><i className='fas fa-plus'></i> Add new </button>
+                    <Modal className='category-form' isOpen={this.state.modal} onRequestClose={!this.state.modal} toggle={this.toggle}>
+                        <button className='close-button' onClick={this.close}><i className='fa fa-close'></i></button>
+                        <AddCategory />
+                    </Modal>
+                </div>
                 <form style={{ marginLeft: "5%" }}>
                     {this.state.categories.map(
                         category => (

@@ -50,7 +50,7 @@ export default class AddCategory extends Component {
                             {
                                 label: 'OK',
                                 onClick: () => {
-                                    window.location.href = './AdminPage';
+                                    this.setState({ [e.target.name]: {} })
                                 }
                             }
                         ]
@@ -71,14 +71,12 @@ export default class AddCategory extends Component {
                 });
             });
         });
-        /*
-        */
     }
 
     render() {
         return (
             <div>
-                <div className='add-category-container '>
+                <div className='add-category-container'>
                     <div className='add-category-form'>
                         <form onSubmit={this.submitNew} className='form' >
                             <div className='form-inputs'>

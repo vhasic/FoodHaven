@@ -1,4 +1,4 @@
-.form-space{
+.form-space {
     margin-top: 5%;
 }
 
@@ -64,7 +64,16 @@
     outline: none;
 }
 
-.label-ingredient{
-    color:#c33206;
+.label-ingredient {
+    color: #c33206;
     font-size: 10px;
+}
+
+.category-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    justify-content: center;
 }

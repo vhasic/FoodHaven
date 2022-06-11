@@ -5,6 +5,8 @@ import PictureService from '../services/PictureService';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 import { confirmAlert } from "react-confirm-alert";
+import AddIngredient from './AddIngredient';
+import Modal from 'react-modal';
 
 
 class IngredientsList extends Component {
@@ -16,7 +18,8 @@ class IngredientsList extends Component {
             allingredients: [],
             pictures: [],
             pictureMap: new Map(),
-            ingredientIdMap: new Map()
+            ingredientIdMap: new Map(),
+            modal : false
         };
     }
 
@@ -32,6 +35,24 @@ class IngredientsList extends Component {
 
     handleDeleteCrumb = () => {
 
+    }
+
+    toggle = () => {
+        this.setState(previous => ({
+            modal: !previous.modal
+        }));
+    }
+    close = () => {
+        IngredientService.getIngredients().then((res) => {
+            this.setState({ ingredients: res.data });
+            this.setState({ allingredients: res.data });
+        });
+        PictureService.getIngredientPictures().then((res) => {
+            this.setState({ pictures: res.data });
+        })
+        this.setState(previous => ({
+            modal: !previous.modal
+        }));
     }
 
     searchData = (e) => {
@@ -83,6 +104,13 @@ class IngredientsList extends Component {
                     <i className="fas fa-search" />
                 </span>
                 <br />
+                <div style={{marginLeft:'5%', marginBottom:'2%'}}>
+                    <button className='add-new-button' onClick={this.toggle}><i className='fas fa-plus'></i> Add new </button>
+                    <Modal className='category-form' isOpen={this.state.modal} onRequestClose={!this.state.modal} toggle={this.toggle}>
+                        <button className='close-button' onClick={this.close}><i className='fa fa-close'></i></button>
+                       <AddIngredient />
+                    </Modal>
+                </div>
                 <form style={{ marginLeft: "5%" }}>
                     {this.state.ingredients.map(
                         ingredient => (

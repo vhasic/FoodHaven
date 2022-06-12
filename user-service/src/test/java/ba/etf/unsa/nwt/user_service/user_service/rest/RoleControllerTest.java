@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest(classes = {UserServiceApplication.class, AppConfig.class})
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 class RoleControllerTest {
     @Autowired
     private MockMvc mockMvc;

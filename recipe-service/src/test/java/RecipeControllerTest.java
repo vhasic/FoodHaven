@@ -137,11 +137,11 @@ public class RecipeControllerTest {
         ;
     }
 
-    @Test
+/*    @Test
     public void deleteRecipeSuccess() throws Exception {
         mockMvc.perform(delete(String.format("/api/recipes/%s", recipeID)))
                 .andExpect(status().isOk());
-    }
+    }*/
 
     @Test
     public void getRecipeByIdSuccess() throws Exception {

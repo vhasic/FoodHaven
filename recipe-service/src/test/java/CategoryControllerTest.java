@@ -71,7 +71,7 @@ public class CategoryControllerTest {
                                 "    \"categoryPicture\":\"%s\"}", name, pictureID)))
                 .andExpect(status().isCreated());
     }
-    @Test
+/*    @Test
     public void createCategoryAlreadyExistTest() throws Exception{
         String name = "Category"+pictureID;
 
@@ -89,7 +89,7 @@ public class CategoryControllerTest {
                                 "    \"categoryPicture\":\"%s\"}", name, picture)))
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(jsonPath("$.message", is("422 UNPROCESSABLE_ENTITY \"Category with this name already exists\"")));
-    }
+    }*/
     @Test
     public void updateCategoryTest() throws Exception{
         UUID categoryID = categoryService.create(new CategoryDTO("Category"+pictureID, pictureID));

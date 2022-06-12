@@ -18,7 +18,7 @@ class ReviewManager extends Component {
             users: [],
             recipes: [],
             displayData: [],
-            itemsPerPage: 10,
+            itemsPerPage: 4,
             currentPage: 1,
             createdFor: new Map(),
             createdBy: new Map()
@@ -124,7 +124,7 @@ class ReviewManager extends Component {
             pageNumbers.push(i);
         }
         let renderPageNumbers = [];
-        if (this.state.displayData.length > 10) {
+        if (this.state.displayData.length > 4) {
             renderPageNumbers = pageNumbers.map(number => {
                 let className = "";
                 if (this.state.currentPage === number) {

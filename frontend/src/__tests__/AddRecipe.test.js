@@ -36,7 +36,7 @@ describe('RecipeInfo', function () {
     it('Test 1', async function () {
         render(<RecipeInfo />);
         userEvent.type(screen.getByPlaceholderText(/recipe name/i), "Test recipe");
-        userEvent.type(screen.getByTitle(/Value must be integer!/i), "40");
+        userEvent.type(screen.getByTitle(/Value must be a number!/i), "40");
         userEvent.type(screen.getByPlaceholderText('Type recipe description here'), "This is description for Test recipe .....");
         await act(async () => {
             userEvent.click(screen.getByRole('button', {
@@ -49,7 +49,7 @@ describe('RecipeInfo', function () {
     it('Test 2', async function () {
         render(<RecipeInfo />);
         userEvent.type(screen.getByPlaceholderText(/recipe name/i), "");
-        userEvent.type(screen.getByTitle(/Value must be integer!/i), "");
+        userEvent.type(screen.getByTitle(/Value must be a number!/i), "");
         userEvent.type(screen.getByPlaceholderText('Type recipe description here'), "");
         expect(screen.getByRole('warn')).toHaveTextContent('Please fill in the required information!');
     });
@@ -57,7 +57,7 @@ describe('RecipeInfo', function () {
     it('Test 3', async function () {
         render(<RecipeInfo />);
         userEvent.type(screen.getByPlaceholderText(/recipe name/i), "Test recipe");
-        userEvent.type(screen.getByTitle(/Value must be integer!/i), "40");
+        userEvent.type(screen.getByTitle(/Value must be a number!/i), "40");
         userEvent.type(screen.getByPlaceholderText('Type recipe description here'), "This is description for Test recipe .....");
         expect(screen.getByRole('warn')).toHaveTextContent('');
     });

@@ -10,6 +10,8 @@ Some of the main features include:
 
 You can watch a short [demo](https://drive.google.com/file/d/1-EgIt3SDBW6yYzzpO6I4CTE_VMV1Lt5j/view?usp=sharing) of project functionalities. The video shows all the features on the frontend and some backend features. 
 
+Project documentation can be foud [here](https://docs.google.com/document/d/1P8b4Ih3AcqPpqYLbeKDi9-ZvmdJqO8oW/edit).
+
 ## Backend (Microservices)
 The project consists of following four main microservices:
 - [User service](/user-service)
